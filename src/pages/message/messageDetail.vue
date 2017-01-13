@@ -4,7 +4,7 @@
 	      	<div class="ui breadcrumb">
 		        <div class="active section">后台</div>
 		        <i class="right angle icon divider"></i>
-		        <div class="active section"><a href="#/message">消息推送</a></div>
+		        <a href="#/message" class="active section">消息推送</a>
 		        <i class="right angle icon divider"></i>
 		        <a class="section">消息详情</a>
 	      	</div>
@@ -41,13 +41,6 @@ export default {
 	}
 }
 </script>
-
-<style>
-	.ui.breadcrumb .section a{
-		color: inherit;
-	}
-</style>
-
 
 
 
