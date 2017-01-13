@@ -19,7 +19,7 @@
         <tr>
           <td>
             <router-link to="goods_info" class="ui image header">
-                <img class="ui rounded top aligned tiny image" src="../../static/images/default.png" alt="">
+                <img class="ui rounded top aligned tiny image" src="~assets/default.png" alt="">
                 <div class="content">
                     iPhone7 Plus 64G 银色
                     <div class="sub header">8888积分 库存888</div>
@@ -30,7 +30,7 @@
         <tr>
           <td>
             <h4 class="ui image header">
-              <img class="ui rounded top aligned tiny image" src="../../static/images/default.png" alt="">
+              <img class="ui rounded top aligned tiny image" src="~assets/default.png" alt="">
               <div class="content">
                   iPhone7 Plus 64G 银色
                   <div class="sub header">8888积分 库存888</div>

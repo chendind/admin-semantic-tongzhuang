@@ -96,10 +96,10 @@
 
 <script>
 import Vue from 'vue'
-import Vuetable from '../components/Vuetable.vue';
-import VuetablePagination from '../components/VuetablePagination.vue';
-import VuetablePaginationDropdown  from '../components/VuetablePaginationDropdown.vue';
-import VuetablePaginationInfo from '../components/VuetablePaginationInfo.vue'
+import Vuetable from 'components/Vuetable.vue';
+import VuetablePagination from 'components/VuetablePagination.vue';
+import VuetablePaginationDropdown  from 'components/VuetablePaginationDropdown.vue';
+import VuetablePaginationInfo from 'components/VuetablePaginationInfo.vue'
 // import Pagination from '../components/Pagination.vue'
 Vue.component('custom-actions', {
   template: [

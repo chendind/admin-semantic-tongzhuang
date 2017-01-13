@@ -38,16 +38,33 @@
         <div class="item">
             <a class="title"><i class="dropdown icon"></i> <b>订单管理</b></a>
             <div class="content menu">
-              <router-link to="/order_wait" class="item">
-                待处理
-              </router-link>
-              <router-link to="/order_history" class="item">
+              <router-link to="/order" class="item">
                 历史订单
+              </router-link>
+              <router-link to="/order/orderWait" class="item">
+                待处理
               </router-link>
             </div>
         </div>
         <div class="item">
-            <a class="title"><i class="dropdown icon"></i> <b>订单管理</b></a>
+            <a class="title"><i class="dropdown icon"></i> <b>用户管理</b></a>
+            <div class="content menu">
+              <router-link to="/user/customer" class="item">
+                客户管理
+              </router-link>
+              <router-link to="/user/business" class="item">
+                商户管理
+              </router-link>
+            </div>
+        </div>
+        <div class="item">
+            <router-link to="/message" class="title"><b>消息推送</b></a>
+        </div>
+        <div class="item">
+            <router-link to="/personCenter" class="title"><b>个人中心</b></router-link>
+        </div>
+        <div class="item">
+            <a class="title"><i class="dropdown icon"></i> <b>例子</b></a>
             <div class="content menu">
               <router-link to="/business" class="item">
                 商品管理

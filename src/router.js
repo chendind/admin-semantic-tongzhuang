@@ -2,14 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from './Main.vue'
 import Login from './Login.vue'
-import goods from './pages/goods.vue'
-import goods_info from './pages/goods_info.vue'
-import order_wait from './pages/order_wait.vue'
-import Form from './pages/Form.vue'
-import Business from './pages/Business.vue'
-import FormImageUpload from './pages/FormImageUpload.vue'
-import messageHistory from './pages/messageHistory.vue'
-import messageNew from './pages/messageNew.vue'
+import Form from './pages/example/Form.vue'
+import Business from './pages/example/Business.vue'
+import FormImageUpload from './pages/example/FormImageUpload.vue'
 Vue.use(VueRouter);
 const routes = [
   	{ 
@@ -18,15 +13,59 @@ const routes = [
 		children: [
 			{
 				path: 'goods',
-				component: goods
+				component(r){
+					r(require('./pages/goods/goods.vue'))
+				}
 			},
 			{
-				path: 'goods_info',
-				component: goods_info
+				path: '/goods/goodsInfo',
+				component(r){
+					r(require('./pages/goods/goodsInfo.vue'))
+				}
+			},
+			{
+				path: '/message',
+				component(r){
+					r(require('./pages/message/messageHistory.vue'))
+				}
+			},
+			{
+				path: '/message/messageNew',
+				component(r){
+					r(require('./pages/message/messageNew.vue'))
+				}
+			},
+			{
+				path: '/order',
+				component(r){
+					r(require('./pages/order/orderHistory.vue'))
+				}
+			},
+			{
+				path: '/order/orderWait',
+				component(r){
+					r(require('./pages/order/orderWait.vue'))
+				}
+			},
+			{
+				path: '/personCenter',
+				component(r){
+					r(require('./pages/personCenter/personCenter.vue'))
+				}
+			},
+			{
+				path: '/user/business',
+				component(r){
+					r(require('./pages/user/business.vue'))
+				}
+			},
+			{
+				path: '/user/customer',
+				component(r){
+					r(require('./pages/user/customer.vue'))
+				}
 			},
 		    {
-		      // 当 /user/:id/profile 匹配成功，
-		      // UserProfile 会被渲染在 User 的 <router-view> 中
 		      path: 'business',
 		      component: Business
 		    },
