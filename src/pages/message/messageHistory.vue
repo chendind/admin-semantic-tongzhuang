@@ -2,9 +2,9 @@
 	<div>
 		<h1 class="ui dividing header">
 	      	<div class="ui breadcrumb">
-		        <div class="active section">后台</div>
+		        <div class="section">后台</div>
 		        <i class="right angle icon divider"></i>
-		        <a class="section">消息推送</a>
+		        <a class="section active">消息推送</a>
 	      	</div>
 	    </h1>
 		<table class="ui single line table">

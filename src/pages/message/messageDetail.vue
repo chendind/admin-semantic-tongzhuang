@@ -2,11 +2,11 @@
 	<div>
 		<h1 class="ui dividing header">
 	      	<div class="ui breadcrumb">
-		        <div class="active section">后台</div>
+		        <div class="section">后台</div>
 		        <i class="right angle icon divider"></i>
-		        <a href="#/message" class="active section">消息推送</a>
+		        <a href="#/message" class="section">消息推送</a>
 		        <i class="right angle icon divider"></i>
-		        <a class="section">消息详情</a>
+		        <a class="section active">消息详情</a>
 	      	</div>
 	    </h1>
 		<h1 class="ui header">儿童萌装大促销</h1>
@@ -21,7 +21,7 @@
 			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
 			--阿尔伯特 爱因斯坦<br>
 		</p>
-		<div>
+		<div class="after">
 			<span>阅读量：333</span>
 			<button class="ui red button right floated">
 				<i class="remove icon"></i>删除
@@ -42,7 +42,11 @@ export default {
 }
 </script>
 
-
+<style>
+	.after span{
+		line-height: 36px;
+	}
+</style>
 
 
 

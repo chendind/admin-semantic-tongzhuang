@@ -2,17 +2,19 @@
 	<div>
 		<h1 class="ui dividing header">
 	      	<div class="ui breadcrumb">
-		        <div class="active section">后台</div>
+		        <div class="section">后台</div>
 		        <i class="right angle icon divider"></i>
-		        <a href="#/message" class="active section">消息推送</a>
+		        <a href="#/message" class="section">消息推送</a>
 		        <i class="right angle icon divider"></i>
-		        <a class="section">发文章</a>
+		        <a class="section active">发文章</a>
 	      	</div>
 	    </h1>
-		<div class="ui fluid input">
-			<div class="ui label huge">标题</div>
-		  	<input type="text">
-		</div>
+		<form class="ui form">
+		  	<div class="field">
+			    <label>标题</label>
+			    <input type="text" name="title" placeholder="请输入标题">
+		  	</div>
+  		</form>
 		<div class="field mt10">
         	<tinymce height="300">content here...</tinymce>
      	</div>
@@ -23,7 +25,7 @@
 	     	</button>
      	</div>
      	<h3 class="ui header">客户列表</h3>
-		<div class="ui equal width grid mt10">
+		<div class="ui equal width grid mt10 segment">
 			<div class="five wide column">
 				<div class="ui checkbox">
 					<input type="checkbox">
@@ -99,7 +101,11 @@ export default {
 }
 </script>
 
-
+<style scoped>
+	.field{
+		clear: none !important;
+	}
+</style>
 
 
 

@@ -2,9 +2,9 @@
 	<div>
 		<h1 class="ui dividing header">
 	      	<div class="ui breadcrumb">
-		        <div class="active section">后台</div>
+		        <div class="section">后台</div>
 		        <i class="right angle icon divider"></i>
-		        <a class="section">个人中心</a>
+		        <a class="section active">个人中心</a>
 	      	</div>
 	    </h1>
 		<h3 class="ui header">个人信息</h3>
