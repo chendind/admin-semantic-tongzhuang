@@ -5,6 +5,7 @@ window.jQuery = window.$ = jQuery
 
 import Vue from 'vue'
 import router from './router'
+import './resource'
 import 'assets/css/semantic-overwrite.css'
 jQuery(()=>{
 	require('../static/semantic/dist/semantic.js');
