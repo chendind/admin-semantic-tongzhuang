@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<h3 class="ui header">客户列表</h3>
-		<hr>
+		<div class="ui top attached tabular menu">
+		  	<div class="item">客户列表</div>
+		</div>
+		<br>
 		<div class="ui equal width grid">
 			<div class="five wide column">
 				<div class="ui checkbox">
@@ -57,7 +59,7 @@ export default {
 	name: 'message-choose',
 	methods:{
 		chooseAll: function () {
-			$('input[type="checkbox"]').checked();
+			$('input[type="checkbox"]').attr("checked",'true');
 		}
 	},
 	data () {

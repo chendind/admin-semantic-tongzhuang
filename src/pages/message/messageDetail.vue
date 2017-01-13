@@ -1,0 +1,47 @@
+<template>
+	<div>
+		<h1 class="ui header">儿童萌装大促销</h1>
+		<h3 class="ui header">2017-01-01</h3>
+		<p>
+			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
+			--阿尔伯特 爱因斯坦<br>
+			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
+			--阿尔伯特 爱因斯坦<br>
+			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
+			--阿尔伯特 爱因斯坦<br>
+			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
+			--阿尔伯特 爱因斯坦<br>
+		</p>
+		<div>
+			<span>阅读量：333</span>
+			<button class="ui button right floated">删除</button>
+		</div>
+	</div>
+</template>
+
+<script>
+export default {
+	name: 'message-detail',
+	methods:{
+	},
+	data () {
+	    return {
+	    }
+	}
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
