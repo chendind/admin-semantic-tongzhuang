@@ -18,7 +18,7 @@
       <tbody>
         <tr>
           <td>
-            <router-link to="goods_info" class="ui image header">
+            <router-link to="/goods/goodsInfo" class="ui image header">
                 <img class="ui rounded top aligned tiny image" src="~assets/default.png" alt="">
                 <div class="content">
                     iPhone7 Plus 64G 银色

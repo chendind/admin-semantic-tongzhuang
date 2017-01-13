@@ -33,7 +33,7 @@
     <div class="x-main-content">
       <div class="ui sidebar sticky accordion vertical menu left visible floated" style="">
         <div class="item">
-            <router-link to="goods" class="title"><b>商品管理</b></router-link>
+            <router-link to="/goods" class="title"><b>商品管理</b></router-link>
         </div>
         <div class="item">
             <a class="title"><i class="dropdown icon"></i> <b>订单管理</b></a>
