@@ -7,10 +7,16 @@ import Business from './pages/example/Business.vue'
 import FormImageUpload from './pages/example/FormImageUpload.vue'
 Vue.use(VueRouter);
 const routes = [
-  	{ 
-  		path: '/', 
+  	{
+  		path: '/',
   		component: Main,
 		children: [
+      {
+        path: '/',
+        component(r){
+          r(require('./pages/goods/goods.vue'))
+        }
+      },
 			{
 				path: 'goods',
 				component(r){
@@ -85,8 +91,8 @@ const routes = [
 		    }
 		]
 	},
-	{ 
-  		path: '/login', 
+	{
+  		path: '/login',
   		component: Login,
 		children: []
 	}
