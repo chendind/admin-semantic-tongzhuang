@@ -6,7 +6,7 @@ window.jQuery = window.$ = jQuery
 import Vue from 'vue'
 import router from './router'
 import './resource'
-import 'assets/css/index.css'
+import 'assets/less/index.less'
 jQuery(()=>{
 	require('../static/semantic/dist/semantic.js');
 	var root = new Vue({

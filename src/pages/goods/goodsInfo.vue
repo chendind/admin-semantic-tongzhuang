@@ -47,12 +47,14 @@
         <label>详情描述</label>
         <tinymce height="300"></tinymce>
       </div>
-      <button class="ui positive right labeled icon right floated button">
-      <i class="checkmark icon"></i>
-      保存修改
+      <div class="field after">
+          <button class="ui positive right labeled icon right floated button">
+            <i class="checkmark icon"></i>
+            保存修改
+          </button>
+          <button class="ui right floated button">取消</button>
+      </div>
 
-      </button>
-      <button class="ui right floated button">取消</button>
 
     </form>
 
