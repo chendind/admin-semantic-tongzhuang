@@ -1,0 +1,8 @@
+.mt10{
+  margin-top: 10px !important;
+}
+// 对semantic的覆盖
+.ui.page.dimmer{
+	z-index: 99999;
+}
+
