@@ -13,7 +13,7 @@
 					<td>历史推送</td>
 					<td colspan="2" class="right aligned">
 						<a href="#/message/messageNew">
-							<button class="ui button">
+							<button class="ui blue button">
 								<i class="plus icon"></i>
 								发文章
 							</button>

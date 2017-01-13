@@ -18,7 +18,10 @@
         	<tinymce height="300">content here...</tinymce>
      	</div>
      	<br>
-     	<button class="ui button right floated">保存</button>
+     	<button class="ui blue button right floated">
+     		<i class="linkify icon"></i>
+     		保存
+     	</button>
      	<br>
      	<h3 class="ui header">客户列表</h3>
 		<br>
@@ -67,9 +70,14 @@
 			</div>
 		</div>
 		<br>
-     	<button class="ui button left floated" @click="chooseAll">全选</button>
-     	<button class="ui button right floated">上传</button>
-     	<br><br>
+     	<button class="ui blue button left floated" @click="chooseAll">
+     		<i class="check square icon"></i>
+     		全选
+     	</button>
+     	<button class="ui positive button right floated">
+     		<i class="cloud upload icon"></i>
+     		上传
+     	</button>
 	</div>
 </template>
 

@@ -23,7 +23,9 @@
 		</p>
 		<div>
 			<span>阅读量：333</span>
-			<button class="ui button right floated">删除</button>
+			<button class="ui red button right floated">
+				<i class="remove icon"></i>删除
+			</button>
 		</div>
 	</div>
 </template>
