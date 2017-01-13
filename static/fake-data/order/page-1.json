@@ -108,7 +108,9 @@
   ],
   "links": {
     "pagination": {
-      "current_page": 1
+      "current_page": 1,
+      "last_page": 2,
+      "per_page": 7
     }
   }
 }

@@ -6,13 +6,19 @@
         ref="table"
         api-url="/static/fake-data/order/page-1.json"
         :fields="fields"
+        @vuetable:pagination-data="onPaginationData"
+        :custom-ajax="getData"
       ></vue-table>
+      <vuetable-pagination ref="pagination"
+        @vuetable-pagination:change-page="onChangePage"
+      ></vuetable-pagination>
     </div>
   </div>
 </template>
 <script>
 import Vue from 'vue'
 import VueTable from 'components/vue-table/Vuetable.vue'
+import VuetablePagination from 'components/vue-table/VuetablePagination'
 
 Vue.component('order-td', {
   props: {
@@ -74,12 +80,24 @@ export default {
     }
   },
   methods: {
-    orderImg(url){
-      return `<img src="${url}" alt="" />`
+    getData(params){
+      var page = params.page
+      return new Promise((resolve, reject)=>{
+        this.$http.get(`/static/fake-data/order/page-${page || 1}.json`).then((res)=>{
+          resolve(res)
+        }, (e)=>{reject(e)})
+      })
+    },
+    onChangePage (page) {
+      this.$refs.table.changePage(page)
+    },
+    onPaginationData (tablePagination) {
+      this.$refs.pagination.setPaginationData(tablePagination)
     }
   },
   components: {
-    VueTable
+    VueTable,
+    VuetablePagination
   }
 }
 

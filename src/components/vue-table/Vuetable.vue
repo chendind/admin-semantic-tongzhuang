@@ -193,6 +193,10 @@ export default {
     silent: {
       type: Boolean,
       default: false
+    },
+    customAjax: {
+      type: Function,
+      default: null
     }
   },
   data: function() {
@@ -295,6 +299,10 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
+      if (this.customAjax) {
+        this.customAjax(this.getAllQueryParams()).then(success, failed)
+        return
+      }
       Vue.http.get(this.apiUrl, this.httpOptions).then(
         success,
         failed
