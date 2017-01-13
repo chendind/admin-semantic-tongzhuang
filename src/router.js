@@ -36,6 +36,12 @@ const routes = [
 				}
 			},
 			{
+				path: '/message/messageChoose',
+				component(r){
+					r(require('./pages/message/messageChoose.vue'))
+				}
+			},
+			{
 				path: '/order',
 				component(r){
 					r(require('./pages/order/orderHistory.vue'))

@@ -4,30 +4,23 @@
 			<div class="ui label huge">标题</div>
 		  	<input type="text">
 		</div>
-		<div class="ui selection dropdown">
-		    <input type="hidden" name="font">
-		    <i class="dropdown icon"></i>
-		    <div class="default text">字体</div>
-		    <div class="menu">
-		        <div class="item" data-value="1">AAA</div>
-		        <div class="item" data-value="0">BBB</div>
-		    </div>
-		</div>
-		<!-- <div class="ui selection dropdown">
-		    <input type="hidden" name="font-size">
-		    <i class="dropdown icon"></i>
-		    <div class="default text">字号</div>
-		    <div class="menu">
-		        <div class="item" data-value="0">AAA</div>
-		        <div class="item" data-value="1">BBB</div>
-		    </div>
-		</div> -->
+		<br>
+		<div class="field">
+        	<tinymce height="300">content here...</tinymce>
+     	</div>
+     	<br>
+     	<button class="ui button right floated">上传</button>
+     	<button class="ui button right floated">保存</button>
 	</div>
 </template>
 
 <script>
+import tinymce from 'components/Tinymce.vue'
 export default {
 	name: 'message-new',
+	components: {
+	    tinymce
+	},
 	methods:{
 	},
 	data () {
