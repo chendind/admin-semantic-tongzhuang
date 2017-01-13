@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import imageChooseModal from '../components/ImageChooseModal.vue'
+import imageChooseModal from 'components/ImageChooseModal.vue'
 export default {
   name: 'bussiness',
   components: {
@@ -54,7 +54,7 @@ export default {
   data () {
     return {
       img: {
-        src: require("../assets/image.png")
+        src: require("assets/image.png")
       },
       msg: 'Welcome to Your Vue.js App'
     }

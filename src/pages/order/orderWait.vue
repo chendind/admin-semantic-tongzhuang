@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Pagination from '../components/Pagination.vue'
+import Pagination from 'components/Pagination.vue'
 export default {
   name: 'goods',
   components: {

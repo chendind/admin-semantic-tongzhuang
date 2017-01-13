@@ -404,7 +404,7 @@
 </template>
 
 <script>
-import tinymce from '../components/Tinymce.vue'
+import tinymce from 'components/Tinymce.vue'
 export default {
   name: 'bussiness',
   components: {

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import imageChooseModal from '../components/ImageChooseModal.vue'
+import imageChooseModal from 'components/ImageChooseModal.vue'
 export default {
   name: 'bussiness',
   components: {
