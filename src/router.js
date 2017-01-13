@@ -48,7 +48,7 @@ const routes = [
 				}
 			},
 			{
-				path: 'personCenter',
+				path: '/personCenter',
 				component(r){
 					r(require('./pages/personCenter/personCenter.vue'))
 				}
