@@ -76,17 +76,7 @@ const routes = [
 		    {
 		    	path: 'formImageUpload',
 		    	component: FormImageUpload
-		    },
-			{ 
-		  		path: 'messageHistory', 
-		  		component: messageHistory,
-				children: []
-			},
-			{ 
-		  		path: 'messageNew', 
-		  		component: messageNew,
-				children: []
-			},
+		    }
 		]
 	},
 	{ 
