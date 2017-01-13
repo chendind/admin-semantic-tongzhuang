@@ -59,6 +59,12 @@ const routes = [
 					r(require('./pages/order/orderWait.vue'))
 				}
 			},
+      {
+        path: '/order/orderInfo',
+        component(r){
+          r(require('./pages/order/orderInfo.vue'))
+        }
+      },
 			{
 				path: '/personCenter',
 				component(r){
