@@ -23,10 +23,12 @@
 		      	<label>再次确认</label>
 		      	<input type="password" name="re-pwd">
 		    </div>
-		  	<button class="ui positive button">
-		  		<i class="checkmark icon"></i>
-		  		确定
-		  	</button>
+		    <div class="after">
+			  	<button class="ui positive button">
+			  		<i class="checkmark icon"></i>
+			  		确定
+			  	</button>
+		  	</div>
 		</div>
 	</div>
 </template>

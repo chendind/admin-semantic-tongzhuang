@@ -13,19 +13,17 @@
 			<div class="ui label huge">标题</div>
 		  	<input type="text">
 		</div>
-		<br>
-		<div class="field">
+		<div class="field mt10">
         	<tinymce height="300">content here...</tinymce>
      	</div>
-     	<br>
-     	<button class="ui blue button right floated">
-     		<i class="linkify icon"></i>
-     		保存
-     	</button>
-     	<br>
+     	<div class="after mt10">
+	     	<button class="ui blue button right floated">
+	     		<i class="linkify icon"></i>
+	     		保存
+	     	</button>
+     	</div>
      	<h3 class="ui header">客户列表</h3>
-		<br>
-		<div class="ui equal width grid">
+		<div class="ui equal width grid mt10">
 			<div class="five wide column">
 				<div class="ui checkbox">
 					<input type="checkbox">
@@ -69,8 +67,7 @@
 				</div>
 			</div>
 		</div>
-		<br>
-     	<div class="ui bottons">
+     	<div class="after mt10">
 	     	<button class="ui blue button left floated" @click="chooseAll">
 	     		<i class="check square icon"></i>
 	     		全选
