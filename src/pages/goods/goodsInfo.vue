@@ -3,9 +3,9 @@
   <div>
     <h1 class="ui dividing header">
       <div class="ui breadcrumb">
-        <a class="section">后台</a>
+        <div class="section">后台</div>
         <i class="right angle icon divider"></i>
-        <div class="section">商品列表</div>
+        <router-link to="/goods" class="section">商品管理</router-link>
         <i class="right angle icon divider"></i>
         <div class="active section">商品详情</div>
       </div>
