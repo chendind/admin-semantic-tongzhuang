@@ -70,14 +70,16 @@
 			</div>
 		</div>
 		<br>
-     	<button class="ui blue button left floated" @click="chooseAll">
-     		<i class="check square icon"></i>
-     		全选
-     	</button>
-     	<button class="ui positive button right floated">
-     		<i class="cloud upload icon"></i>
-     		上传
-     	</button>
+     	<div class="ui bottons">
+	     	<button class="ui blue button left floated" @click="chooseAll">
+	     		<i class="check square icon"></i>
+	     		全选
+	     	</button>
+	     	<button class="ui positive button right floated">
+	     		<i class="cloud upload icon"></i>
+	     		上传
+	     	</button>
+	    </div>
 	</div>
 </template>
 
