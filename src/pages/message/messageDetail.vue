@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<h1 class="ui dividing header">
+	      	<div class="ui breadcrumb">
+		        <div class="active section">后台</div>
+		        <i class="right angle icon divider"></i>
+		        <div class="active section"><a href="#/message">消息推送</a></div>
+		        <i class="right angle icon divider"></i>
+		        <a class="section">消息详情</a>
+	      	</div>
+	    </h1>
 		<h1 class="ui header">儿童萌装大促销</h1>
 		<h3 class="ui header">2017-01-01</h3>
 		<p>
@@ -30,6 +39,12 @@ export default {
 	}
 }
 </script>
+
+<style>
+	.ui.breadcrumb .section a{
+		color: inherit;
+	}
+</style>
 
 
 

@@ -36,12 +36,6 @@ const routes = [
 				}
 			},
 			{
-				path: '/message/messageChoose',
-				component(r){
-					r(require('./pages/message/messageChoose.vue'))
-				}
-			},
-			{
 				path: '/message/messageDetail',
 				component(r){
 					r(require('./pages/message/messageDetail.vue'))

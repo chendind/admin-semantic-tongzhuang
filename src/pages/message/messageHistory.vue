@@ -1,23 +1,36 @@
 <template>
 	<div>
+		<h1 class="ui dividing header">
+	      	<div class="ui breadcrumb">
+		        <div class="active section">后台</div>
+		        <i class="right angle icon divider"></i>
+		        <a class="section">消息推送</a>
+	      	</div>
+	    </h1>
 		<table class="ui single line table">
 			<tbody>
 				<tr>
 					<td>历史推送</td>
 					<td colspan="2" class="right aligned">
-						<button class="ui button">
-							<i class="plus icon"></i>
-							发文章
-						</button>
+						<a href="#/message/messageNew">
+							<button class="ui button">
+								<i class="plus icon"></i>
+								发文章
+							</button>
+						</a>
 					</td>
 				</tr>
 				<tr>
-					<td>儿童萌装大促销</td>
+					<td>
+						<a href="#/message/messageDetail">儿童萌装大促销</a>
+					</td>
 					<td>2017-01-01</td>
 					<td class="right aligned">阅读量：333</td>
 				</tr>
 				<tr>
-					<td>儿童萌装大促销</td>
+					<td>
+						<a href="#/message/messageDetail">儿童萌装大促销</a>
+					</td>
 					<td>2017-01-01</td>
 					<td class="right aligned">阅读量：333</td>
 				</tr>
@@ -49,6 +62,11 @@ export default {
 }
 </script>
 
+<style>
+	a{
+		color: inherit;
+	}
+</style>
 
 
 
