@@ -8,6 +8,8 @@ import order_wait from './pages/order_wait.vue'
 import Form from './pages/Form.vue'
 import Business from './pages/Business.vue'
 import FormImageUpload from './pages/FormImageUpload.vue'
+import messageHistory from './pages/messageHistory.vue'
+import messageNew from './pages/messageNew.vue'
 Vue.use(VueRouter);
 const routes = [
   	{ 
@@ -35,7 +37,17 @@ const routes = [
 		    {
 		    	path: 'formImageUpload',
 		    	component: FormImageUpload
-		    }
+		    },
+			{ 
+		  		path: 'messageHistory', 
+		  		component: messageHistory,
+				children: []
+			},
+			{ 
+		  		path: 'messageNew', 
+		  		component: messageNew,
+				children: []
+			},
 		]
 	},
 	{ 
