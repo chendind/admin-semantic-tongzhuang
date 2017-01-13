@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import tinymce from 'components/Tinymce.vue'
+import tinymce from 'components/tinymce/Tinymce.vue'
 export default {
 	name: 'message-new',
 	components: {

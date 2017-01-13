@@ -5,7 +5,7 @@
         </textarea>
         <image-choose-modal id="tinymce-imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
     </div>
-        
+
 </template>
 <script>
 require.context(
@@ -15,6 +15,7 @@ require.context(
 );
 import 'root/node_modules/tinymce/skins/lightgray/skin.min.css'
 import tinymce from 'tinymce'
+import './plugins/lineheight/plugin.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 export default {
     name: 'tinymce',
@@ -40,11 +41,11 @@ export default {
     },
     mounted(){
         var self = this;
-        tinymce.remove("#tm"); 
+        tinymce.remove("#tm");
         var editor =  new tinymce.Editor('tm', {
             height: self.height,
             theme: 'modern',
-            language_url: require('file-loader!./zh_CN.js'),
+            language_url: require('file-loader!./langs/zh_CN.js'),
             plugins: [
                 'lineheight advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -54,6 +55,7 @@ export default {
             toolbar1: 'insertfile undo redo | fontselect | fontsizeselect | styleselect | lineheightselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
             toolbar2: 'link image media | forecolor backcolor emoticons print preview', //| example
             font_formats: '宋体=SimSun,STSong;黑体=SimHei,STHeiti;微软雅黑=Microsoft YaHei;楷体=KaiTi,STKaiti;Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
+            lineheight_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt 60pt 72pt',
             fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt 60pt 72pt',
             indentation: '2em',
             init_instance_callback: function (editor) {
@@ -67,12 +69,12 @@ export default {
                 });
                 editor.on('keyup', function (e) {
                     if(e.keyCode == 9){
-                         
+
                     }
                 });
             },
             file_browser_callback: function(field_name, url, type, win) {
-                
+
             },
             file_picker_callback: function(callback, value, meta) {
                 // Provide file and text for the link dialog
