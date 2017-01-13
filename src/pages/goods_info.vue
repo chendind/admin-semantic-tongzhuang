@@ -19,7 +19,16 @@
           </button>
         </div>
         <div class="field">
-          <input type="text" name="shipping[first-name]" placeholder="First Name">
+          <div class="fields">
+            <div class="field">
+              <label>商品名称</label>
+              <input type="text" name="shipping[first-name]" placeholder="First Name">
+            </div>
+            <div class="field">
+              <label>兑换所需积分</label>
+              <input type="text" name="shipping[last-name]" placeholder="Last Name">
+            </div>
+          </div>
         </div>
       </form>
     <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
