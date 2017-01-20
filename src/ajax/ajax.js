@@ -20,5 +20,14 @@ export default {
         password: password
       }
     })
+  },
+  getGoods(start, length,type){
+    return $.ajax({
+      url: baseurl+'/getProductForPage',
+      type: 'get',
+      data: {
+        start, length, type
+      }
+    })
   }
 }

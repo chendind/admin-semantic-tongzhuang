@@ -34,7 +34,7 @@
 
 </template>
 <script>
-import ajax from './ajax/ajax.js'
+import ajax from 'src/ajax/ajax.js'
 export default {
   name: 'main',
   methods:{

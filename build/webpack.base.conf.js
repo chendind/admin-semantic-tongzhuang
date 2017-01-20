@@ -29,7 +29,7 @@ module.exports = {
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
       'root': path.resolve(__dirname, '../'),
-      'resource': path.resolve(__dirname, '../src/resource')
+      'resource': path.resolve(__dirname, '../src/resource'),
     }
   },
   resolveLoader: {

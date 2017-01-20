@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import ajax from 'src/ajax/ajax.js'
 export default {
   name: 'goods',
   components: {
@@ -55,8 +56,15 @@ export default {
     return {
     }
   },
+  created: function(){
+    $.when(ajax.getGoods()).done(function(data){
+      if(data.state == 0){
+
+      }
+    })
+  },
   mounted(){
-    
+
   }
 }
 </script>
