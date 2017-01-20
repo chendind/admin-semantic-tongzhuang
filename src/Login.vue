@@ -13,13 +13,13 @@
 		        <div class="field">
 		          <div class="ui left icon input">
 		            <i class="user icon"></i>
-		            <input type="text" name="name" placeholder="用户名">
+		            <input type="text" name="name" placeholder="用户名" v-model="name">
 		          </div>
 		        </div>
 		        <div class="field">
 		          <div class="ui left icon input">
 		            <i class="lock icon"></i>
-		            <input type="password" name="password" placeholder="密码">
+		            <input type="password" name="password" placeholder="密码" v-model="password">
 		          </div>
 		        </div>
 		        <div class="ui fluid large teal button" @click="login()">登录</div>
@@ -31,23 +31,31 @@
 		  </div>
 		</div>
 	</div>
-		
+
 </template>
 <script>
+import ajax from './ajax/ajax.js'
 export default {
   name: 'main',
   methods:{
   	login(){
-  		window.location.hash = '/';
+      var self = this;
+      $.when(ajax.login(self.name, self.password)).done(function(data){
+        if(data.state == 0){
+          window.location.href = "/"
+        }
+      })
   	}
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      name: 'xw',
+      nickname: '小柚子',
+      password: 'xw'
     }
   },
   mounted(){
-  	
+
   }
 }
 </script>

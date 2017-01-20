@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from './Main.vue'
 import Login from './Login.vue'
+import Regist from './Regist.vue'
 import Form from './pages/example/Form.vue'
 import Business from './pages/example/Business.vue'
 import FormImageUpload from './pages/example/FormImageUpload.vue'
@@ -10,7 +11,7 @@ const routes = [
   	{
   		path: '/',
   		component: Main,
-		children: [
+		  children: [
       {
         path: '/',
         component(r){
@@ -100,8 +101,13 @@ const routes = [
 	{
   		path: '/login',
   		component: Login,
-		children: []
-	}
+		  children: []
+	},
+  {
+      path: '/regist',
+      component: Regist,
+      children: []
+  }
 ]
 export default new VueRouter({
   routes // （缩写）相当于 routes: routes
