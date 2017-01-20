@@ -13,7 +13,7 @@
         <input class="prompt" type="text" placeholder="Keywords Here...">
         <i class="search icon"></i>
       </div>
-      <router-link :to="{path:'/goods/goodsInfo', query: { id: 0 }}" class="ui button">新增商品</router-link>
+      <router-link :to="{path:'/goods/goodsInfo', query: {}}" class="ui button">新增商品</router-link>
     </div>
     <table class="ui celled table">
       <tbody>

@@ -7,7 +7,7 @@
         <i class="right angle icon divider"></i>
         <router-link to="/goods" class="section">商品管理</router-link>
         <i class="right angle icon divider"></i>
-        <div class="active section">{{$route.query.id>0?'商品详情':'新增商品'}}</div>
+        <div class="active section">{{$route.query.id?'商品详情':'新增商品'}}</div>
       </div>
     </h1>
     <div class="ui items">
@@ -36,10 +36,9 @@
             </div>
             <div class="field">
               <label>商品类型</label>
-              <!-- <div v-for="value in ["零食", "服饰", "饰品", "百货", "话费", "手机", "家居", "运动"]" :value="value">{{value}}</div> -->
-              <!-- <select class="ui fluid dropdown" v-model="type">
-                <option v-for="o in ["零食", "服饰", "饰品", "百货", "话费", "手机", "家居", "运动"]" :value="o">{{o}}</option>
-              </select> -->
+              <select class="ui fluid dropdown" v-model="type">
+                <option v-for="value in types" :value="value">{{value}}</option>
+              </select>
             </div>
             <div class="field">
               <label>销量</label>
@@ -56,24 +55,19 @@
         </div>
       </div>
     </div>
-    <form class="ui form">
+    <div class="ui form">
       <div class="field">
         <label>详情描述</label>
-        <tinymce height="300"></tinymce>
+        <tinymce height="300">{{detail}}</tinymce>
       </div>
       <div class="field after">
-          <button class="ui positive right labeled icon right floated button">
+          <button class="ui positive right labeled icon right floated button" @click="editProduct()">
             <i class="checkmark icon"></i>
-            {{$route.query.id>0?'保存修改':'新增'}}
+            {{$route.query.id?'保存修改':'新增'}}
           </button>
           <button class="ui right floated button">取消</button>
       </div>
-
-
-    </form>
-
-
-
+    </div>
 
     <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
   </div>
@@ -83,6 +77,7 @@
 <script>
 import tinymce from 'components/tinymce/Tinymce.vue'
 import imageChooseModal from 'components/ImageChooseModal.vue'
+import ajax from 'src/ajax/ajax.js'
 export default {
   name: 'bussiness',
   components: {
@@ -95,15 +90,26 @@ export default {
     },
     finishChoose(src){
       this.img.src = src
+    },
+    editProduct(){
+      // id,name,description,score,type,sold,detail,img,state
+      $.when(ajax.editGood(this.$route.query.id,this.name,this.description,this.score,this.type,this.sold,this.detail,this.img.src,this.state)).done(function(data){
+        if(data.state == 0){
+
+        }
+      })
     }
   },
   data () {
     return {
+      types: ["零食", "服饰", "饰品", "百货", "话费", "手机", "家居", "运动"],
       name: '爱疯7 64G',
       description: "浙江 杭州",
       score: 999,
       sold: 999,
       state: '出售中',
+      type: '零食',
+      detail: "123",
       img: {
         src: require("assets/image.png")
       },
