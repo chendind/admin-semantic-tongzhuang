@@ -1,6 +1,6 @@
 <template>
     <div>
-        <textarea id="tm">
+        <textarea :id="id">
             <slot></slot>
         </textarea>
         <image-choose-modal id="tinymce-imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
@@ -17,6 +17,9 @@ import 'root/node_modules/tinymce/skins/lightgray/skin.min.css'
 import tinymce from 'tinymce'
 import './plugins/lineheight/plugin.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
+
+var id = 0
+
 export default {
     name: 'tinymce',
     props: ['height'],
@@ -32,17 +35,33 @@ export default {
         },
         finishChoose(src){
             self.deferred.resolve({"src": src})
+        },
+        getContent(){
+            if (this.editor) {
+                this.content = this.editor.getContent()
+            }
+            return this.content
+        },
+        setContent(content){
+            if (this.editor) {
+                this.editor.setContent(content)
+            }
+            this.content = content
         }
+
     },
     data () {
         return {
-            deferred: {}
+            id:`tm${id++}`,
+            deferred: {},
+            content: ""
         }
     },
     mounted(){
         var self = this;
-        tinymce.remove("#tm");
-        var editor =  new tinymce.Editor('tm', {
+        // tinymce.remove("#tm");
+        var editor_p =  tinymce.init({
+            selector: `#${this.id}`,
             height: self.height,
             theme: 'modern',
             language_url: require('file-loader!./langs/zh_CN.js'),
@@ -100,9 +119,13 @@ export default {
                 { title: 'Test template 2', content: 'Test 2' }
             ],
             content_style: "body{font-family: sans-serif !important;}"
-        }, tinymce.EditorManager);
+        });
 
-        editor.render();
+        editor_p.then((editors)=>{
+            this.editor = editors[0]
+            this.editor.setContent(this.content)
+        })
+        
     }
 }
 </script>
