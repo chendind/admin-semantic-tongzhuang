@@ -10,12 +10,12 @@
       <div class="content">
         <div class="ui tiny images">
           <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+image.src+')'}" @click="toggle(index)">
-            
+
           </div>
         </div>
       </div>
       <div class="actions">
-        
+
         <div class="ui deny button">
           取消
         </div>
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-var __src = "http://www.xiyoukeji.com/images/logo_xs.gif"
+import ajax from 'src/ajax/ajax.js'
+var __src = "http://tongzhuang.moovi-tech.com/uploads/img/391ea67cf6824efda27bcb50274a3c93.jpg"
 export default {
   name: 'imageChooseModal',
   data () {
@@ -62,31 +63,27 @@ export default {
       input.onchange = function(e){
         var file = this.files[0]
         var formData = new FormData()
-        formData.append("file",file)
-        console.log(file)
         self.uploaded = false
-        setTimeout(()=>{
-          self.uploaded = true
-          self.images.push({
-            "src": __src
-          });
-          self.checkedIndex = 0;
-        },500)
+        $.when(ajax.upload(file)).done(function(data){
+          if(data.state == 0){
+
+          }
+        }).always(function(){
+          self.uploaded = true;
+        })
+        // setTimeout(()=>{
+        //   self.uploaded = true
+        //   self.images.push({
+        //     "src": __src
+        //   });
+        //   self.checkedIndex = 0;
+        // },500)
       }
     }
   },
   created(){
     setTimeout(()=>{
       this.images = [
-        {
-          "src": __src
-        },
-        {
-          "src": __src
-        },
-        {
-          "src": __src
-        },
         {
           "src": __src
         }

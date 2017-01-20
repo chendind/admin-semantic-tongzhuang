@@ -29,5 +29,50 @@ export default {
         start, length, type
       }
     })
+  },
+  editGood(id,name,description,score,type,sold,detail,img,state){
+    return $.ajax({
+      url: baseurl + '/editProduct',
+      type: 'post',
+      data: {
+        id,name,description,score,type,sold,detail,img,state
+      }
+    })
+  },
+  upload(file,name,type = 1,img){
+    var fd = new FormData();
+    fd.append("file",file);
+    fd.append("name",name);
+    fd.append("type",type);
+    fd.append("img",img);
+    return $.ajax({
+      url: baseurl+'/uploadFile',
+      type: 'post',
+      data: fd,
+      processData: false,
+      contentType: false,
+      xhrFields: {
+          withCredentials: false
+      }
+    })
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
