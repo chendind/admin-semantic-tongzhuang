@@ -55,10 +55,8 @@ export default {
     },
     getGoods(){
       $.when(ajax.getGoods(this.start, this.length)).done((data)=>{
-        // if(data.state == 0){
-          this.goods = data.list
-          this.total = data.countAll
-        // }
+        this.goods = data.list
+        this.total = data.countAll
       })
     }
   },

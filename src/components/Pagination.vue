@@ -14,7 +14,7 @@ export default {
     return {
     }
   },
-  created: function(){
+  created(){
 
   },
   mounted(){
@@ -25,8 +25,7 @@ export default {
       count:2,
       jump:true,
       coping:true,
-      callback:function(pagination){
-        console.log(pagination.getCurrent())
+      callback:(pagination)=>{
         this.$emit('pageChange', pagination.getCurrent())
       }
     })
