@@ -26,5 +26,17 @@ export default {
         type:type
       }
     })
-  }
+  },
+  //获取后台客户列表
+  getUserForPage(start, length){
+    return $.ajax({
+      url: baseurl+'/getUserForPage',
+      type: 'GET',
+      data: {
+        start: start,
+        length: length,
+        type:'back'
+      }
+    })
+  },
 }
