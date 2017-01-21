@@ -6,8 +6,8 @@ import jQuery from 'jquery'
       showData:0,       //每页显示的条数
       pageCount:9,      //总页数,默认为9
       current:1,        //当前第几页
-      prevCls:'icon item',      //上一页class
-      nextCls:'icon item',      //下一页class
+      prevCls:'left icon item',      //上一页class
+      nextCls:'right icon item',      //下一页class
       prevContent:'<i class="left chevron icon"></i>',    //上一页内容
       nextContent:'<i class="right chevron icon"></i>',   //下一页内容
       activeCls:'active',   //当前页选中状态
