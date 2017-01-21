@@ -17,7 +17,7 @@ export default {
   created: function(){
 
   },
-  mounted: ()=>{
+  mounted(){
     $("#"+this.id).pagination({
       totalData: this.total-0,
       showData: this.show-0,
