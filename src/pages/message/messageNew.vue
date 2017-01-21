@@ -102,7 +102,6 @@ export default {
 	methods:{
 		chooseAll: function () {
 			$('input[type="checkbox"]').attr("checked",'true');
-			// console.log(this.$refs.text.getContent())
 		}
 	},
 	data () {

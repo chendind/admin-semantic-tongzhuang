@@ -125,7 +125,7 @@ export default {
             this.editor = editors[0]
             this.editor.setContent(this.content)
         })
-        
+
     }
 }
 </script>

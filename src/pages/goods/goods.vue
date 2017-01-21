@@ -13,33 +13,29 @@
         <input class="prompt" type="text" placeholder="Keywords Here...">
         <i class="search icon"></i>
       </div>
-      <router-link :to="{path:'/goods/goodsInfo', query: {}}" class="ui button">新增商品</router-link>
+      <router-link :to="{path:'/goods/goodsInfo'}" class="ui button">新增商品</router-link>
     </div>
     <table class="ui celled table">
       <tbody>
-        <tr>
+        <tr v-for="good in goods">
           <td>
-            <router-link to="/goods/goodsInfo" class="ui image header">
-                <img class="ui rounded top aligned tiny image" src="~assets/default.png" alt="">
+            <router-link :to="{path:'/goods/goodsInfo',query:{id:good.id}}" class="ui image header">
+                <img class="ui rounded top aligned tiny image" :src="good.img">
                 <div class="content">
-                    iPhone7 Plus 64G 银色
-                    <div class="sub header">8888积分 库存888</div>
+                    {{good.name}}
+                    <div class="sub header">{{good.score}}积分 已售{{good.sold}}</div>
                 </div>
             </router-link>
           </td>
         </tr>
-        <tr>
-          <td>
-            <h4 class="ui image header">
-              <img class="ui rounded top aligned tiny image" src="~assets/default.png" alt="">
-              <div class="content">
-                  iPhone7 Plus 64G 银色
-                  <div class="sub header">8888积分 库存888</div>
-              </div>
-            </h4>
-          </td>
-        </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4">
+            <pagination v-if="total" id="pagination" current="1" :total="total" show="10" v-on:pageChange="pageChange"></pagination>
+          </th>
+        </tr>
+      </tfoot>
     </table>
   </div>
 
@@ -47,30 +43,41 @@
 
 <script>
 import ajax from 'src/ajax/ajax.js'
+import Pagination from 'src/components/Pagination.vue'
 export default {
   name: 'goods',
   components: {
+    Pagination: Pagination
   },
   methods:{
+    pageChange(index){
+      console.log(index)
+    },
     getGoods(){
-      $.when(ajax.getGoods(this.start, this.length)).done(function(data){
-        if(data.state == 0){
-
-        }
+      $.when(ajax.getGoods(this.start, this.length)).done((data)=>{
+        // if(data.state == 0){
+          this.goods = data.list
+          this.total = data.countAll
+        // }
       })
     }
   },
   data () {
     return {
+      goods: [],
       start: 0,
-      length: 10
+      length: 10,
+      total: 0
     }
   },
-  created: function(){
-    this.getGoods()
+  beforeCreate(){
+
+  },
+  created(){
+
   },
   mounted(){
-
+this.getGoods()
   }
 }
 </script>

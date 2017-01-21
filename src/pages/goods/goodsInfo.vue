@@ -30,26 +30,28 @@
               <label>商品描述</label>
               <input type="text" placeholder="请输入商品描述" v-model="description">
             </div>
-            <div class="field">
-              <label>兑换所需积分</label>
-              <input type="number" placeholder="请输入兑换所需积分" v-model="score">
-            </div>
-            <div class="field">
-              <label>商品类型</label>
-              <select class="ui fluid dropdown" v-model="type">
-                <option v-for="value in types" :value="value">{{value}}</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>销量</label>
-              <input type="number" placeholder="请输入销量" v-model="sold">
-            </div>
-            <div class="field">
-              <label>商品状态</label>
-              <select class="ui fluid dropdown" v-model="state">
-                <option value="出售中">出售中</option>
-                <option value="未上架">未上架</option>
-              </select>
+            <div class="four fields">
+              <div class="field">
+                <label>商品类型</label>
+                <select class="ui fluid dropdown" v-model="type">
+                  <option v-for="value in types" :value="value">{{value}}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>兑换所需积分</label>
+                <input type="number" placeholder="请输入兑换所需积分" v-model="score">
+              </div>
+              <div class="field">
+                <label>销量</label>
+                <input type="number" placeholder="请输入销量" v-model="sold">
+              </div>
+              <!-- <div class="field">
+                <label>商品状态</label>
+                <select class="ui fluid dropdown" v-model="state">
+                  <option value="0">出售中</option>
+                  <option value="1">未上架</option>
+                </select>
+              </div> -->
             </div>
           </form>
         </div>
@@ -58,7 +60,7 @@
     <div class="ui form">
       <div class="field">
         <label>详情描述</label>
-        <tinymce height="300">{{detail}}</tinymce>
+        <tinymce height="300" ref="tinymce"></tinymce>
       </div>
       <div class="field after">
           <button class="ui positive right labeled icon right floated button" @click="editProduct()">
@@ -93,9 +95,9 @@ export default {
     },
     editProduct(){
       // id,name,description,score,type,sold,detail,img,state
-      $.when(ajax.editGood(this.$route.query.id,this.name,this.description,this.score,this.type,this.sold,this.detail,this.img.src,this.state)).done(function(data){
+      $.when(ajax.editGood(this.$route.query.id,this.name,this.description,this.score,this.type,this.sold,this.$refs.tinymce.getContent(),this.img.src,this.state)).done((data)=>{
         if(data.state == 0){
-
+          window.location.href="/#/goods"
         }
       })
     }
@@ -107,9 +109,9 @@ export default {
       description: "浙江 杭州",
       score: 999,
       sold: 999,
-      state: '出售中',
+      state: '0',
       type: '零食',
-      detail: "123",
+      detail: "hehehe",
       img: {
         src: require("assets/image.png")
       },
@@ -124,7 +126,7 @@ export default {
     }
   },
   mounted(){
-
+    this.$refs.tinymce.setContent("123")
   }
 }
 </script>
