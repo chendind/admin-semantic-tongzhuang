@@ -91,7 +91,7 @@ export default {
 			$('input[type="checkbox"]').attr("checked",'true');
 		},
 		getData(params){
-	      console.log(params)
+	      // console.log(params)
 	      var number = (params-0-1)*9
 	      var self = this
 	      $.when(ajax2.getUserForPage(number, 9).done(function(data){
