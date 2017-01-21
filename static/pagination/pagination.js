@@ -88,7 +88,7 @@ import jQuery from 'jquery'
         }else{
           $obj.find('.'+opts.nextCls) && $obj.find('.'+opts.nextCls).remove();
         }
-        html += opts.jump ? 
+        html += opts.jump ?
         '<div class="ui action input"><input type="text" class="'+opts.jumpIptCls+'" placeholder="'+opts.jumpIpt+'" style="border:none;width: 80px;"><a class="ui button '+opts.jumpBtnCls+'">'+opts.jumpBtn+'</a></div>': ''
         $obj.empty().html(html);
       };
