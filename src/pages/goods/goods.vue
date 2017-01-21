@@ -10,10 +10,13 @@
     </h1>
     <div class="ui category search">
       <div class="ui icon input">
-        <input class="prompt" type="text" placeholder="Keywords Here...">
-        <i class="search icon"></i>
+        <input class="prompt" type="text" placeholder="输入商品名搜索" v-model="keyWord" @keyup.13="searchGoods()">
+        <i class="search icon" @click="searchGoods()"></i>
       </div>
-      <router-link :to="{path:'/goods/goodsInfo'}" class="ui button">新增商品</router-link>
+      <router-link :to="{path:'/goods/goodsInfo'}" class="ui green right floated right labeled icon button">
+        新增商品
+        <i class="plus icon"></i>
+      </router-link>
     </div>
     <table class="ui celled table">
       <tbody>
@@ -32,7 +35,7 @@
       <tfoot>
         <tr>
           <th colspan="4">
-            <pagination v-if="total" id="pagination" current="1" :total="total" show="10" v-on:pageChange="pageChange"></pagination>
+            <pagination v-if="total" id="pagination" current="1" :total="total" :show="length" v-on:pageChange="pageChange"></pagination>
           </th>
         </tr>
       </tfoot>
@@ -51,21 +54,29 @@ export default {
   },
   methods:{
     pageChange(index){
-      console.log(index)
+      this.getGoods(this.length*(index-1), this.length);
     },
-    getGoods(){
-      $.when(ajax.getGoods(this.start, this.length)).done((data)=>{
+    getGoods(start, length){
+      $.when(ajax.getGoods(start, length)).done((data)=>{
         this.goods = data.list
         this.total = data.countAll
       })
+    },
+    searchGoods(){
+      $.when(ajax.searchGoods(this.keyWord)).done((data)=>{
+
+      })
+    },
+    updateTable(data){
+
     }
   },
   data () {
     return {
       goods: [],
-      start: 0,
       length: 10,
-      total: 0
+      total: 0,
+      keyWord: ""
     }
   },
   beforeCreate(){
@@ -75,7 +86,7 @@ export default {
 
   },
   mounted(){
-    this.getGoods()
+    this.getGoods(0, this.length)
   }
 }
 </script>

@@ -30,6 +30,15 @@ export default {
       }
     })
   },
+  searchGoods(keyWord){
+    return $.ajax({
+      url: baseurl+'/searchProduct',
+      type: 'post',
+      data: {
+        keyWord
+      }
+    })
+  },
   editGood(id,name,description,score,type,sold,detail,img,state){
     return $.ajax({
       url: baseurl + '/editProduct',
@@ -55,7 +64,35 @@ export default {
           withCredentials: false
       }
     })
-  }
+  },
+  getOrder(start,length,type){
+    return $.ajax({
+      url: baseurl + '/getOrderForPage',
+      type: 'get',
+      data: {
+        start,length,type
+      }
+    })
+  },
+  getBusiness(start,length,type,uId){
+    return $.ajax({
+      url: baseurl+'/getMerchantForPage',
+      type: 'get',
+      data: {
+        start,length,type,uId
+      }
+    })
+  },
+  editBusiness(id,name,headImg,backImg,location,product,phone,introduction,principal){
+    return $.ajax({
+      url: baseurl+'/editMerchant',
+      type: 'post',
+      data: {
+        id,name,headImg,backImg,location,product,phone,introduction,principal
+      }
+    })
+  },
+
 }
 
 

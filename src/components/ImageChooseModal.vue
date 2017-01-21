@@ -36,6 +36,7 @@ import ajax from 'src/ajax/ajax.js'
 var __src = "http://tongzhuang.moovi-tech.com/uploads/img/391ea67cf6824efda27bcb50274a3c93.jpg"
 export default {
   name: 'imageChooseModal',
+  props: ['target'],
   data () {
     return {
       images: [],
@@ -51,7 +52,7 @@ export default {
       if(this.checkedIndex == -1){
         return;
       }
-      this.$emit('finishChoose', this.images[this.checkedIndex].src)
+      this.$emit('finishChoose', this.images[this.checkedIndex].src, this.target)
     },
     uploadNewImage(){
       var self = this;

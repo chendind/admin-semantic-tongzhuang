@@ -119,10 +119,8 @@ export default {
     }
   },
   created: function(){
-    if(this.$route.query.id > 0){
-    }
-    else{
-
+    if(this.$route.query.id){
+      // $.when(ajax.)
     }
   },
   mounted(){

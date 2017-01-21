@@ -78,6 +78,12 @@ const routes = [
 					r(require('./pages/user/business.vue'))
 				}
 			},
+      {
+        path: '/user/businessInfo',
+        component(r){
+          r(require('./pages/user/businessInfo.vue'))
+        }
+      },
 			{
 				path: '/user/customer',
 				component(r){
