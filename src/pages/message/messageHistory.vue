@@ -28,10 +28,17 @@
 					<td v-else></td>				
 					<td class="right aligned">阅读量：{{i[3]}}</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<Pagination id="page2" :total="this.all" show="9" current="1" v-if="this.all!=''" style="margin:10px auto" v-on:pageChange="getData"></Pagination>
-				</tr>
+				</tr> -->
 			</tbody>
+			<tfoot>
+        <tr>
+          <th colspan="4">
+            <Pagination id="page2" :total="this.all" show="9" current="1" v-if="this.all!=''" v-on:pageChange="getData"></Pagination>
+          </th>
+        </tr>
+      </tfoot>
 		</table>
 	</div>
 </template>
