@@ -24,7 +24,8 @@
 					<td>
 						<router-link :to="{path:'/message/messageDetail',query:{id:i[0]}}">{{i[1]}}</router-link>
 					</td>
-					<td>2017-01-01</td>
+					<td v-if="i[2]!=null">{{formatDate(i[2])}}</td>
+					<td v-else></td>				
 					<td class="right aligned">阅读量：{{i[3]}}</td>
 				</tr>
 				<tr>
@@ -38,7 +39,7 @@
 <script>
 import ajax2 from 'src/ajax/ajax2.js'
 import Pagination from 'components/Pagination'
-
+   
 export default {
 	name: 'message-history',
 	components: {
@@ -51,6 +52,13 @@ export default {
 	    }
 	},
 	methods:{
+		formatDate(time)   {  
+		  var   now = new Date(time)   
+		  var   year = now.getFullYear();     
+		  var   month = "0" + (now.getMonth()+1);     
+		  var   date = "0" +(now.getDate());         
+		  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+		},
 		getList(){
 			var self = this
 	    	$.when(ajax2.getArticleForPage(0, 10).done(function(data){

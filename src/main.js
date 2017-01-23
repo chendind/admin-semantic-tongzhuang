@@ -16,6 +16,7 @@ jQuery(()=>{
 	})
 })
 
+window.router = router
 
 
 

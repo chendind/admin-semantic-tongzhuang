@@ -105,6 +105,7 @@ export default {
 		deleteitem(){
 			$.when(ajax2.deleteArticle(this.$route.query.id).done(function(data){
 		        alert("删除成功")
+		        router.push({path:"/message"})
 		  	}))
 		},
 		isChecked(id){
