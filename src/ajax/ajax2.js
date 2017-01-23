@@ -11,17 +11,18 @@ $.ajaxSetup({
   }
 })
 export default {
-  editArticle(id, title, text, ids, type){
+  editArticle(popid, id, title, author, time, text, img, ids, type){
     return $.ajax({
       url: baseurl+'/editArticle',
       type: 'post',
       data: {
+        id:popid,
         merchantId: id,
         title: title,
-        time:1,
-        author:1,
+        time:time,
+        author:author,
         text:text,
-        img:1,
+        img:img,
         ids:ids,
         type:type
       }
@@ -39,4 +40,57 @@ export default {
       }
     })
   },
+  //获得推送列表
+  getArticleForPage(start, length){
+    return $.ajax({
+      url: baseurl+'/getArticleForPage',
+      type: 'GET',
+      data: {
+        start: start,
+        length: length,
+        type:'back'
+      }
+    })
+  },
+  //获得后台草稿箱
+  getDraft(){
+    return $.ajax({
+      url: baseurl+'/getDraft',
+      type: 'POST',
+      data: {
+        type:'back'
+      }
+    })
+  },
+  //获得具体推送
+  getArticle(id){
+    return $.ajax({
+      url: baseurl+'/getArticle',
+      type: 'POST',
+      data: {
+        id:id
+      }
+    })
+  },
+  //删除推送
+  deleteArticle(id){
+    return $.ajax({
+      url: baseurl+'/deleteArticle',
+      type: 'POST',
+      data: {
+        id:id
+      }
+    })
+  },
+  //修改密码
+  adminChangePassword(opass, npass){
+    return $.ajax({
+      url: baseurl+'/adminChangePassword',
+      type: 'POST',
+      data: {
+        oPassword:opass,
+        nPassword:npass
+      }
+    })
+  }
 }

@@ -35,7 +35,7 @@
         	<tinymce height="300" ref="text">content here...</tinymce>
      	</div>
      	<div class="after mt10">
-	     	<button class="ui blue button right floated">
+	     	<button class="ui blue button right floated" @click="save">
 	     		<i class="linkify icon"></i>
 	     		保存
 	     	</button>
@@ -44,19 +44,19 @@
 		<div class="ui equal width grid mt10 segment">
 			<div class="five wide column" v-for="i in shops">
 				<div class="ui checkbox">
-					<input type="checkbox">
-					<label>{{i.id}}+{{i.name}}</label>
+					<input type="checkbox" :id="'check'+i.id" :checked="isChecked(i.id)" @change="check(i.id)">
+					<label :for="'check'+i.id">{{i.id}}+{{i.name}}</label>
 				</div>
 			</div>
 		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
 		    <Pagination id="page1" :total="this.all" show="9" current="1" v-if="this.all!=''" style="margin:10px auto" v-on:pageChange="getData"></Pagination>
 		</div>
      	<div class="after mt10">
-	     	<button class="ui blue button left floated" @click="chooseAll">
+	     	<!-- <button class="ui blue button left floated" @click="chooseAll" >
 	     		<i class="check square icon"></i>
 	     		全选
-	     	</button>
-	     	<button class="ui positive button right floated">
+	     	</button> -->
+	     	<button class="ui positive button right floated" @click="send">
 	     		<i class="cloud upload icon"></i>
 	     		上传
 	     	</button>
@@ -71,6 +71,14 @@ import imageChooseModal from 'components/ImageChooseModal.vue'
 import VuetablePagination from 'components/vue-table/VuetablePagination'
 import Pagination from 'components/Pagination'
 
+function   formatDate(time)   {  
+  var   now = new Date(time)   
+  var   year = now.getFullYear();     
+  var   month = "0" + (now.getMonth()+1);     
+  var   date = "0" +(now.getDate());         
+  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+}
+
 export default {
 	name: 'message-new',
 	components: {
@@ -78,34 +86,6 @@ export default {
 	    'image-choose-modal': imageChooseModal,
 	    VuetablePagination,
 	    Pagination
-	},
-	methods:{
-		show(selector){
-	      $(selector).modal('show')
-	    },
-	    finishChoose(src){
-	      console.log(src)
-	      $('#expImage').attr('src', src)
-	    },
-		chooseAll: function () {
-			$('input[type="checkbox"]').attr("checked",'true');
-		},
-		getData(params){
-	      // console.log(params)
-	      var number = (params-0-1)*9
-	      var self = this
-	      $.when(ajax2.getUserForPage(number, 9).done(function(data){
-		        self.shops = data.list
-		        self.all = data.countAll
-		  }))
-	    },
-	    getfirstData(){
-	    	var self = this
-	    	$.when(ajax2.getUserForPage(0, 9).done(function(data){
-		        self.shops = data.list
-		        self.all = data.countAll
-		    }))
-	    }
 	},
 	data () {
 	    return {
@@ -115,11 +95,106 @@ export default {
 	    	text:"",
 	    	ids:[],
 	    	shops:[],
-	    	all:''
+	    	all:'',
+	    	src:'',
+	    	info:''
+	    }
+	},
+	methods:{
+		isChecked(id){
+			return !!this.lookup[id]
+		},
+		check(id){
+			this.lookup[id] = !!!this.lookup[id]
+			if (this.lookup[id]==false) {
+				delete this.lookup[id]
+				console.log(Object.keys(this.lookup))
+			}
+		},
+		save(){
+			var x
+			var date = undefined
+			if (this.date!=null&&this.date!="") {
+				x = this.date.replace(/-/g,"/")
+				console.log(x)
+				date = new Date(x);
+				console.log(date)
+			}	
+			this.ids = []
+			this.ids = Object.keys(this.lookup)
+			$.when(ajax2.editArticle(1, 0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
+		        alert(data.detail)
+		  	}))
+		},
+		send(){
+			var x
+			var date = undefined
+			if (this.date!=null&&this.date!="") {
+				x = this.date.replace(/-/g,"/")
+				console.log(x)
+				date = new Date(x);
+				console.log(date)
+			}	
+			this.ids = []
+			this.ids = Object.keys(this.lookup)
+			$.when(ajax2.editArticle(null,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
+		        alert(data.detail)
+		  	}))
+		},
+		show(selector){
+	      $(selector).modal('show')
+	    },
+	    finishChoose(src){
+	      console.log(src)
+	      $('#expImage').attr('src', src)
+	      this.src = src
+	    },
+		chooseAll: function () {
+			$('input[type="checkbox"]').attr("checked",'true');
+		},
+		draft(){
+			var self = this
+			$.when(ajax2.getDraft().done(function(data){
+	     	 	self.info = data
+	     	 	self.title = data.title
+	     	 	self.author = data.author
+	     	 	self.date = formatDate(data.time)
+	     	 	self.src = data.img
+	     	 	$('#expImage').attr('src', self.src)
+	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
+	     	 	data.userId.forEach(function(list){
+	     	 		console.log(list)
+	     	 		self.lookup[list]=true
+	     	 	})
+		  	}))
+		},
+		getData(params){
+	      	// console.log(params)
+	      	var number = (params-0-1)*9
+	      	var self = this
+	     	$.when(ajax2.getUserForPage(number, 9).done(function(data){
+	     	 	data.list.forEach(function(list){
+	    			list.check = false
+	    		})
+		        self.shops = data.list
+		        self.all = data.countAll
+		  	}))
+	    },
+	    getfirstData(){
+	    	var self = this
+	    	$.when(ajax2.getUserForPage(0, 9).done(function(data){
+	    		data.list.forEach(function(list){
+	    			list.check = false
+	    		})
+		        self.shops = data.list
+		        self.all = data.countAll
+		    }))
 	    }
 	},
 	mounted:function(){
-		this.getfirstData()
+		this.lookup = {}
+		this.getfirstData()	
+		this.draft()	
 	}
 }
 </script>

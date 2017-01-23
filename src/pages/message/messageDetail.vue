@@ -6,56 +6,203 @@
 		        <i class="right angle icon divider"></i>
 		        <a href="#/message" class="section">消息推送</a>
 		        <i class="right angle icon divider"></i>
-		        <a class="section active">消息详情</a>
+		        <a class="section active">修改文章</a>
 	      	</div>
 	    </h1>
-		<h1 class="ui header">儿童萌装大促销</h1>
-		<h3 class="ui header">2017-01-01</h3>
-		<p>
-			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
-			--阿尔伯特 爱因斯坦<br>
-			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
-			--阿尔伯特 爱因斯坦<br>
-			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
-			--阿尔伯特 爱因斯坦<br>
-			如果你无法简洁的表达你的想法，那只说明你还不够了解它。<br>
-			--阿尔伯特 爱因斯坦<br>
-		</p>
-		<div class="after">
-			<span>阅读量：333</span>
-			<button class="ui red button right floated">
+		<form class="ui form">
+		  	<div class="field">
+			    <label>标题</label>
+			    <input type="text" name="title" placeholder="请输入标题" v-model="title">
+		  	</div>
+		  	<div class="field">
+			    <label>作者</label>
+			    <input type="text" name="title" placeholder="请输入标题" v-model="author">
+		  	</div>
+		  	<div class="field">
+			    <label>时间</label>
+			    <input type="date" name="title" placeholder="请输入标题" v-model="date">
+		  	</div>
+		  	<div class="field">
+			    <label>背景图</label>
+			    <img id="expImage" src="~assets/image.png" class="ui small image" alt="">
+			    <div class="ui button" @click="show('#imageChooseModal')" style="margin-top: 10px;">
+			      选择一张图片
+			    </div>
+			    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
+		  	</div>
+  		</form>
+		<div class="field mt10">
+        	<tinymce height="300" ref="text">content here...</tinymce>
+     	</div>
+     	<!-- <div class="after mt10">
+	     	<button class="ui blue button right floated" @click="save">
+	     		<i class="linkify icon"></i>
+	     		保存
+	     	</button>
+     	</div> -->
+     	<h3 class="ui header">客户列表</h3>
+		<div class="ui equal width grid mt10 segment">
+			<div class="five wide column" v-for="i in shops">
+				<div class="ui checkbox">
+					<input type="checkbox" :id="'check'+i.id" :checked="isChecked(i.id)" @change="check(i.id)">
+					<label :for="'check'+i.id">{{i.id}}+{{i.name}}</label>
+				</div>
+			</div>
+		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
+		    <Pagination id="page1" :total="this.all" show="9" current="1" v-if="this.all!=''" style="margin:10px auto" v-on:pageChange="getData"></Pagination>
+		</div>
+     	<div class="after mt10">
+	     	<!-- <button class="ui blue button left floated" @click="chooseAll" >
+	     		<i class="check square icon"></i>
+	     		全选
+	     	</button> -->
+	     	<button class="ui positive button right floated" @click="send">
+	     		<i class="cloud upload icon"></i>
+	     		上传
+	     	</button>
+	     	<button class="ui red button right floated" @click="deleteitem">
 				<i class="remove icon"></i>删除
 			</button>
-		</div>
+	    </div>
 	</div>
 </template>
 
 <script>
+import tinymce from 'components/tinymce/Tinymce.vue'
+import ajax2 from 'src/ajax/ajax2.js'
+import imageChooseModal from 'components/ImageChooseModal.vue'
+import VuetablePagination from 'components/vue-table/VuetablePagination'
+import Pagination from 'components/Pagination'
+function   formatDate(time)   {  
+  var   now = new Date(time)   
+  var   year = now.getFullYear();     
+  var   month = "0" + (now.getMonth()+1);     
+  var   date = "0" +(now.getDate());         
+  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+}     
 export default {
-	name: 'message-detail',
-	methods:{
+	name: 'message-new',
+	components: {
+	    tinymce,
+	    'image-choose-modal': imageChooseModal,
+	    VuetablePagination,
+	    Pagination
 	},
 	data () {
 	    return {
+	    	title:"",
+	    	author:"",
+	    	date:"",
+	    	text:"",
+	    	ids:[],
+	    	shops:[],
+	    	all:'',
+	    	src:'',
+	    	info:''
 	    }
+	},
+	methods:{
+		deleteitem(){
+			$.when(ajax2.deleteArticle(this.$route.query.id).done(function(data){
+		        alert("删除成功")
+		  	}))
+		},
+		isChecked(id){
+			return !!this.lookup[id]
+		},
+		check(id){
+			this.lookup[id] = !!!this.lookup[id]
+			if (this.lookup[id]==false) {
+				delete this.lookup[id]
+				console.log(Object.keys(this.lookup))
+			}
+		},
+		save(){
+			// var x = this.date.replace("-","/")
+			// console.log(x)
+			// var date = new Date(this.data);
+			// console.log(date)
+			this.ids = []
+			this.ids = Object.keys(this.lookup)
+			$.when(ajax2.editArticle(this.$route.query.id, 0, this.title, this.author, this.date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
+		        alert(data.detail)
+		  	}))
+		},
+		send(){
+			var x
+			var date = undefined
+			if (this.date!=null&&this.date!="") {
+				x = this.date.replace(/-/g,"/")
+				console.log(x)
+				date = new Date(x);
+				console.log(date)
+			}	
+			this.ids = []
+			this.ids = Object.keys(this.lookup)
+			$.when(ajax2.editArticle(this.$route.query.id,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
+		        alert(data.detail)
+		  	}))
+		},
+		show(selector){
+	      $(selector).modal('show')
+	    },
+	    finishChoose(src){
+	      console.log(src)
+	      $('#expImage').attr('src', src)
+	      this.src = src
+	    },
+		chooseAll: function () {
+			$('input[type="checkbox"]').attr("checked",'true');
+		},
+		draft(){
+			var self = this
+			$.when(ajax2.getArticle(this.$route.query.id).done(function(data){
+	     	 	self.info = data
+	     	 	self.title = data.title
+	     	 	self.author = data.author
+	     	 	self.date = formatDate(data.time)
+	     	 	self.src = data.img
+	     	 	$('#expImage').attr('src', self.src)
+	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
+	     	 	data.userId.forEach(function(list){
+	     	 		console.log(list)
+	     	 		self.lookup[list]=true
+	     	 	})
+		  	}))
+		},
+		getData(params){
+	      	// console.log(params)
+	      	var number = (params-0-1)*9
+	      	var self = this
+	     	 $.when(ajax2.getUserForPage(number, 9).done(function(data){
+	     	 	data.list.forEach(function(list){
+	    			list.check = false
+	    		})
+		        self.shops = data.list
+		        self.all = data.countAll
+		  	}))
+	    },
+	    getfirstData(){
+	    	var self = this
+	    	$.when(ajax2.getUserForPage(0, 9).done(function(data){
+	    		data.list.forEach(function(list){
+	    			list.check = false
+	    		})
+		        self.shops = data.list
+		        self.all = data.countAll
+		    }))
+	    }
+	},
+	mounted:function(){
+		this.lookup = {}
+		this.getfirstData()	
+		this.draft()	
 	}
 }
 </script>
 
-<style>
-	.after span{
-		line-height: 36px;
+<style scoped>
+	.field{
+		clear: none !important;
 	}
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
