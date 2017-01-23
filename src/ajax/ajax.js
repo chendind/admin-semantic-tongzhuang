@@ -27,6 +27,16 @@ export default {
       }
     })
   },
+  getImgForPage(start,length){
+    return $.ajax({
+      url: baseurl+'/getImgForPage',
+      type: 'get',
+      data: {
+        start, length
+      }
+    })
+  },
+
   getGoods(start, length,type){
     return $.ajax({
       url: baseurl+'/getProductForPage',

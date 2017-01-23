@@ -20,7 +20,7 @@
           <label>头像</label>
           <div class="ui action input">
             <input type="text" placeholder="请输入图片url" v-model="data.headImg">
-            <button class="ui button" @click="show('#imageChooseModal','headImg')">选择图片</button>
+            <button class="ui button" @click="show('#imageChooseModal','data.headImg')">选择图片</button>
           </div>
           <img :src="data.headImg" v-show="data.headImg" class="ui image small mv10">
         </div>
@@ -30,7 +30,7 @@
           <label>背景图片</label>
           <div class="ui action input">
             <input type="text" placeholder="请输入图片url" v-model="data.backImg">
-            <button class="ui button" @click="show('#imageChooseModal','backImg')">选择图片</button>
+            <button class="ui button" @click="show('#imageChooseModal','data.backImg')">选择图片</button>
           </div>
           <img :src="data.backImg" v-show="data.backImg" class="ui image small mv10">
         </div>
@@ -74,6 +74,7 @@
 import tinymce from 'components/tinymce/Tinymce.vue'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
+import router from 'src/router.js'
 export default {
   name: 'businessInfo',
   components: {
@@ -81,19 +82,18 @@ export default {
     imageChooseModal
   },
   methods:{
-    show(selector, img){
+    show(selector, target){
       $(selector).modal('show')
-      this.target = img
+      this.target = target
     },
     finishChoose(src,target){
-      this.data[target] = src
-      console.log(src, target)
+      eval('this.'+target+"='"+src+"'")
     },
     editBusiness(){
       // id,name,headImg,backImg,location,product,phone,introduction,principal
       $.when(ajax.editBusiness(this.$route.query.id,this.data.name,this.data.headImg,this.data.backImg,this.data.location,this.data.product,this.data.phone,this.data.introduction,this.data.principal)).done(function(data){
         if(data.state == 0){
-
+          router.push({path:'/user/business'})
         }
       })
     }
