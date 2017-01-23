@@ -1,119 +1,119 @@
 <template>
+
   <div>
-    <div>
-      <vue-table
-        class="order-table"
-        ref="table"
-        api-url="/static/fake-data/order/page-1.json"
-        :fields="fields"
-        @vuetable:pagination-data="onPaginationData"
-        :custom-ajax="getData"
-      ></vue-table>
-      <vuetable-pagination ref="pagination"
-        @vuetable-pagination:change-page="onChangePage"
-      ></vuetable-pagination>
-    </div>
-  </div>
-</template>
-<script>
-import Vue from 'vue'
-import VueTable from 'components/vue-table/Vuetable.vue'
-import VuetablePagination from 'components/vue-table/VuetablePagination'
-import ajax from 'src/ajax/ajax.js'
-Vue.component('order-td', {
-  props: {
-    rowData: {
-      type: Object,
-      required: true
-    }
-  },
-  render(h){
-    var data = this.rowData
-
-    return <div class="ui items">
-      <div class="item">
-        <div class="image">
-          <img src={data.order.url}/>
-        </div>
-        <div class="content" style="margin-top:5px">
-          <a class="header" style="vertical:middle;">{data.order.name}</a>
-          <div class="ui tag labels" style="display:inline-block;vertical-align:middle;margin-left:10px;">
-            <div class="ui label" style="margin-bottom:0px;">{data.state}</div>
-          </div>
-          <div class="meta">
-            <p><b>买家昵称:&nbsp;</b>{data.customer.name}</p>
-            <p><b>订单编号:&nbsp;</b>{data.order.id}</p>
-            <p><b>下单日期:&nbsp;</b>{data.date}</p>
-          </div>
-          <div class="description">
-            <div class="ui mini statistics">
-              <div class="statistic" style="margin-bottom:0px;">
-                <div class="value">
-                  {data.order.quantity}
-                </div>
-                <div class="label">
-                  数量
-                </div>
-              </div>
-              <div class="statistic" style="margin-bottom:0px;">
-                <div class="value">
-                  {data.points}
-                </div>
-                <div class="label">
-                  积分
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <h1 class="ui dividing header">
+      <div class="ui breadcrumb">
+        <a class="section">后台</a>
+        <i class="right angle icon divider"></i>
+        <div class="active section">历史订单</div>
       </div>
-    </div>
-  }
-})
+    </h1>
+    <table class="ui celled table">
+      <tbody>
+        <tr v-for="good in goods">
+          <td>
+            <router-link :to="{path:'/order/orderInfo',query:{id:good.id,type:1}}" class="ui image header" style="width:100%">
+            <!-- <div class="ui image header" style="width:100%"> -->
+                <img class="ui rounded top aligned tiny image" :src="good.pImg">
+                <div class="content" style="width:80%">
+                    {{good.pName}}
+                    <div class="sub header">
+                      <span>订单号：{{good.code}}</span>
+                      <span>{{good.score}}积分 ×{{good.number}}</span>
+                    </div>
+                    <div class="sub header">
+                      <span>下单时间：{{getLocalTime(good.time)}}</span>
+                      <span v-if="good.user">买家昵称：{{good.user}}</span>
+                    </div>
+                    <div class="sub header">
+                      <span></span>
+                      <span>
+                        <span class="state">
+                          {{good.state}}
+                        </span>
+                      </span>
+                    </div>
+                    <!-- <div class="sub header">{{good.score}}积分 已售{{good.sold}}</div> -->
+                <!-- </div> -->
+            </div>
+            </router-link>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4">
+            <pagination v-if="total" id="pagination" current="1" :total="total" :show="length" v-on:pageChange="pageChange"></pagination>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
+</template>
+
+<script>
+import ajax2 from 'src/ajax/ajax2.js'
+import Pagination from 'src/components/Pagination.vue'
 export default {
-  data(){
-    return {
-      fields: [
-        "__component:order-td"
-      ]
-    }
-  },
-  methods: {
-    getData(params){
-      var page = params.page
-      return ajax.getOrder(0,10,'wait').done(function(data){
-        console.log(data)
-      })
-      // return new Promise((resolve, reject)=>{
-      //   this.$http.get(``).then((res)=>{
-      //     resolve(res)
-      //   }, (e)=>{reject(e)})
-      // })
-    },
-    onChangePage (page) {
-      this.$refs.table.changePage(page)
-    },
-    onPaginationData (tablePagination) {
-      this.$refs.pagination.setPaginationData(tablePagination)
-    }
-  },
+  name: 'goods',
   components: {
-    VueTable,
-    VuetablePagination
+    Pagination: Pagination
+  },
+  methods:{
+    getLocalTime(nS) {     
+       return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    },
+    pageChange(params){
+      var number = (params-0-1)*10
+      var self = this
+      $.when(ajax2.getOrderForPage(number, 10, "wait")).done(function(data){
+        self.goods = data.list
+        self.total = data.countAll
+      })
+    },
+    getOrderForPage(start, length,type){
+      $.when(ajax2.getOrderForPage(start, length, type)).done((data)=>{
+        this.goods = data.list
+        this.total = data.countAll
+      })
+    },
+  },
+  data () {
+    return {
+      goods: [],
+      length: 10,
+      total: 0,
+      keyWord: ""
+    }
+  },
+  beforeCreate(){
+
+  },
+  created(){
+
+  },
+  mounted(){
+    this.getOrderForPage(0, this.length,"wait")
   }
 }
-
 </script>
-<style lang="less">
-  .order-table {
-    thead {
-      display: none;
-    }
 
-
-    td:first-child {
-      width: 100px;
-    }
+<style scoped lang="less">
+.ui.header .sub.header{
+  margin-top: 5px;
+  span{
+    display: inline-block;
+    width:49%;
   }
+}
+.state{
+  width: 80px !important;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #26a69a;
+}
 </style>

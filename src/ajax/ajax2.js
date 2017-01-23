@@ -92,5 +92,38 @@ export default {
         nPassword:npass
       }
     })
+  },
+  //获得订单
+  getOrderForPage(start, length, type){
+    return $.ajax({
+      url: baseurl+'/getOrderForPage',
+      type: 'POST',
+      data: {
+        start:start,
+        length:length,
+        type:type
+      }
+    })
+  },
+  //获得具体订单信息
+  getOrder(id){
+    return $.ajax({
+      url: baseurl+'/getOrder',
+      type: 'POST',
+      data: {
+        id:id
+      }
+    })
+  },
+  //修改状态
+  editOrderState(id,state){
+    return $.ajax({
+      url: baseurl+'/editOrderState',
+      type: 'POST',
+      data: {
+        id:id,
+        state:state
+      }
+    })
   }
 }

@@ -5,28 +5,29 @@
       <div class="ui breadcrumb">
         <div class="section">后台</div>
         <i class="right angle icon divider"></i>
-        <router-link to="/goods" class="section">商品管理</router-link>
+        <router-link to="/order/orderWait" class="section" v-if="$route.query.type==1">订单管理</router-link>
+        <router-link to="/order" class="section" v-if="$route.query.type==2">订单管理</router-link>
         <i class="right angle icon divider"></i>
-        <div class="active section">商品详情</div>
+        <div class="active section">订单详情</div>
       </div>
     </h1>
     <div class="ui items">
       <div class="item">
         <div class="image">
-            <img :src="img.src" alt="">
+            <img :src="info.pImg" alt="">
         </div>
         <div class="content">
           <div class="header">
-            Iphone7 Plus 32G 银色 ×1
+            {{info.pName}} ×{{info.number}}
           </div>
           <div class="meta">
-            <span>8888积分</span>
+            <span>{{info.score}}积分</span>
           </div>
           <div class="description">
-            <p>状态：待发货</p>
-            <p>买家昵称：聪明的小明</p>
-            <p>订单编号：201701071234</p>
-            <p>下单时间：2017-01-07 12:34</p>
+            <p>状态：{{info.state}}</p>
+            <p>买家昵称：<span v-if="info.user">{{info.user}}</span></p>
+            <p>订单编号：{{info.code}}</p>
+            <p>下单时间：{{getLocalTime(info.time)}}</p>
           </div>
         </div>
       </div>
@@ -37,14 +38,18 @@
       </div>
     </h1>
     <div class="ui raised segment">
-      <p>收件人：小柚子</p>
-      <p>联系电话：13812345678</p>
-      <p>收货地址：浙江省杭州市拱墅区祥园路38号</p>
+      <p>收件人：<span v-if="info.receiveName">{{info.receiveName}}</span></p>
+      <p>联系电话：{{info.phone}}</p>
+      <p>收货地址：{{info.address}}</p>
     </div>
     <div class="after">
-      <button class="ui positive right labeled icon right floated button">
+      <button class="ui positive right labeled icon right floated button" v-if="info.state=='待发货'" @click="statement('待收货')">
         <i class="checkmark icon"></i>
         已发货
+      </button>
+      <button class="ui positive right labeled icon right floated button" v-if="info.state=='待收货'" @click="statement('已完成')">
+        <i class="checkmark icon"></i>
+        已收货
       </button>
     </div>
 
@@ -53,20 +58,38 @@
 </template>
 
 <script>
+import ajax2 from 'src/ajax/ajax2.js'
+
 export default {
   name: 'orderInfo',
   components: {
   },
-  methods:{
-  },
   data () {
     return {
+      info:"",
       img: {
         src: require("assets/image.png")
       },
     }
   },
-  mounted(){
+  methods:{
+    statement(state){
+      $.when(ajax2.editOrderState(this.$route.query.id,state)).done((data)=>{
+        alert(data.detail)
+        this.getOrder()
+      })
+    },
+    getLocalTime(nS) {     
+       return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    },
+    getOrder(start, length,type){
+      $.when(ajax2.getOrder(this.$route.query.id)).done((data)=>{
+        this.info = data
+      })
+    }
+  },
+  mounted:function(){
+    this.getOrder()
   }
 }
 </script>
