@@ -37,7 +37,7 @@ finishChoose(src,target){
       </div>
       <div class="content">
         <div class="ui tiny images">
-          <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+image+')'}" @click="toggle(index)">
+          <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url(http://tongzhuang.moovi-tech.com'+image+')'}" @click="toggle(index)">
 
           </div>
         </div>
@@ -93,20 +93,13 @@ export default {
         var file = this.files[0]
         var formData = new FormData()
         self.uploaded = false
-        $.when(ajax.upload(file)).done(function(data){
+        ajax.upload(file).done(function(data){
           if(data.state == 0){
 
           }
         }).always(function(){
           self.uploaded = true;
         })
-        // setTimeout(()=>{
-        //   self.uploaded = true
-        //   self.images.push({
-        //     "src": __src
-        //   });
-        //   self.checkedIndex = 0;
-        // },500)
       }
     }
   },
@@ -114,13 +107,6 @@ export default {
     ajax.getImgForPage().done((data)=>{
       this.images = data.list
     })
-    // setTimeout(()=>{
-    //   this.images = [
-    //     {
-    //       "src": __src
-    //     }
-    //   ]
-    // },500)
   }
 }
 </script>
@@ -130,6 +116,7 @@ export default {
   cursor: pointer;
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
   height: 80px !important;
   width: 80px !important;
 }

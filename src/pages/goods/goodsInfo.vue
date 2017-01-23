@@ -13,11 +13,11 @@
     <div class="ui items">
       <div class="item">
         <div class="image">
-            <img :src="img.src" alt="">
+            <img :src="img" alt="">
             <div class="ui container center aligned">
-              <button class="ui primary button mt10" @click="show('#imageChooseModal')">
+              <div class="ui center aligned blue button mv10" @click="show('#imageChooseModal')">
                 选择一张图片
-              </button>
+              </div>
             </div>
         </div>
         <div class="content">
@@ -80,6 +80,7 @@
 import tinymce from 'components/tinymce/Tinymce.vue'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
+import router from 'src/router.js'
 export default {
   name: 'bussiness',
   components: {
@@ -91,13 +92,13 @@ export default {
       $(selector).modal('show')
     },
     finishChoose(src){
-      this.img.src = src
+      this.img = src
     },
     editProduct(){
       // id,name,description,score,type,sold,detail,img,state
-      $.when(ajax.editGood(this.$route.query.id,this.name,this.description,this.score,this.type,this.sold,this.$refs.tinymce.getContent(),this.img.src,this.state)).done((data)=>{
+      $.when(ajax.editGood(this.$route.query.id,this.name,this.description,this.score,this.type,this.sold,this.$refs.tinymce.getContent(),this.img,this.state)).done((data)=>{
         if(data.state == 0){
-          window.location.href="/#/goods"
+          router.push({path:"/goods"})
         }
       })
     }
@@ -111,21 +112,26 @@ export default {
       sold: 999,
       state: '0',
       type: '零食',
-      detail: "hehehe",
-      img: {
-        src: require("assets/image.png")
-      },
-      msg: 'Welcome to Your Vue.js App'
+      detail: "",
+      img:  require("assets/image.png"),
     }
   },
   created: function(){
     if(this.$route.query.id){
-      // $.when(ajax.)
+      ajax.getProductById(this.$route.query.id,'back').done((data)=>{
+        if(data.state == 0){
+          this.name = data.name
+          this.description = data.description
+          this.score = data.score
+          this.sold = data.sold
+          this.type = data.type
+          this.$refs.tinymce.setContent(data.detail)
+          this.img = data.img
+        }
+      })
     }
   },
-  mounted(){
-    this.$refs.tinymce.setContent("123")
-  }
+  mounted(){}
 }
 </script>
 

@@ -90,6 +90,12 @@ const routes = [
 					r(require('./pages/user/customer.vue'))
 				}
 			},
+      {
+        path: '/user/customerInfo',
+        component(r){
+          r(require('./pages/user/customerInfo.vue'))
+        }
+      },
 		    {
 		      path: 'business',
 		      component: Business

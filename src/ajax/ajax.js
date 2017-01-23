@@ -46,6 +46,15 @@ export default {
       }
     })
   },
+  getProductById(id,type){
+    return $.ajax({
+      url: baseurl+'/getProduct',
+      type: 'post',
+      data: {
+        id,type
+      }
+    })
+  },
   searchGoods(keyWord){
     return $.ajax({
       url: baseurl+'/searchProduct',
@@ -117,7 +126,24 @@ export default {
       }
     })
   },
-
+  getUser(start,length,type,mId){
+    return $.ajax({
+      url: baseurl+'/getUserForPage',
+      type: 'get',
+      data: {
+        start,length,type,mId
+      }
+    })
+  },
+  getUserById(id,type){
+    return $.ajax({
+      url: baseurl+'/getUser',
+      type: 'post',
+      data: {
+        id,type
+      }
+    })
+  },
 }
 
 

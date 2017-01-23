@@ -7,7 +7,7 @@
         <i class="right angle icon divider"></i>
         <router-link to="/user/business" class="section">商户管理</router-link>
         <i class="right angle icon divider"></i>
-        <div class="active section">新增商户</div>
+        <div class="active section">{{$route.query.id?"新增商户":"商户详情"}}</div>
       </div>
     </h1>
     <div class="ui form">
@@ -87,6 +87,7 @@ export default {
       this.target = target
     },
     finishChoose(src,target){
+      console.log('this.'+target+"='"+src+"'")
       eval('this.'+target+"='"+src+"'")
     },
     editBusiness(){

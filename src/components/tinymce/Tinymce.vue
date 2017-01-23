@@ -82,7 +82,6 @@ export default {
                     // tab键缩紧2格
                     if(e.keyCode == 9){
                         e.preventDefault();
-                        console.log(this)
                         this.execCommand("Indent");
                     }
                 });
