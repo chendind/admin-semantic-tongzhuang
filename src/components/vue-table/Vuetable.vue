@@ -311,7 +311,7 @@ export default {
     loadSuccess: function(response) {
       this.fireEvent('load-success', response)
 
-      let body = this.transform(response.body)
+      let body = this.transform(response.body) || response
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)

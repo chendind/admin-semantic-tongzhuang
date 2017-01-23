@@ -13,44 +13,44 @@
     <div class="ui form">
       <div class="field">
         <label>商户名称</label>
-        <input type="text" placeholder="请输入商户名称" v-model="name">
+        <input type="text" placeholder="请输入商户名称" v-model="data.name">
       </div>
       <div class="fields">
         <div class="six wide field">
           <label>头像</label>
           <div class="ui action input">
-            <input type="text" placeholder="请输入图片url" v-model="headImg">
+            <input type="text" placeholder="请输入图片url" v-model="data.headImg">
             <button class="ui button" @click="show('#imageChooseModal','headImg')">选择图片</button>
           </div>
-          <img :src="headImg" v-show="headImg" class="ui image small mv10">
+          <img :src="data.headImg" v-show="data.headImg" class="ui image small mv10">
         </div>
       </div>
       <div class="fields">
         <div class="six wide field">
           <label>背景图片</label>
           <div class="ui action input">
-            <input type="text" placeholder="请输入图片url" v-model="backImg">
+            <input type="text" placeholder="请输入图片url" v-model="data.backImg">
             <button class="ui button" @click="show('#imageChooseModal','backImg')">选择图片</button>
           </div>
-          <img :src="backImg" v-show="backImg" class="ui image small mv10">
+          <img :src="data.backImg" v-show="data.backImg" class="ui image small mv10">
         </div>
       </div>
       <div class="fields">
         <div class="field">
           <label>地点</label>
-          <input type="text" placeholder="如：浙江 杭州" v-model="location">
+          <input type="text" placeholder="如：浙江 杭州" v-model="data.location">
         </div>
         <div class="field">
           <label>负责人</label>
-          <input type="text" placeholder="请输入负责人" v-model="principal">
+          <input type="text" placeholder="请输入负责人" v-model="data.principal">
         </div>
         <div class="field">
           <label>联系电话</label>
-          <input type="text" placeholder="请输入联系电话" v-model="phone">
+          <input type="text" placeholder="请输入联系电话" v-model="data.phone">
         </div>
         <div class="field">
           <label>经营产品</label>
-          <input type="text" placeholder="请输入经营产品" v-model="product">
+          <input type="text" placeholder="请输入经营产品" v-model="data.product">
         </div>
       </div>
       <div class="field">
@@ -86,11 +86,12 @@ export default {
       this.target = img
     },
     finishChoose(src,target){
-      this[target] = src;
+      this.data[target] = src
+      console.log(src, target)
     },
     editBusiness(){
       // id,name,headImg,backImg,location,product,phone,introduction,principal
-      $.when(ajax.editBusiness(this.$route.query.id,this.name,this.headImg,this.backImg,this.location,this.product,this.phone,this.introduction,this.principal)).done(function(data){
+      $.when(ajax.editBusiness(this.$route.query.id,this.data.name,this.data.headImg,this.data.backImg,this.data.location,this.data.product,this.data.phone,this.data.introduction,this.data.principal)).done(function(data){
         if(data.state == 0){
 
         }
@@ -100,11 +101,16 @@ export default {
   data () {
     return {
       target:"",
-      name:"西柚科技奶茶店",headImg:"",backImg:"",location:"浙江 杭州",product:"零食",phone:"13000000000",introduction:"呵呵",principal:"葛牡丹"
+      data:{
+        name:"西柚科技奶茶店",headImg:"",backImg:"",location:"浙江 杭州",product:"零食",phone:"13000000000",introduction:"呵呵",principal:"葛牡丹"
+      }
+
     }
   },
   mounted(){
-
+    $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
+      this.data = data
+    })
   }
 }
 </script>

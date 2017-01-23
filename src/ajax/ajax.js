@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import router from 'src/router.js'
 const baseurl = "http://tongzhuang.moovi-tech.com"
 $.ajaxSetup({
   cache: false,
@@ -8,6 +9,11 @@ $.ajaxSetup({
   },
   beforeSend(xhr){
 
+  },
+  success: function(data){
+    if(data.state == 1){
+      router.push({path: '/login'})
+    }
   }
 })
 export default {
@@ -80,6 +86,15 @@ export default {
       type: 'get',
       data: {
         start,length,type,uId
+      }
+    })
+  },
+  getBusinessById(id,type){
+    return $.ajax({
+      url: baseurl+'/getMerchant',
+      type: 'post',
+      data: {
+        id,type
       }
     })
   },
