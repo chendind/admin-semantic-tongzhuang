@@ -25,7 +25,7 @@
 						<router-link :to="{path:'/message/messageDetail',query:{id:i[0]}}">{{i[1]}}</router-link>
 					</td>
 					<td v-if="i[2]!=null">{{formatDate(i[2])}}</td>
-					<td v-else></td>				
+					<td v-else></td>
 					<td class="right aligned">阅读量：{{i[3]}}</td>
 				</tr>
 				<!-- <tr>
@@ -46,7 +46,7 @@
 <script>
 import ajax2 from 'src/ajax/ajax2.js'
 import Pagination from 'components/Pagination'
-   
+
 export default {
 	name: 'message-history',
 	components: {
@@ -59,16 +59,16 @@ export default {
 	    }
 	},
 	methods:{
-		formatDate(time)   {  
-		  var   now = new Date(time)   
-		  var   year = now.getFullYear();     
-		  var   month = "0" + (now.getMonth()+1);     
-		  var   date = "0" +(now.getDate());         
-		  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+		formatDate(time)   {
+		  var   now = new Date(time)
+		  var   year = now.getFullYear();
+		  var   month = "0" + (now.getMonth()+1);
+		  var   date = "0" +(now.getDate());
+		  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)
 		},
 		getList(){
 			var self = this
-	    	$.when(ajax2.getArticleForPage(0, 10).done(function(data){
+	    	$.when(ajax2.getArticleForPage(0, 10, window.localStorage.getItem('usertype')).done(function(data){
 		        self.articles = data.list
 		        self.all = data.countAll
 		    }))
@@ -77,14 +77,14 @@ export default {
 	      	// console.log(params)
 	      	var number = (params-0-1)*9
 	      	var self = this
-	     	$.when(ajax2.getArticleForPage(number, 10).done(function(data){
+	     	$.when(ajax2.getArticleForPage(number, 10, window.localStorage.getItem('usertype')).done(function(data){
 	     	 	data.list.forEach(function(list){
 	    			list.check = false
 	    		})
 		        self.shops = data.list
 		        self.all = data.countAll
 		  	}))
-	    },	
+	    },
 	},
 	mounted:function(){
 		this.getList()

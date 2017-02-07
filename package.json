@@ -9,8 +9,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "jquery": "^3.1.1",
-    "tinymce": "^4.5.1",
     "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1",

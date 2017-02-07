@@ -45,7 +45,7 @@
 			<div class="five wide column" v-for="i in shops">
 				<div class="ui checkbox">
 					<input type="checkbox" :id="'check'+i.id" :checked="isChecked(i.id)" @change="check(i.id)">
-					<label :for="'check'+i.id">{{i.id}}+{{i.name}}</label>
+					<label :for="'check'+i.id">{{i.name || '该用户昵称为空'}}</label>
 				</div>
 			</div>
 		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
@@ -71,12 +71,12 @@ import imageChooseModal from 'components/ImageChooseModal.vue'
 import VuetablePagination from 'components/vue-table/VuetablePagination'
 import Pagination from 'components/Pagination'
 
-function   formatDate(time)   {  
-  var   now = new Date(time)   
-  var   year = now.getFullYear();     
-  var   month = "0" + (now.getMonth()+1);     
-  var   date = "0" +(now.getDate());         
-  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+function   formatDate(time)   {
+  var   now = new Date(time)
+  var   year = now.getFullYear();
+  var   month = "0" + (now.getMonth()+1);
+  var   date = "0" +(now.getDate());
+  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)
 }
 
 export default {
@@ -97,7 +97,8 @@ export default {
 	    	shops:[],
 	    	all:'',
 	    	src:'',
-	    	info:''
+	    	info:'',
+        merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
 	    }
 	},
 	methods:{
@@ -119,12 +120,17 @@ export default {
 				console.log(x)
 				date = new Date(x);
 				console.log(date)
-			}	
+			}
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			$.when(ajax2.editArticle(1, 0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
-		        alert(data.detail)
-		  	}))
+			ajax2.editArticle(undefined,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
+          if(data.state == 0){
+            xy.toast('保存成功')
+          }
+          else if(data.detail){
+            xy.alert(data.detail)
+          }
+	  	})
 		},
 		send(){
 			var x
@@ -134,27 +140,32 @@ export default {
 				console.log(x)
 				date = new Date(x);
 				console.log(date)
-			}	
+			}
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			$.when(ajax2.editArticle(null,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
-		        alert(data.detail)
-		  	}))
+			ajax2.editArticle(undefined,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
+	      if(data.state == 0){
+          xy.toast('发送成功')
+        }
+        else if(data.detail){
+          xy.alert(data.detail)
+        }
+		  })
 		},
 		show(selector){
-	      $(selector).modal('show')
-	    },
-	    finishChoose(src){
-	      console.log(src)
-	      $('#expImage').attr('src', src)
-	      this.src = src
-	    },
+      $(selector).modal('show')
+    },
+    finishChoose(src){
+      console.log(src)
+      $('#expImage').attr('src', src)
+      this.src = src
+    },
 		chooseAll: function () {
 			$('input[type="checkbox"]').attr("checked",'true');
 		},
 		draft(){
 			var self = this
-			$.when(ajax2.getDraft().done(function(data){
+			ajax2.getDraft().done(function(data){
 	     	 	self.info = data
 	     	 	self.title = data.title
 	     	 	self.author = data.author
@@ -166,35 +177,35 @@ export default {
 	     	 		console.log(list)
 	     	 		self.lookup[list]=true
 	     	 	})
-		  	}))
+		  	})
 		},
 		getData(params){
 	      	// console.log(params)
 	      	var number = (params-0-1)*9
 	      	var self = this
-	     	$.when(ajax2.getUserForPage(number, 9).done(function(data){
+	     	ajax2.getUserForPage(number, 9).done(function(data){
 	     	 	data.list.forEach(function(list){
 	    			list.check = false
 	    		})
 		        self.shops = data.list
 		        self.all = data.countAll
-		  	}))
+		  	})
 	    },
 	    getfirstData(){
 	    	var self = this
-	    	$.when(ajax2.getUserForPage(0, 9).done(function(data){
+	    	ajax2.getUserForPage(0, 9).done(function(data){
 	    		data.list.forEach(function(list){
 	    			list.check = false
 	    		})
 		        self.shops = data.list
 		        self.all = data.countAll
-		    }))
+		    })
 	    }
 	},
 	mounted:function(){
 		this.lookup = {}
-		this.getfirstData()	
-		this.draft()	
+		this.getfirstData()
+		this.draft()
 	}
 }
 </script>

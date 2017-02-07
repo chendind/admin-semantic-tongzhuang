@@ -37,7 +37,7 @@ finishChoose(src,target){
       </div>
       <div class="content">
         <div class="ui tiny images">
-          <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url(http://tongzhuang.moovi-tech.com'+image+')'}" @click="toggle(index)">
+          <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+image+')'}" @click="toggle(index)">
 
           </div>
         </div>
@@ -89,16 +89,16 @@ export default {
       input.accept="image/*"
       // input.mutiple = "mutiple"
       input.click()
-      input.onchange = function(e){
-        var file = this.files[0]
+      input.onchange = (e)=>{
+        var file = e.target.files[0]
         var formData = new FormData()
-        self.uploaded = false
-        ajax.upload(file).done(function(data){
+        this.uploaded = false
+        ajax.upload(file).done((data)=>{
           if(data.state == 0){
-
+            this.images.unshift((window.baseUrl||'http://tongzhuang.moovi-tech.com')+data.detail)
           }
-        }).always(function(){
-          self.uploaded = true;
+        }).always(()=>{
+          this.uploaded = true;
         })
       }
     }
@@ -106,6 +106,9 @@ export default {
   created(){
     ajax.getImgForPage().done((data)=>{
       this.images = data.list
+      this.images.map((value,index,array)=>{
+        array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
+      })
     })
   }
 }

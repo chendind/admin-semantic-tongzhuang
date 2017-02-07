@@ -17,7 +17,7 @@
     </div>
     <table class="ui celled table">
       <tbody>
-        <tr v-for="data in datas">
+        <tr v-for="(data,$index) in datas">
           <td>
             <router-link class="ui items" :to="{path:'/user/businessInfo',query:{id:data.id}}">
               <div class="item">
@@ -46,6 +46,7 @@
                 </div>
               </div>
             </router-link>
+            <div class="ui right floated red button absolute vertical" style="right: 15px;" @click="deleteBusiness($index)">删除</div>
           </td>
         </tr>
       </tbody>
@@ -70,19 +71,36 @@ export default {
   data(){
     return {
       datas: [],
-      current: 0,
+      current: 1,
       length: 10,
       total: 0
     }
   },
   methods: {
-    getData(){
-      $.when(ajax.getBusiness(this.current*this.length,this.length,'back')).done((data)=>{
+    getData(start, length){
+      ajax.getBusiness(start,length,'back').done((data)=>{
         this.datas = data.list
         this.total = data.countAll
       })
     },
-    pageChange(){
+    pageChange(index){
+      this.getData((index-1)*this.length, this.length)
+      this.current = index
+    },
+    deleteBusiness(index){
+      xy.confirm('确定删除这个商家吗？',(button)=>{
+        if(button == 1){
+          xy.toast('删除中...')
+          let id = this.datas[index].id
+          ajax.deleteBusiness(id).done((data)=>{
+            if(data.state == 0){
+              xy.toast('删除成功')
+              this.datas.splice(index,1)
+              this.pageChange(this.current)
+            }
+          })
+        }
+      })
 
     }
   },
@@ -90,20 +108,13 @@ export default {
     Pagination
   },
   created(){
-    this.getData();
+    this.getData(0,this.length);
   }
 }
 
 </script>
 <style lang="less">
-  .order-table {
-    thead {
-      display: none;
-    }
-
-
-    td:first-child {
-      width: 100px;
-    }
-  }
+table td{
+  position: relative;
+}
 </style>

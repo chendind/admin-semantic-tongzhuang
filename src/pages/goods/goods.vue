@@ -20,15 +20,19 @@
     </div>
     <table class="ui celled table">
       <tbody>
-        <tr v-for="good in goods">
+        <tr v-for="(good,$index) in goods">
           <td>
             <router-link :to="{path:'/goods/goodsInfo',query:{id:good.id}}" class="ui image header">
                 <img class="ui rounded top aligned tiny image" :src="good.img">
                 <div class="content">
                     {{good.name}}
                     <div class="sub header">{{good.score}}积分 已售{{good.sold}}</div>
+                    <div class="extra">
+
+                    </div>
                 </div>
             </router-link>
+            <div class="ui right floated red button" @click="deleteGood($index)">删除</div>
           </td>
         </tr>
       </tbody>
@@ -54,20 +58,34 @@ export default {
   },
   methods:{
     pageChange(index){
-      this.getGoods(this.length*(index-1), this.length);
+      this.getGoods(this.length*(index-1), this.length)
+      this.current = index
     },
     getGoods(start, length){
-      $.when(ajax.getGoods(start, length)).done((data)=>{
+      ajax.getGoods(start, length).done((data)=>{
         this.goods = data.list
         this.total = data.countAll
       })
     },
     searchGoods(){
-      $.when(ajax.searchGoods(this.keyWord)).done((data)=>{
+      ajax.searchGoods(this.keyWord).done((data)=>{
 
       })
     },
-    updateTable(data){
+    deleteGood(index){
+      let id = this.goods[index].id
+      xy.confirm('确定要删除这个商品吗？',(button)=>{
+        if(button == 1){
+          xy.toast('删除中...')
+          ajax.deleteGood(id).done((data)=>{
+            if(data.state == 0){
+              xy.toast('删除成功')
+              this.goods.splice(index,1)
+              this.pageChange(this.current)
+            }
+          })
+        }
+      })
 
     }
   },
@@ -76,6 +94,7 @@ export default {
       goods: [],
       length: 10,
       total: 0,
+      current: 1,
       keyWord: ""
     }
   },

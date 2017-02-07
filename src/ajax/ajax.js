@@ -1,6 +1,5 @@
-import $ from 'jquery'
 import router from 'src/router.js'
-const baseurl = "http://tongzhuang.moovi-tech.com"
+const baseurl = window.baseUrl || "http://tongzhuang.moovi-tech.com"
 $.ajaxSetup({
   cache: false,
   traditional: true,
@@ -11,8 +10,13 @@ $.ajaxSetup({
 
   },
   success: function(data){
-    if(data.state == 1){
-      router.push({path: '/login'})
+    if(data.state == 10011){
+      if(window.localStorage.getItem('usertype') == 'back'){
+        router.push({path: '/login'})
+      }
+      else{
+        router.push({path: '/businessLogin'})
+      }
     }
   }
 })
@@ -43,6 +47,15 @@ export default {
       type: 'get',
       data: {
         start, length, type
+      }
+    })
+  },
+  deleteGood(id){
+    return $.ajax({
+      url: baseurl + '/deleteProduct',
+      type: 'post',
+      data: {
+        id
       }
     })
   },
@@ -117,12 +130,21 @@ export default {
       }
     })
   },
-  editBusiness(id,name,headImg,backImg,location,product,phone,introduction,principal){
+  editBusiness(id,name,headImg,backImg,location,product,phone,code,introduction,principal){
     return $.ajax({
       url: baseurl+'/editMerchant',
       type: 'post',
       data: {
-        id,name,headImg,backImg,location,product,phone,introduction,principal
+        id,name,headImg,backImg,location,product,phone,code,introduction,principal
+      }
+    })
+  },
+  deleteBusiness(id){
+    return $.ajax({
+      url: baseurl+'/deleteMerchant',
+      type: 'post',
+      data: {
+        id
       }
     })
   },

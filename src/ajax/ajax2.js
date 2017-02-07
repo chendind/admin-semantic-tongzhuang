@@ -1,4 +1,3 @@
-import $ from 'jquery'
 const baseurl = "http://tongzhuang.moovi-tech.com"
 $.ajaxSetup({
   cache: false,
@@ -11,20 +10,20 @@ $.ajaxSetup({
   }
 })
 export default {
-  editArticle(popid, id, title, author, time, text, img, ids, type){
+  editArticle(popid,merchantId, title, author, time, text, img, ids, type){
     return $.ajax({
       url: baseurl+'/editArticle',
       type: 'post',
       data: {
-        id:popid,
-        merchantId: id,
-        title: title,
-        time:time,
-        author:author,
-        text:text,
-        img:img,
-        ids:ids,
-        type:type
+        id: popid,
+        merchantId,
+        title,
+        time,
+        author,
+        text,
+        img,
+        ids,
+        type
       }
     })
   },
@@ -41,14 +40,14 @@ export default {
     })
   },
   //获得推送列表
-  getArticleForPage(start, length){
+  getArticleForPage(start, length, type){
     return $.ajax({
       url: baseurl+'/getArticleForPage',
       type: 'GET',
       data: {
         start: start,
         length: length,
-        type:'back'
+        type: type
       }
     })
   },

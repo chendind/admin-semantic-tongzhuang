@@ -5,7 +5,7 @@
 		    <h2 class="ui teal image header">
 		      <img src="~assets/logo.png" class="image">
 		      <div class="content">
-		        西柚科技后台管理系统
+		        管理员登录
 		      </div>
 		    </h2>
 		    <div class="ui large form">
@@ -35,14 +35,18 @@
 </template>
 <script>
 import ajax from 'src/ajax/ajax.js'
+import router from 'src/router.js'
 export default {
   name: 'main',
   methods:{
   	login(){
       var self = this;
-      $.when(ajax.login(self.name, self.password)).done(function(data){
+      ajax.login(self.name, self.password).done((data)=>{
         if(data.state == 0){
-          window.location.href = "/"
+          window.localStorage.setItem('username',this.name)
+          window.localStorage.setItem('usertype','back')
+          router.push({path: '/'})
+          // window.location.href = "/"
         }
       })
   	}

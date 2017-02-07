@@ -1,9 +1,11 @@
+var webpack = require('webpack')
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 var copyWebpackPlugin = require('copy-webpack-plugin');
 var env = process.env.NODE_ENV
+var isDev = env === 'development'
 // check env & config/index.js to decide whether to enable CSS source maps for the
 // various preprocessor loaders added to vue-loader at the end of this file
 var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
@@ -11,16 +13,18 @@ var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap
 
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
-module.exports = {
-  entry: {
+module.exports = function makeWebpackConfig() {
+  var __config = {}
+
+  __config.entry= {
     app: './src/main.js'
-  },
-  output: {
+  }
+  __config.output= {
     path: config.build.assetsRoot,
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
     filename: '[name].js'
-  },
-  resolve: {
+  }
+  __config.resolve= {
     extensions: ['', '.js', '.vue', '.json'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
@@ -31,11 +35,11 @@ module.exports = {
       'root': path.resolve(__dirname, '../'),
       'resource': path.resolve(__dirname, '../src/resource'),
     }
-  },
-  resolveLoader: {
+  }
+  __config.resolveLoader= {
     fallback: [path.join(__dirname, '../node_modules')]
-  },
-  module: {
+  }
+  __config.module= {
     loaders: [
       {
         test: /\.vue$/,
@@ -68,16 +72,21 @@ module.exports = {
         }
       }
     ]
-  },
-  plugins: [
+  }
+  __config.plugins= [
       // new copyWebpackPlugin([
       //     { from: './node_modules/tinymce/plugins', to: './plugins' },
       //     { from: './node_modules/tinymce/themes', to: './themes' },
       //     { from: './node_modules/tinymce/skins', to: './skins' },
       //     { from: './node_modules/tinymce/langs', to: './langs' }
-      // ])
-  ],
-  vue: {
+      // ]),
+      // new webpack.ProvidePlugin({
+      //     $: "jquery",
+      //     jQuery: "jquery",
+      //     "window.jQuery": "jquery"
+      // })
+  ]
+  __config.vue= {
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
     postcss: [
       require('autoprefixer')({
@@ -85,4 +94,8 @@ module.exports = {
       })
     ]
   }
-}
+  if (isDev) {
+    // __config.devtool = 'inline-source-map';
+  }
+  return __config
+}();

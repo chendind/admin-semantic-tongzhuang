@@ -7,7 +7,7 @@
         <i class="right angle icon divider"></i>
         <router-link to="/user/business" class="section">商户管理</router-link>
         <i class="right angle icon divider"></i>
-        <div class="active section">{{$route.query.id?"新增商户":"商户详情"}}</div>
+        <div class="active section">{{$route.query.id?"商户详情":"新增商户"}}</div>
       </div>
     </h1>
     <div class="ui form">
@@ -55,7 +55,7 @@
       </div>
       <div class="field">
         <label>介绍</label>
-        <tinymce height="400"></tinymce>
+        <tinymce height="400" ref="tinymce"></tinymce>
       </div>
       <div class="field after">
         <button class="ui positive right labeled icon right floated button" @click="editBusiness()">
@@ -91,8 +91,20 @@ export default {
       eval('this.'+target+"='"+src+"'")
     },
     editBusiness(){
+      console.log(this.$refs.tinymce.getContent())
       // id,name,headImg,backImg,location,product,phone,introduction,principal
-      $.when(ajax.editBusiness(this.$route.query.id,this.data.name,this.data.headImg,this.data.backImg,this.data.location,this.data.product,this.data.phone,this.data.introduction,this.data.principal)).done(function(data){
+      ajax.editBusiness(
+        this.$route.query.id,
+        this.data.name,
+        this.data.headImg,
+        this.data.backImg,
+        this.data.location,
+        this.data.product,
+        this.data.phone,
+        this.data.code,
+        this.$refs.tinymce.getContent(),
+        this.data.principal
+      ).done(function(data){
         if(data.state == 0){
           router.push({path:'/user/business'})
         }
@@ -103,7 +115,7 @@ export default {
     return {
       target:"",
       data:{
-        name:"西柚科技奶茶店",headImg:"",backImg:"",location:"浙江 杭州",product:"零食",phone:"13000000000",introduction:"呵呵",principal:"葛牡丹"
+        name:"",headImg:"",backImg:"",location:"",product:"",phone:"",code: "",introduction:"",principal:""
       }
 
     }
@@ -111,6 +123,7 @@ export default {
   mounted(){
     $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
       this.data = data
+      this.$refs.tinymce.setContent(this.data.introduction)
     })
   }
 }

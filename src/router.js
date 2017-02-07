@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Main from './Main.vue'
-import Login from './Login.vue'
-import Regist from './Regist.vue'
+import Main from './pages/Main.vue'
+import Login from './pages/Login.vue'
+import BusinessLogin from './pages/BusinessLogin.vue'
+import Regist from './pages/Regist.vue'
 import Form from './pages/example/Form.vue'
 import Business from './pages/example/Business.vue'
 import FormImageUpload from './pages/example/FormImageUpload.vue'
@@ -15,7 +16,12 @@ const routes = [
       {
         path: '/',
         component(r){
-          r(require('./pages/goods/goods.vue'))
+          if(window.localStorage.getItem('usertype') == 'back'){
+            r(require('./pages/goods/goods.vue'))
+          }
+          else{
+            r(require('./pages/business/customer.vue'))
+          }
         }
       },
 			{
@@ -72,6 +78,12 @@ const routes = [
 					r(require('./pages/personCenter/personCenter.vue'))
 				}
 			},
+      {
+        path: '/business/personCenter',
+        component(r){
+          r(require('./pages/business/personCenter.vue'))
+        }
+      },
 			{
 				path: '/user/business',
 				component(r){
@@ -96,18 +108,26 @@ const routes = [
           r(require('./pages/user/customerInfo.vue'))
         }
       },
-		    {
-		      path: 'business',
-		      component: Business
-		    },
-		    {
-		    	path: 'form',
-		    	component: Form
-		    },
-		    {
-		    	path: 'formImageUpload',
-		    	component: FormImageUpload
-		    }
+		  {
+        path: '/business/customer',
+        component(r){
+          r(require('./pages/business/customer.vue'))
+        }
+      },
+      {
+        path: '/business/customerInfo',
+        component(r){
+          r(require('./pages/business/customerInfo.vue'))
+        }
+      },
+	    {
+	    	path: 'form',
+	    	component: Form
+	    },
+	    {
+	    	path: 'formImageUpload',
+	    	component: FormImageUpload
+	    }
 		]
 	},
 	{
@@ -115,6 +135,11 @@ const routes = [
   		component: Login,
 		  children: []
 	},
+  {
+      path: '/businessLogin',
+      component: BusinessLogin,
+      children: []
+  },
   {
       path: '/regist',
       component: Regist,

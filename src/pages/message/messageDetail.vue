@@ -32,7 +32,9 @@
 		  	</div>
   		</form>
 		<div class="field mt10">
-        	<tinymce height="300" ref="text">content here...</tinymce>
+        <div style="width: 375px">
+          <tinymce height="300" ref="text">content here...</tinymce>
+        </div>
      	</div>
      	<!-- <div class="after mt10">
 	     	<button class="ui blue button right floated" @click="save">
@@ -58,7 +60,7 @@
 	     	</button> -->
 	     	<button class="ui positive button right floated" @click="send">
 	     		<i class="cloud upload icon"></i>
-	     		上传
+	     		保存修改
 	     	</button>
 	     	<button class="ui red button right floated" @click="deleteitem">
 				<i class="remove icon"></i>删除
@@ -73,13 +75,13 @@ import ajax2 from 'src/ajax/ajax2.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import VuetablePagination from 'components/vue-table/VuetablePagination'
 import Pagination from 'components/Pagination'
-function   formatDate(time)   {  
-  var   now = new Date(time)   
-  var   year = now.getFullYear();     
-  var   month = "0" + (now.getMonth()+1);     
-  var   date = "0" +(now.getDate());         
-  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
-}     
+function   formatDate(time)   {
+  var   now = new Date(time)
+  var   year = now.getFullYear();
+  var   month = "0" + (now.getMonth()+1);
+  var   date = "0" +(now.getDate());
+  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)
+}
 export default {
 	name: 'message-new',
 	components: {
@@ -98,15 +100,17 @@ export default {
 	    	shops:[],
 	    	all:'',
 	    	src:'',
-	    	info:''
+	    	info:'',
+        merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
 	    }
 	},
 	methods:{
 		deleteitem(){
-			$.when(ajax2.deleteArticle(this.$route.query.id).done(function(data){
-		        alert("删除成功")
-		        router.push({path:"/message"})
-		  	}))
+			ajax2.deleteArticle(this.$route.query.id).done(function(data){
+        xy.alert("删除成功",()=>{
+          router.push({path:"/message"})
+        })
+	  	})
 		},
 		isChecked(id){
 			return !!this.lookup[id]
@@ -125,9 +129,14 @@ export default {
 			// console.log(date)
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			$.when(ajax2.editArticle(this.$route.query.id, 0, this.title, this.author, this.date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
-		        alert(data.detail)
-		  	}))
+			ajax2.editArticle(this.$route.query.id, 0, this.title, this.author, this.date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
+	      if(data.state == 0){
+          xy.toast('保存成功')
+        }
+        else if(data.detail){
+          xy.alert(data.detail)
+        }
+	  	})
 		},
 		send(){
 			var x
@@ -137,12 +146,17 @@ export default {
 				console.log(x)
 				date = new Date(x);
 				console.log(date)
-			}	
+			}
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			$.when(ajax2.editArticle(this.$route.query.id,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
-		        alert(data.detail)
-		  	}))
+			ajax2.editArticle(this.$route.query.id,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
+		    if(data.state == 0){
+          xy.toast('编辑成功')
+        }
+        else if(data.detail){
+          xy.alert(data.detail)
+        }
+		  })
 		},
 		show(selector){
 	      $(selector).modal('show')
@@ -157,7 +171,7 @@ export default {
 		},
 		draft(){
 			var self = this
-			$.when(ajax2.getArticle(this.$route.query.id).done(function(data){
+			ajax2.getArticle(this.$route.query.id).done(function(data){
 	     	 	self.info = data
 	     	 	self.title = data.title
 	     	 	self.author = data.author
@@ -169,35 +183,35 @@ export default {
 	     	 		console.log(list)
 	     	 		self.lookup[list]=true
 	     	 	})
-		  	}))
+		  	})
 		},
 		getData(params){
 	      	// console.log(params)
 	      	var number = (params-0-1)*9
 	      	var self = this
-	     	 $.when(ajax2.getUserForPage(number, 9).done(function(data){
+	     	 ajax2.getUserForPage(number, 9).done(function(data){
 	     	 	data.list.forEach(function(list){
 	    			list.check = false
 	    		})
 		        self.shops = data.list
 		        self.all = data.countAll
-		  	}))
+		  	})
 	    },
 	    getfirstData(){
 	    	var self = this
-	    	$.when(ajax2.getUserForPage(0, 9).done(function(data){
+	    	ajax2.getUserForPage(0, 9).done(function(data){
 	    		data.list.forEach(function(list){
 	    			list.check = false
 	    		})
 		        self.shops = data.list
 		        self.all = data.countAll
-		    }))
+		    })
 	    }
 	},
 	mounted:function(){
 		this.lookup = {}
-		this.getfirstData()	
-		this.draft()	
+		this.getfirstData()
+		this.draft()
 	}
 }
 </script>

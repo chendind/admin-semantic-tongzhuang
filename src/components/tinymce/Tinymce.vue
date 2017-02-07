@@ -8,16 +8,16 @@
 
 </template>
 <script>
-require.context(
-  'file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce',
-  true,
-  /.*/
-);
-import 'root/node_modules/tinymce/skins/lightgray/skin.min.css'
-import tinymce from 'tinymce'
-import './plugins/lineheight/plugin.js'
+// require.context(
+//   'file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce',
+//   true,
+//   /.*/
+// );
+// import 'root/node_modules/tinymce/skins/lightgray/skin.min.css'
+// import tinymce from 'tinymce'
+// import './plugins/lineheight/plugin.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
-
+import ajax from 'src/ajax/ajax.js'
 var id = 0
 
 export default {
@@ -59,7 +59,6 @@ export default {
     },
     mounted(){
         var self = this;
-        // tinymce.remove("#tm");
         var editor_p =  tinymce.init({
             selector: `#${this.id}`,
             height: self.height,
@@ -69,7 +68,7 @@ export default {
                 'lineheight advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
                 'insertdatetime media nonbreaking save table contextmenu directionality',
-                'emoticons template paste textcolor colorpicker textpattern imagetools'
+                'emoticons template powerpaste textcolor colorpicker textpattern imagetools'
             ],
             toolbar1: 'insertfile undo redo | fontselect | fontsizeselect | styleselect | lineheightselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
             toolbar2: 'link image media | forecolor backcolor emoticons print preview', //| example
@@ -112,14 +111,21 @@ export default {
                 }
             },
             file_browser_callback_types: 'file image media',
-            relative_url: false,
+            powerpaste_word_import: 'propmt',// propmt, merge, clear
+            powerpaste_html_import: 'propmt',// propmt, merge, clear
+            powerpaste_allow_local_images: true,
+            paste_data_images: true,
+            images_upload_handler: function (blobInfo, success, failure) {
+              ajax.upload(blobInfo.blob()).done(function(data){
+                success(data.detail)
+              })
+            },
             templates: [
                 { title: 'Test template 1', content: 'Test 1' },
                 { title: 'Test template 2', content: 'Test 2' }
             ],
             content_style: "body{font-family: sans-serif !important;}"
         });
-
         editor_p.then((editors)=>{
             this.editor = editors[0]
             this.editor.setContent(this.content)
