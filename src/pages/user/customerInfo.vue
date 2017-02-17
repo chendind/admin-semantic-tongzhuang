@@ -5,7 +5,7 @@
       <div class="ui breadcrumb">
         <a class="section">后台</a>
         <i class="right angle icon divider"></i>
-        <router-link to="/user/business" class="section">客户管理</router-link>
+        <router-link to="/user/customer" class="section">客户管理</router-link>
         <i class="right angle icon divider"></i>
         <div class="active section">客户详情</div>
       </div>
@@ -45,6 +45,20 @@
         </tr>
       </tbody>
     </table>
+    <table class="ui single line table">
+      <thead>
+        <tr>
+          <th>留言</th>
+          <th>时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="message in messageList">
+          <td class="lines">{{message.text}}</td>
+          <td>{{formatDate(message.time)}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </template>
@@ -75,18 +89,24 @@ export default {
         focusList: [],
         order:"",
         score:""
-      }
+      },
+      messageList: []
 
     }
   },
   mounted(){
     $.when(ajax.getUserById(this.$route.query.id,'back')).done((data)=>{
-      this.data = data
+      this.data = data;
+      $.when(ajax.getUserById(this.$route.query.id,'merchant')).done((data)=>{
+        this.messageList = data.messageList;
+      })
     })
   }
 }
 </script>
 
 <style scoped>
-
+td.lines{
+  white-space: initial;
+}
 </style>

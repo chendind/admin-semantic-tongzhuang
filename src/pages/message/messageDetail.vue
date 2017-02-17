@@ -43,21 +43,25 @@
 	     	</button>
      	</div> -->
      	<h3 class="ui header">客户列表</h3>
-		<div class="ui equal width grid mt10 segment">
-			<div class="five wide column" v-for="i in shops">
-				<div class="ui checkbox">
-					<input type="checkbox" :id="'check'+i.id" :checked="isChecked(i.id)" @change="check(i.id)">
-					<label :for="'check'+i.id">{{i.id}}+{{i.name}}</label>
+		<div class="ui equal width mt10 segment after">
+			<div class="ui grid after">
+				<div class="five wide column" v-for="customer in customers">
+					<div class="ui checkbox">
+						<input :id="'customer'+customer.id" type="checkbox" v-model="lookup[customer.id]">
+						<label :for="'customer'+customer.id">{{customer.name}}</label>
+					</div>
 				</div>
 			</div>
+			
 		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
-		    <Pagination id="page1" :total="this.all" show="9" current="1" v-if="this.all!=''" style="margin:10px auto" v-on:pageChange="getData"></Pagination>
+		    <Pagination id="page1" class="mv10" :total="this.all" show="9" current="1" v-if="this.all!=''" v-on:pageChange="getData">
+		    </Pagination>
 		</div>
      	<div class="after mt10">
-	     	<!-- <button class="ui blue button left floated" @click="chooseAll" >
+	     	<button class="ui blue button left floated" @click="chooseAll" >
 	     		<i class="check square icon"></i>
 	     		全选
-	     	</button> -->
+	     	</button>
 	     	<button class="ui positive button right floated" @click="send">
 	     		<i class="cloud upload icon"></i>
 	     		保存修改
@@ -97,30 +101,24 @@ export default {
 	    	date:"",
 	    	text:"",
 	    	ids:[],
-	    	shops:[],
+	    	customers:[],
 	    	all:'',
 	    	src:'',
 	    	info:'',
-        merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
+	    	lookup:{},
+        	merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
 	    }
 	},
 	methods:{
 		deleteitem(){
 			ajax2.deleteArticle(this.$route.query.id).done(function(data){
-        xy.alert("删除成功",()=>{
-          router.push({path:"/message"})
-        })
-	  	})
-		},
-		isChecked(id){
-			return !!this.lookup[id]
+        		xy.alert("删除成功",()=>{
+          			router.push({path:"/message"})
+        		})
+	  		})
 		},
 		check(id){
-			this.lookup[id] = !!!this.lookup[id]
-			if (this.lookup[id]==false) {
-				delete this.lookup[id]
-				console.log(Object.keys(this.lookup))
-			}
+			this.lookup[id] = !this.lookup[id]
 		},
 		save(){
 			// var x = this.date.replace("-","/")
@@ -130,13 +128,13 @@ export default {
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
 			ajax2.editArticle(this.$route.query.id, 0, this.title, this.author, this.date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
-	      if(data.state == 0){
-          xy.toast('保存成功')
-        }
-        else if(data.detail){
-          xy.alert(data.detail)
-        }
-	  	})
+		      	if(data.state == 0){
+	          		xy.toast('保存成功')
+	        	}
+	        	else if(data.detail){
+	          		xy.alert(data.detail)
+	       		}
+		  	})
 		},
 		send(){
 			var x
@@ -150,13 +148,13 @@ export default {
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
 			ajax2.editArticle(this.$route.query.id,0, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
-		    if(data.state == 0){
-          xy.toast('编辑成功')
-        }
-        else if(data.detail){
-          xy.alert(data.detail)
-        }
-		  })
+		    	if(data.state == 0){
+          			xy.toast('编辑成功')
+        		}
+        		else if(data.detail){
+          			xy.alert(data.detail)
+        		}
+		  	})
 		},
 		show(selector){
 	      $(selector).modal('show')
@@ -167,7 +165,12 @@ export default {
 	      this.src = src
 	    },
 		chooseAll: function () {
-			$('input[type="checkbox"]').attr("checked",'true');
+			var self = this;
+			var _lookup = {}
+			for (var id in self.lookup){
+				_lookup[id]=true
+			}
+			self.lookup = _lookup
 		},
 		draft(){
 			var self = this
@@ -179,39 +182,45 @@ export default {
 	     	 	self.src = data.img
 	     	 	$('#expImage').attr('src', self.src)
 	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
-	     	 	data.userId.forEach(function(list){
-	     	 		console.log(list)
-	     	 		self.lookup[list]=true
+	     	 	data.userId.forEach(function(id){
+	     	 		// console.log(list)
+	     	 		self.lookup[id]=true;
 	     	 	})
 		  	})
 		},
 		getData(params){
-	      	// console.log(params)
 	      	var number = (params-0-1)*9
 	      	var self = this
 	     	 ajax2.getUserForPage(number, 9).done(function(data){
-	     	 	data.list.forEach(function(list){
-	    			list.check = false
-	    		})
-		        self.shops = data.list
+	     	//  	data.list.forEach(function(list){
+	    		// 	list.check = false
+	    		// })
+		        self.customers = data.list
 		        self.all = data.countAll
 		  	})
 	    },
 	    getfirstData(){
 	    	var self = this
 	    	ajax2.getUserForPage(0, 9).done(function(data){
-	    		data.list.forEach(function(list){
-	    			list.check = false
-	    		})
-		        self.shops = data.list
+	    		// data.list.forEach(function(list){
+	    		// 	list.check = false
+	    		// })
+		        self.customers = data.list
 		        self.all = data.countAll
 		    })
+		    ajax2.getUserForPage().done(function(data){
+	    		data.list.forEach(function(list){
+	    			self.lookup[list.id] = false
+	    		})
+	    		self.draft()
+		    })
+
 	    }
 	},
 	mounted:function(){
 		this.lookup = {}
 		this.getfirstData()
-		this.draft()
+		
 	}
 }
 </script>

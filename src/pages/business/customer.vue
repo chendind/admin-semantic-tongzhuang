@@ -4,8 +4,6 @@
       <div class="ui breadcrumb">
         <a class="section">后台</a>
         <i class="right angle icon divider"></i>
-        <div class="section">用户管理</div>
-        <i class="right angle icon divider"></i>
         <div class="active section">客户管理</div>
       </div>
     </h1>

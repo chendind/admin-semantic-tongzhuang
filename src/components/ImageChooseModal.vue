@@ -61,7 +61,6 @@ finishChoose(src,target){
 <script>
 import pagination from 'src/components/Pagination.vue'
 import ajax from 'src/ajax/ajax.js'
-var __src = "http://tongzhuang.moovi-tech.com/uploads/img/391ea67cf6824efda27bcb50274a3c93.jpg"
 export default {
   name: 'imageChooseModal',
   props: ['target'],
@@ -73,7 +72,7 @@ export default {
       images: [],
       checkedIndex: -1,
       uploaded: true,
-      total: 100,
+      total: 0,
       show: 10,
     }
   },
@@ -91,7 +90,7 @@ export default {
       var self = this;
       var input = document.createElement("input")
       input.type = "file"
-      input.accept="image/*"
+      // input.accept="image/*"
       // input.mutiple = "mutiple"
       input.click()
       input.onchange = (e)=>{
@@ -107,13 +106,22 @@ export default {
         })
       }
     },
-    pageChange(){
-
+    pageChange(params){
+        var number = (params-1)*this.show
+        ajax.getImgForPage(number, this.show).done((data)=>{
+          // debugger
+          this.images = data.list
+          this.images.map((value,index,array)=>{
+            array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
+          })
+          console.log(this.images)
+        })
     }
   },
   created(){
-    ajax.getImgForPage().done((data)=>{
+    ajax.getImgForPage(0, 10).done((data)=>{
       this.images = data.list
+      this.total = data.countAll
       this.images.map((value,index,array)=>{
         array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
       })
