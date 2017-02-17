@@ -16,11 +16,11 @@
 		  	</div>
 		  	<div class="field">
 			    <label>作者</label>
-			    <input type="text" name="title" placeholder="请输入标题" v-model="author">
+			    <input type="text" name="title" placeholder="请输入作者" v-model="author">
 		  	</div>
 		  	<div class="field">
 			    <label>时间</label>
-			    <input type="date" name="title" placeholder="请输入标题" v-model="date">
+			    <input type="date" name="title" placeholder="请输入时间" v-model="date">
 		  	</div>
 		  	<div class="field">
 			    <label>背景图</label>

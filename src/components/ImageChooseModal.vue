@@ -42,7 +42,7 @@ finishChoose(src,target){
         </div>
       </div>
       <div class="actions">
-        <pagination v-if="total" id="image-choose-modal-pagination" css="ui floated pagination menu" :current="1" :total="total" :show="show" v-on:pageChange="pageChange"></pagination>
+        <pagination v-if="total" id="image-choose-modal-pagination" css="ui floated pagination menu" current="1" :total="total" :show="show" v-on:pageChange="pageChange"></pagination>
         <div class="ui deny button">
           取消
         </div>
@@ -118,7 +118,7 @@ export default {
         })
     }
   },
-  created(){
+  mounted(){
     ajax.getImgForPage(0, 10).done((data)=>{
       this.images = data.list
       this.total = data.countAll
