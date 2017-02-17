@@ -42,7 +42,7 @@ finishChoose(src,target){
         </div>
       </div>
       <div class="actions">
-        <pagination v-if="total" id="image-choose-modal-pagination" css="ui floated pagination menu" :current="1" :total="total" :show="show" v-on:pageChange="pageChange"></pagination>
+        <pagination v-if="total" :id="paginationId" css="ui floated pagination menu" :current="1" :total="total" :show="show" v-on:pageChange="pageChange"></pagination>
         <div class="ui deny button">
           取消
         </div>
@@ -61,6 +61,7 @@ finishChoose(src,target){
 <script>
 import pagination from 'src/components/Pagination.vue'
 import ajax from 'src/ajax/ajax.js'
+var paginationId = 0
 export default {
   name: 'imageChooseModal',
   props: ['target'],
@@ -69,6 +70,7 @@ export default {
   },
   data () {
     return {
+      paginationId: `pagination${paginationId++}`,
       images: [],
       checkedIndex: -1,
       uploaded: true,
@@ -118,7 +120,7 @@ export default {
         })
     }
   },
-  created(){
+  mounted(){
     ajax.getImgForPage(0, 10).done((data)=>{
       this.images = data.list
       this.total = data.countAll
