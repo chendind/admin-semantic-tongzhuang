@@ -75,7 +75,7 @@ export default {
       checkedIndex: -1,
       uploaded: true,
       total: 0,
-      show: 10,
+      show: 20,
     }
   },
   methods: {
@@ -121,7 +121,7 @@ export default {
     }
   },
   mounted(){
-    ajax.getImgForPage(0, 10).done((data)=>{
+    ajax.getImgForPage(0, 20).done((data)=>{
       this.images = data.list
       this.total = data.countAll
       this.images.map((value,index,array)=>{
