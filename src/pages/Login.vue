@@ -69,7 +69,8 @@ export default {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-image: url('~assets/home-bg.jpg');
+	/*background-image: url('static/images/home-bg.jpg');*/
+  background-image: url('~assets/home-bg.jpg');
 	background-size: cover;
 	background-position: center;
 }

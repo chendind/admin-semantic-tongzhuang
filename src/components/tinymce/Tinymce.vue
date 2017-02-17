@@ -8,14 +8,6 @@
 
 </template>
 <script>
-// require.context(
-//   'file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce',
-//   true,
-//   /.*/
-// );
-// import 'root/node_modules/tinymce/skins/lightgray/skin.min.css'
-// import tinymce from 'tinymce'
-// import './plugins/lineheight/plugin.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 var id = 0
@@ -27,35 +19,34 @@ export default {
         'image-choose-modal': imageChooseModal
     },
     methods:{
-        waitFinishChoose(callback){
-            self.deferred = $.Deferred();
-            $.when(self.deferred).done(function(data){
-                callback(data.src)
-            })
-        },
-        finishChoose(src){
-            self.deferred.resolve({"src": src})
-        },
-        getContent(){
-            if (this.editor) {
-                this.content = this.editor.getContent()
-            }
-            return this.content
-        },
-        setContent(content){
-            if (this.editor) {
-                this.editor.setContent(content)
-            }
-            this.content = content
+      waitFinishChoose(callback){
+        self.deferred = $.Deferred();
+        $.when(self.deferred).done(function(data){
+          callback(data.src)
+        })
+      },
+      finishChoose(src){
+        self.deferred.resolve({"src": src})
+      },
+      getContent(){
+        if (this.editor) {
+          this.content = this.editor.getContent()
         }
-
+        return this.content
+      },
+      setContent(content){
+        if (this.editor) {
+          this.editor.setContent(content)
+        }
+        this.content = content
+      }
     },
     data () {
-        return {
-            id:`tm${id++}`,
-            deferred: {},
-            content: ""
-        }
+      return {
+        id:`tm${id++}`,
+        deferred: {},
+        content: ""
+      }
     },
     mounted(){
         var self = this;
@@ -63,7 +54,7 @@ export default {
             selector: `#${this.id}`,
             height: self.height,
             theme: 'modern',
-            language_url: require('file-loader!./langs/zh_CN.js'),
+            language: 'zh_CN',
             plugins: [
                 'lineheight advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',

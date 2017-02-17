@@ -38,12 +38,11 @@ finishChoose(src,target){
       <div class="content">
         <div class="ui tiny images">
           <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+image+')'}" @click="toggle(index)">
-
           </div>
         </div>
       </div>
       <div class="actions">
-
+        <pagination v-if="total" id="image-choose-modal-pagination" css="ui floated pagination menu" :current="1" :total="total" :show="show" v-on:pageChange="pageChange"></pagination>
         <div class="ui deny button">
           取消
         </div>
@@ -60,16 +59,22 @@ finishChoose(src,target){
 </template>
 
 <script>
+import pagination from 'src/components/Pagination.vue'
 import ajax from 'src/ajax/ajax.js'
 var __src = "http://tongzhuang.moovi-tech.com/uploads/img/391ea67cf6824efda27bcb50274a3c93.jpg"
 export default {
   name: 'imageChooseModal',
   props: ['target'],
+  components: {
+    pagination
+  },
   data () {
     return {
       images: [],
       checkedIndex: -1,
-      uploaded: true
+      uploaded: true,
+      total: 100,
+      show: 10,
     }
   },
   methods: {
@@ -101,6 +106,9 @@ export default {
           this.uploaded = true;
         })
       }
+    },
+    pageChange(){
+
     }
   },
   created(){
