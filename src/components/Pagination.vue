@@ -41,11 +41,9 @@ export default {
     return {
     }
   },
-  created(){
-
-  },
   mounted(){
     // debugger
+    console.log(this.id)
     $("#"+this.id).pagination({
       totalData: this.total-0,
       showData: this.show-0,
