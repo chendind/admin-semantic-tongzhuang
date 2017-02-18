@@ -45,9 +45,10 @@ export default {
         window.localStorage.setItem('username',this.name)
         window.localStorage.setItem('usertype','merchant')
         router.push({path: '/'})
-      }).catch(e=>{
-        alert(e.message)
       })
+      // .catch(e=>{
+      //   alert(e.message)
+      // })
     }
   },
   data () {

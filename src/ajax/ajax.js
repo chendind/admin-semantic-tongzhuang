@@ -10,13 +10,50 @@ $.ajaxSetup({
 
   },
   success: function(data){
-    if(data.state == 10011){
-      if(window.localStorage.getItem('usertype') == 'back'){
-        router.push({path: '/login'})
-      }
-      else{
-        router.push({path: '/businessLogin'})
-      }
+    switch (data.state) {
+      case 10001:
+        xy.toast('系统异常')
+        break;
+      case 10002:
+        xy.toast('文件上传失败')
+        break;
+      case 10003:
+        xy.toast('账号不存在')
+        break;
+      case 10004:
+        xy.toast('用户名已被使用')
+        break;
+      case 10005:
+        xy.toast('密码错误')
+        break;
+      case 10006:
+        xy.toast('登录超时，请重新登录')
+        break;
+      case 10007:
+        xy.toast('商家不存在')
+        break;
+      case 10008:
+        xy.toast('已关注该商家')
+        break;
+      case 10009:
+        xy.toast('积分不足')
+        break;
+      case 10010:
+        xy.toast('商品库存不足')
+        break;
+      case 10011:
+        if(window.localStorage.getItem('usertype') == 'back'){
+          router.push({path: '/login'})
+        }
+        else{
+          router.push({path: '/businessLogin'})
+        }
+        break;
+      case 10012:
+        xy.toast('图片url过长')
+        break;
+      default:
+        break;
     }
   }
 })

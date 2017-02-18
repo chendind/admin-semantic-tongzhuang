@@ -145,12 +145,12 @@ export default {
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
 			ajax2.editArticle(undefined,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
-	      if(data.state == 0){
-          xy.toast('发送成功')
-        }
-        else if(data.detail){
-          xy.alert(data.detail)
-        }
+		      if(data.state == 0){
+	          	xy.toast('发送成功')
+        		}
+        		else if(data.detail){
+          			xy.alert(data.detail)
+        		}
 		  })
 		},
 		show(selector){
