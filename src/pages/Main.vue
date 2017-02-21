@@ -16,7 +16,7 @@
               {{username}}
               <i class="dropdown icon"></i>
             </div>
-            <div id="userMenu" class="menu" tabindex="-1">
+            <div class="menu">
               <div class="item">
                 <i class="settings icon"></i>
                 帐号设置
@@ -89,20 +89,25 @@
 
 <script>
 import router from 'src/router.js'
+import ajax from 'src/ajax/ajax.js'
 export default {
   name: 'main',
   methods:{
     logout(){
-      if(this.usertype == 'back'){
-        router.push({
-          path: '/login'
-        })
-      }
-      else{
-        router.push({
-          path: '/businessLogin'
-        })
-      }
+      ajax.logout().done((data)=>{
+        if(data.state == 0){
+          if(this.usertype == 'back'){
+            router.push({
+              path: '/login'
+            })
+          }
+          else{
+            router.push({
+              path: '/businessLogin'
+            })
+          }
+        }
+      })
     }
   },
   data () {

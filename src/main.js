@@ -6,17 +6,6 @@ import App from './App'
 import router from './router'
 import './resource'
 import 'assets/less/index.less'
-// $(()=>{
-// 	require('../static/semantic/dist/semantic.js')
-//   require('../static/js/alert.js')
-// 	var root = new Vue({
-// 	  el: '#app',
-// 	  router,
-// 	  mounted: function(){
-//       window.baseUrl = 'http://tongzhuang.moovi-tech.com'
-//     }
-// 	})
-// })
 new Vue({
   el: '#app',
   template: '<App/>',
@@ -24,6 +13,8 @@ new Vue({
   router,
   mounted: function(){
     window.baseUrl = 'http://tongzhuang.moovi-tech.com'
+    // $.fn.modal.settings.silent = true
+    // $.fn.modal.settings.debug = true
   }
 })
 window.router = router

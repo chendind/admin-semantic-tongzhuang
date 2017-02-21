@@ -68,6 +68,12 @@ export default {
       }
     })
   },
+  logout(){
+    return $.ajax({
+      url: baseurl+'/logout',
+      type: 'get'
+    })
+  },
   getImgForPage(start,length){
     return $.ajax({
       url: baseurl+'/getImgForPage',
