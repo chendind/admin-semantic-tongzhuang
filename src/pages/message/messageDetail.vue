@@ -59,7 +59,8 @@
 		</div>
      	<div class="after mt10">
 	     	<button class="ui blue button left floated" @click="chooseAll" >
-	     		<i class="check square icon"></i>
+	     		<i class="square icon" v-if="choose"></i>
+	     		<i class="check square icon" v-else></i>
 	     		全选
 	     	</button>
 	     	<button class="ui positive button right floated" @click="send">
@@ -106,6 +107,7 @@ export default {
 	    	src:'',
 	    	info:'',
 	    	lookup:{},
+	    	choose: true,
         	merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
 	    }
 	},
@@ -168,9 +170,10 @@ export default {
 			var self = this;
 			var _lookup = {}
 			for (var id in self.lookup){
-				_lookup[id]=true
+				_lookup[id]=self.choose
 			}
 			self.lookup = _lookup
+			self.choose = !self.choose
 		},
 		draft(){
 			var self = this

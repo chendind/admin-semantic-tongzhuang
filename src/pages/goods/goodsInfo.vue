@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="ui form">
-      <div class="field">
+      <div class="field" style="width: 375px">
         <label>详情描述</label>
         <tinymce height="300" ref="tinymce"></tinymce>
       </div>

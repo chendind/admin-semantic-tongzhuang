@@ -81,7 +81,7 @@ export default {
 	     	 	data.list.forEach(function(list){
 	    			list.check = false
 	    		})
-		        self.shops = data.list
+		        self.articles = data.list
 		        self.all = data.countAll
 		  	}))
 	    },

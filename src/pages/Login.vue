@@ -28,6 +28,7 @@
 		      <div class="ui error message"></div>
 
 		    </div>
+		    <a href="#/businessLogin">商户登录</a>
 		  </div>
 		</div>
 	</div>

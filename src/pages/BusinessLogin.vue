@@ -28,6 +28,7 @@
           <div class="ui error message"></div>
 
         </div>
+        <a href="#/login">管理员登录</a>
       </div>
     </div>
   </div>

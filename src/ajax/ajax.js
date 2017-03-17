@@ -11,6 +11,9 @@ $.ajaxSetup({
   },
   success: function(data){
     switch (data.state) {
+      case 1:
+        xy.toast('操作失败')
+        break;
       case 10001:
         xy.toast('系统异常')
         break;
@@ -89,7 +92,8 @@ export default {
       url: baseurl+'/getProductForPage',
       type: 'get',
       data: {
-        start, length, type
+        start, length, type,
+        order: 1
       }
     })
   },
@@ -151,7 +155,8 @@ export default {
       url: baseurl + '/getOrderForPage',
       type: 'get',
       data: {
-        start,length,type
+        start,length,type,
+        order: 1
       }
     })
   },
@@ -160,7 +165,8 @@ export default {
       url: baseurl+'/getMerchantForPage',
       type: 'get',
       data: {
-        start,length,type,uId
+        start,length,type,uId,
+        order: 1
       }
     })
   },
@@ -196,7 +202,8 @@ export default {
       url: baseurl+'/getUserForPage',
       type: 'get',
       data: {
-        start,length,type,mId
+        start,length,type,mId,
+        order: 1
       }
     })
   },

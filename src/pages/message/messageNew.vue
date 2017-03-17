@@ -31,7 +31,7 @@
 			    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
 		  	</div>
   		</form>
-		<div class="field mt10">
+		<div class="field mt10" style="width: 375px">
         	<tinymce height="300" ref="text">content here...</tinymce>
      	</div>
      	<div class="after mt10">
@@ -57,7 +57,8 @@
 		</div>
      	<div class="after mt10">
 	     	<button class="ui blue button left floated" @click="chooseAll" >
-	     		<i class="check square icon"></i>
+	     		<i class="square icon" v-if="choose"></i>
+	     		<i class="check square icon" v-else></i>
 	     		全选
 	     	</button>
 	     	<button class="ui positive button right floated" @click="send">
@@ -103,6 +104,8 @@ export default {
 	    	src:'',
 	    	info:'',
 	    	lookup:{},
+	    	id: undefined,
+	    	choose: true,
         	merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
 	    }
 	},
@@ -124,7 +127,7 @@ export default {
 			}
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			ajax2.editArticle(undefined,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
+			ajax2.editArticle(this.id,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 0).done(function(data){
 		        if(data.state == 0){
 		            xy.toast('保存成功')
 		        }
@@ -144,7 +147,7 @@ export default {
 			}
 			this.ids = []
 			this.ids = Object.keys(this.lookup)
-			ajax2.editArticle(undefined,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
+			ajax2.editArticle(this.id,this.merchantId, this.title, this.author, date, this.$refs.text.getContent(), this.src, this.ids, 1).done(function(data){
 		      if(data.state == 0){
 	          	xy.toast('发送成功')
         		}
@@ -165,18 +168,21 @@ export default {
 			var self = this;
 			var _lookup = {}
 			for (var id in self.lookup){
-				_lookup[id]=true
+				_lookup[id]=self.choose
 			}
 			self.lookup = _lookup
+			self.choose = !self.choose
 		},
 		draft(){
 			var self = this
 			ajax2.getDraft().done(function(data){
+				console.log(data)
 	     	 	self.info = data
 	     	 	self.title = data.title
 	     	 	self.author = data.author
 	     	 	self.date = formatDate(data.time)
 	     	 	self.src = data.img
+	     	 	self.id = data.id
 	     	 	$('#expImage').attr('src', self.src)
 	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
 	     	 	data.userId.forEach(function(id){

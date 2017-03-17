@@ -26,10 +26,11 @@
     </div>
     <h1 class="ui dividing header">
     <div class="ui breadcrumb">
-      <a class="section">关注店铺</a>
+      <a class="section" v-if="usertype == 'back'">关注店铺</a>
+      <a class="section" v-else>留言</a>
       </div>
     </h1>
-    <table class="ui single line table">
+    <table class="ui single line table" v-if="usertype == 'back'">
       <thead>
         <tr>
           <th>店铺名</th>
@@ -45,7 +46,7 @@
         </tr>
       </tbody>
     </table>
-    <table class="ui single line table">
+    <table class="ui single line table" v-if="usertype == 'merchant'">
       <thead>
         <tr>
           <th>留言</th>
@@ -53,7 +54,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="message in messageList">
+        <tr v-for="message in data.messageList">
           <td class="lines">{{message.text}}</td>
           <td>{{formatDate(message.time)}}</td>
         </tr>
@@ -82,6 +83,7 @@ export default {
   data () {
     return {
       target:"",
+      usertype: "",
       data:{
         id: "",
         name:"西柚科技奶茶店",
@@ -89,17 +91,14 @@ export default {
         focusList: [],
         order:"",
         score:""
-      },
-      messageList: []
+      }
 
     }
   },
   mounted(){
-    $.when(ajax.getUserById(this.$route.query.id,'back')).done((data)=>{
+    this.usertype = window.localStorage.getItem('usertype')
+    $.when(ajax.getUserById(this.$route.query.id,this.usertype)).done((data)=>{
       this.data = data;
-      $.when(ajax.getUserById(this.$route.query.id,'merchant')).done((data)=>{
-        this.messageList = data.messageList;
-      })
     })
   }
 }

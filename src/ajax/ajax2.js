@@ -10,6 +10,9 @@ $.ajaxSetup({
   },
   success: function(data){
     switch (data.state) {
+      case 1:
+        xy.toast('操作失败')
+        break;
       case 10001:
         xy.toast('系统异常')
         break;
@@ -82,7 +85,8 @@ export default {
       data: {
         start: start,
         length: length,
-        type:'back'
+        type:'back',
+        order: 1
       }
     })
   },
@@ -94,7 +98,8 @@ export default {
       data: {
         start: start,
         length: length,
-        type: type
+        type: type,
+        order: 1
       }
     })
   },
@@ -147,7 +152,8 @@ export default {
       data: {
         start:start,
         length:length,
-        type:type
+        type:type,
+        order:1
       }
     })
   },

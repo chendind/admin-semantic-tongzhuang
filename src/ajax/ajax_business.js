@@ -52,5 +52,5 @@ export const merchantChangePassword = (pwd, newpwd) => {
 }
 
 export const getUserForPage = (start, id)=>{
-  return get(`/getUserForPage?start=${start}&length=10&type=merchant&mId=${id}`)
+  return get(`/getUserForPage?start=${start}&length=10&type=merchant&mId=${id}&order=1`)
 }

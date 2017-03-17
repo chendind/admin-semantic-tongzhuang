@@ -92,9 +92,9 @@
     },
     methods: {
       submit(){
+        this.data.introduction = this.$refs.editor.getContent()
         editMerchant(this.data).then(()=>{
-          alert('修改成功')
-          window.location.reload()
+          xy.alert('修改成功')
         }).catch(e=>{
           xy.alert('修改失败' + (e.message ? ':' + e.message : ''))
         })
