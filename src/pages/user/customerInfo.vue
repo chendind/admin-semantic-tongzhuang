@@ -97,6 +97,7 @@ export default {
   },
   mounted(){
     this.usertype = window.localStorage.getItem('usertype')
+    console.log(this.usertype)
     $.when(ajax.getUserById(this.$route.query.id,this.usertype)).done((data)=>{
       this.data = data;
     })

@@ -61,12 +61,13 @@ export default {
       datas: [],
       current: 1,
       length: 10,
-      total: 0
+      total: 0,
+      id: -1
     }
   },
   methods: {
     getData(start, length){
-      ajax.getUser(start,length,'back').done((data)=>{
+      ajax.getUser(start,length,'merchant',this.id).done((data)=>{
         this.datas = data.list
         this.total = data.countAll
       })
@@ -80,7 +81,10 @@ export default {
     Pagination
   },
   created(){
-    this.getData(0,this.length);
+    ajax.getBusinessById(null, null).done((data)=>{
+      this.id = data.id
+      this.getData(0,this.length);
+    })
   }
 }
 
