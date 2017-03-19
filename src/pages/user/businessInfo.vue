@@ -121,10 +121,12 @@ export default {
     }
   },
   mounted(){
-    $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
-      this.data = data
-      this.$refs.tinymce.setContent(this.data.introduction)
-    })
+    if(this.$route.query.id){
+      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
+        this.data = data
+        this.$refs.tinymce.setContent(this.data.introduction)
+      })
+    }
   }
 }
 </script>

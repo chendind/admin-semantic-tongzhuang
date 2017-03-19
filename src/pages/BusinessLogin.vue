@@ -35,7 +35,7 @@
 
 </template>
 <script>
-import {login} from 'src/ajax/ajax_business.js'
+import {login, getMerchant} from 'src/ajax/ajax_business.js'
 import router from 'src/router.js'
 export default {
   name: 'main',
@@ -43,9 +43,13 @@ export default {
     login(){
       var self = this;
       login(this.name, this.password).then((res)=>{
-        window.localStorage.setItem('username',this.name)
-        window.localStorage.setItem('usertype','merchant')
-        router.push({path: '/'})
+        window.localStorage.setItem('username',this.name);
+        window.localStorage.setItem('usertype','merchant');
+        getMerchant().then(res => {
+          window.localStorage.setItem('userid',res.id)
+          router.push({path: '/'})
+        })
+
       })
       // .catch(e=>{
       //   alert(e.message)

@@ -9,7 +9,7 @@
 		        <a class="section active">修改文章</a>
 	      	</div>
 	    </h1>
-		<form class="ui form">
+		<div class="ui form">
 		  	<div class="field">
 			    <label>标题</label>
 			    <input type="text" name="title" placeholder="请输入标题" v-model="title">
@@ -20,7 +20,7 @@
 		  	</div>
 		  	<div class="field">
 			    <label>时间</label>
-			    <input type="date" name="title" placeholder="请输入标题" v-model="date">
+			    <input type="date" name="title" placeholder="请输入标题" v-model="date" disabled>
 		  	</div>
 		  	<div class="field">
 			    <label>背景图</label>
@@ -30,7 +30,7 @@
 			    </div>
 			    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
 		  	</div>
-  		</form>
+  		</div>
 		<div class="field mt10">
         <div style="width: 375px">
           <tinymce height="300" ref="text">content here...</tinymce>
@@ -52,7 +52,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
 		    <Pagination id="page1" class="mv10" :total="this.all" show="9" current="1" v-if="this.all!=''" v-on:pageChange="getData">
 		    </Pagination>
@@ -102,6 +102,7 @@ export default {
 	    	date:"",
 	    	text:"",
 	    	ids:[],
+        merchantId: -1,
 	    	customers:[],
 	    	all:'',
 	    	src:'',
@@ -139,6 +140,10 @@ export default {
 		  	})
 		},
 		send(){
+      if((window.localStorage.getItem('usertype') == 'back')&&this.merchantId!=0){
+        xy.toast('管理员无法编辑商家发布的推送');
+        return;
+      }
 			var x
 			var date = undefined
 			if (this.date!=null&&this.date!="") {
@@ -183,6 +188,7 @@ export default {
 	     	 	self.author = data.author
 	     	 	self.date = formatDate(data.time)
 	     	 	self.src = data.img
+          self.merchantId = data.merchantId;
 	     	 	$('#expImage').attr('src', self.src)
 	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
 	     	 	data.userId.forEach(function(id){
@@ -223,7 +229,7 @@ export default {
 	mounted:function(){
 		this.lookup = {}
 		this.getfirstData()
-		
+
 	}
 }
 </script>

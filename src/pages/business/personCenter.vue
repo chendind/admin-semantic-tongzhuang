@@ -6,7 +6,7 @@
         <i class="right angle icon divider"></i>
         <div class="section">个人信息</div>
         <i class="right angle icon divider"></i>
-        <router-link to="/my" class="active section">基本信息</router-link>
+        <div class="active section">基本信息</div>
       </div>
     </h1>
     <div class="my-page">
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="my-content">
-        <form class="ui form">
+        <div class="ui form">
           <div class="field">
             <label>主营产品</label>
             <input type="text" placeholder="" v-model="data.product">
@@ -47,7 +47,7 @@
             <tinymce ref="editor"></tinymce>
           </div>
           <button class="ui button" type="submit" @click="submit">修改信息</button>
-        </form>
+        </div>
       </div>
     </div>
     <h3 class="ui header">修改密码</h3>

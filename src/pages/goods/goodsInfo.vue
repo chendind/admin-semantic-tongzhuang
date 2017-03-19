@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="content">
-          <form class="ui form">
+          <div class="ui form">
             <div class="field">
               <label>商品名称</label>
               <input type="text" placeholder="请输入商品名称" v-model="name">
@@ -53,7 +53,7 @@
                 </select>
               </div> -->
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
             <i class="checkmark icon"></i>
             {{$route.query.id?'保存修改':'新增'}}
           </button>
-          <button class="ui right floated button">取消</button>
+          <router-link to="/goods/goodsInfo" class="ui right floated button">取消</router-link>
       </div>
     </div>
 

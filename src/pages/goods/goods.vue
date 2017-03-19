@@ -9,18 +9,62 @@
       </div>
     </h1>
     <div class="ui category search">
-      <div class="ui icon input">
-        <input class="prompt" type="text" placeholder="输入商品名搜索" v-model="keyWord" @keyup.13="searchGoods()">
-        <i class="search icon" @click="searchGoods()"></i>
+      <div class="ui action input">
+        <input type="text" placeholder="输入商品名搜索" v-model="keyWord" @keyup.enter="searchGoods">
+        <button class="ui button" @click="searchGoods">搜索</button>
       </div>
       <router-link :to="{path:'/goods/goodsInfo'}" class="ui green right floated right labeled icon button">
         新增商品
         <i class="plus icon"></i>
       </router-link>
     </div>
-    <table class="ui celled table">
+    <table class="ui celled table" v-if="!showSearchBlock">
+      <thead>
+        <tr><th>商品id</th>
+        <th>商品详情</th>
+        <th>操作</th>
+      </tr></thead>
       <tbody>
         <tr v-for="(good,$index) in goods">
+          <td>
+            {{good.id}}
+          </td>
+          <td>
+            <router-link :to="{path:'/goods/goodsInfo',query:{id:good.id}}" class="ui image header">
+                <img class="ui rounded top aligned tiny image" :src="good.img">
+                <div class="content">
+                    {{good.name}}
+                    <div class="sub header">{{good.score}}积分 已售{{good.sold}}</div>
+                    <div class="extra">
+
+                    </div>
+                </div>
+            </router-link>
+          </td>
+          <td>
+            <div class="ui right floated red button" @click="deleteGood($index)">删除</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4">
+            <pagination v-if="total" id="pagination" current="1" :total="total" :show="length" v-on:pageChange="pageChange"></pagination>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+    <table class="ui celled table" v-if="showSearchBlock">
+      <thead>
+        <tr>
+          <th colspan="4">
+            <h4>搜索结果<template v-if="searchedGoods.length == 0">为空</template></h4>
+            <p>提示：输入关键词后按回车搜索；清空搜索框回到列表页</p>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(good,$index) in searchedGoods">
           <td>
             <router-link :to="{path:'/goods/goodsInfo',query:{id:good.id}}" class="ui image header">
                 <img class="ui rounded top aligned tiny image" :src="good.img">
@@ -36,13 +80,6 @@
           </td>
         </tr>
       </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="4">
-            <pagination v-if="total" id="pagination" current="1" :total="total" :show="length" v-on:pageChange="pageChange"></pagination>
-          </th>
-        </tr>
-      </tfoot>
     </table>
   </div>
 
@@ -56,6 +93,25 @@ export default {
   components: {
     Pagination: Pagination
   },
+  data () {
+    return {
+      goods: [],
+      length: 10,
+      total: 0,
+      current: 1,
+      keyWord: "",
+      searchedGoods: [],
+      showSearchBlock: false,
+    }
+  },
+  watch: {
+    keyWord: function(val, oldVal){
+      if(val == ''){
+        this.showSearchBlock = false
+        this.searchedGoods = []
+      }
+    }
+  },
   methods:{
     pageChange(index){
       this.getGoods(this.length*(index-1), this.length)
@@ -68,8 +124,9 @@ export default {
       })
     },
     searchGoods(){
+      this.showSearchBlock = true
       ajax.searchGoods(this.keyWord).done((data)=>{
-
+        this.searchedGoods = data.list
       })
     },
     deleteGood(index){
@@ -87,15 +144,6 @@ export default {
         }
       })
 
-    }
-  },
-  data () {
-    return {
-      goods: [],
-      length: 10,
-      total: 0,
-      current: 1,
-      keyWord: ""
     }
   },
   beforeCreate(){

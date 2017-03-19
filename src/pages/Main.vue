@@ -33,6 +33,9 @@
     <div class="x-main-content">
       <div class="ui sidebar sticky accordion vertical menu left visible floated">
         <div class="item" v-if="usertype == 'back'">
+          <router-link to="/app/carousel" class="title"><b>轮播图管理</b></router-link>
+        </div>
+        <div class="item" v-if="usertype == 'back'">
           <router-link to="/goods" class="title"><b>商品管理</b></router-link>
         </div>
         <div class="item" v-if="usertype == 'back'">
@@ -83,7 +86,68 @@
         <router-view></router-view>
       </div>
     </div>
-
+    <!-- <div class="ui small modal" id="modal-editUnit">
+      <div class="header">新增轮播图</div>
+      <div class="content">
+        <div class="item">
+          <div class="image">
+              <img src="~src/assets/default.png" alt="">
+              <div class="ui container center aligned">
+                <div class="ui center aligned blue button mv10" @click="show('#imageChooseModal')">
+                  选择一张图片
+                </div>
+              </div>
+          </div>
+          <div class="content">
+            <div class="ui form">
+              <div class="field">
+                <label>对应商品id</label>
+                <input type="text" placeholder="请输入商品名称" v-model="addCarousel.goodId">
+              </div>
+              <div class="field">
+                <label>播放顺序</label>
+                <input type="text" placeholder="请输入商品描述" v-model="addCarousel.order">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button" @click="modal_hide('#modal-editUnit')">取消</div>
+        <div class="ui green button" @click="editUnit_save()">保存</div>
+      </div>
+    </div>
+    <div class="ui small modal" id="modal-editCarousel">
+      <div class="header">编辑轮播图</div>
+      <div class="content">
+        <div class="item">
+          <div class="image">
+              <img :src="editCarousel.img" alt="">
+              <div class="ui container center aligned">
+                <div class="ui center aligned blue button mv10" @click="show('#imageChooseModal')">
+                  选择一张图片
+                </div>
+              </div>
+          </div>
+          <div class="content">
+            <div class="ui form">
+              <div class="field">
+                <label>对应商品id</label>
+                <input type="text" placeholder="请输入商品名称" v-model="editCarousel.goodId">
+              </div>
+              <div class="field">
+                <label>播放顺序</label>
+                <input type="text" placeholder="请输入商品描述" v-model="editCarousel.order">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button" @click="modal_hide('#modal-editUnit')">取消</div>
+        <div class="ui green button" @click="editUnit_save()">保存</div>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -113,7 +177,17 @@ export default {
   data () {
     return {
       username: window.localStorage.getItem('username'),
-      usertype: window.localStorage.getItem('usertype')
+      usertype: window.localStorage.getItem('usertype'),
+      addCarousel: {
+        img: "",
+        goodId: "",
+        order: ""
+      },
+      editCarousel: {
+        img: "",
+        goodId: "",
+        order: ""
+      }
     }
   },
   mounted(){

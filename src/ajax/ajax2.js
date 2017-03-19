@@ -85,7 +85,8 @@ export default {
       data: {
         start: start,
         length: length,
-        type:'back',
+        type: window.localStorage.getItem('usertype') || 'back',
+        mId: window.localStorage.getItem('userid') || 0,
         order: 1
       }
     })
@@ -104,12 +105,12 @@ export default {
     })
   },
   //获得后台草稿箱
-  getDraft(){
+  getDraft(type){
     return $.ajax({
       url: baseurl+'/getDraft',
       type: 'POST',
       data: {
-        type:'back'
+        type
       }
     })
   },

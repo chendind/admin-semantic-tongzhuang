@@ -8,7 +8,7 @@
         <div class="active section">编辑用户信息</div>
       </div>
     </h1>
-    <form class="ui form">
+    <div class="ui form">
       <div class="field">
         <label>Name</label>
         <div class="two fields">
@@ -398,7 +398,7 @@
         <tinymce height="300">content here...</tinymce>
       </div>
       <div class="ui button" tabindex="0">Submit Order</div>
-    </form>
+    </div>
 
   </div>
 </template>

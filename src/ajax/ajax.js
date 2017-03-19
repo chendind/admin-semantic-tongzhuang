@@ -77,6 +77,30 @@ export default {
       type: 'get'
     })
   },
+  getCarouselList(){
+    return $.ajax({
+      url: baseurl + '/getCarouselList',
+      type: 'get'
+    })
+  },
+  editCarousel(id,img,productId,order){
+    return $.ajax({
+      url: baseurl + '/editCarousel',
+      type: 'post',
+      data: {
+        id,img,productId,order
+      }
+    })
+  },
+  deleteCarousel(id){
+    return $.ajax({
+      url: baseurl + '/deleteCarousel',
+      type: 'post',
+      data: {
+        id
+      }
+    })
+  },
   getImgForPage(start,length){
     return $.ajax({
       url: baseurl+'/getImgForPage',
@@ -120,7 +144,8 @@ export default {
       url: baseurl+'/searchProduct',
       type: 'post',
       data: {
-        keyWord
+        keyWord,
+        order: 1
       }
     })
   },

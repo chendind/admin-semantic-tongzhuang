@@ -46,6 +46,7 @@ export default {
         if(data.state == 0){
           window.localStorage.setItem('username',this.name)
           window.localStorage.setItem('usertype','back')
+          window.localStorage.setItem('userid',0)
           router.push({path: '/'})
           // window.location.href = "/"
         }

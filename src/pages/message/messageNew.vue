@@ -9,7 +9,7 @@
 		        <a class="section active">发文章</a>
 	      	</div>
 	    </h1>
-		<form class="ui form">
+		<div class="ui form">
 		  	<div class="field">
 			    <label>标题</label>
 			    <input type="text" name="title" placeholder="请输入标题" v-model="title">
@@ -30,7 +30,7 @@
 			    </div>
 			    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
 		  	</div>
-  		</form>
+  		</div>
 		<div class="field mt10" style="width: 375px">
         	<tinymce height="300" ref="text">content here...</tinymce>
      	</div>
@@ -50,8 +50,7 @@
 					</div>
 				</div>
 			</div>
-			
-		    <!-- <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination> -->
+
 		    <Pagination id="page1" class="mv10" :total="this.all" show="9" current="1" v-if="this.all!=''" v-on:pageChange="getData">
 		    </Pagination>
 		</div>
@@ -73,7 +72,6 @@
 import tinymce from 'components/tinymce/Tinymce.vue'
 import ajax2 from 'src/ajax/ajax2.js'
 import imageChooseModal from 'components/ImageChooseModal.vue'
-import VuetablePagination from 'components/vue-table/VuetablePagination'
 import Pagination from 'components/Pagination'
 
 function   formatDate(time)   {
@@ -89,7 +87,6 @@ export default {
 	components: {
 	    tinymce,
 	    'image-choose-modal': imageChooseModal,
-	    VuetablePagination,
 	    Pagination
 	},
 	data () {
@@ -106,7 +103,7 @@ export default {
 	    	lookup:{},
 	    	id: undefined,
 	    	choose: true,
-        	merchantId: window.localStorage.getItem('usertype') == 'back'? 0 : 9
+        merchantId: window.localStorage.getItem('userid') || 0
 	    }
 	},
 	methods:{
@@ -175,20 +172,23 @@ export default {
 		},
 		draft(){
 			var self = this
-			ajax2.getDraft().done(function(data){
-				console.log(data)
-	     	 	self.info = data
-	     	 	self.title = data.title
-	     	 	self.author = data.author
-	     	 	self.date = formatDate(data.time)
-	     	 	self.src = data.img
-	     	 	self.id = data.id
-	     	 	$('#expImage').attr('src', self.src)
-	     	 	self.$refs.text && self.$refs.text.setContent(data.text)
-	     	 	data.userId.forEach(function(id){
-	     	 		self.lookup[id]=true;
-	     	 	})
-		  	})
+			ajax2.getDraft(window.localStorage.getItem('usertype')).done(function(data){
+				if(data){
+          self.info = data
+          self.title = data.title
+          self.author = data.author
+          self.date = formatDate(data.time)
+          self.src = data.img
+          self.id = data.id
+          $('#expImage').attr('src', self.src)
+          self.$refs.text && self.$refs.text.setContent(data.text)
+          if(data.userId.length > 0){
+            data.userId.forEach(function(id){
+              self.lookup[id]=true;
+            })
+          }
+        }
+		  })
 		},
 		getData(params){
 	      	// console.log(params)
@@ -211,7 +211,7 @@ export default {
 		        self.customers = data.list
 		        self.all = data.countAll
 		    })
-		    ajax2.getUserForPage().done(function(data){
+		    ajax2.getUserForPage(undefined, undefined).done(function(data){
 	    		data.list.forEach(function(list){
 	    			self.lookup[list.id] = false
 	    		})

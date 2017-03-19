@@ -20,8 +20,20 @@ const routes = [
             r(require('./pages/goods/goods.vue'))
           }
           else{
-            r(require('./pages/business/customer.vue'))
+            r(require('./pages/user/customer.vue'))
           }
+        }
+      },
+      {
+        path: '/app/carousel',
+        component(r){
+          r(require('./pages/app/carousel.vue'))
+        }
+      },
+      {
+        path: '/app/carouselInfo',
+        component(r){
+          r(require('./pages/app/carouselInfo.vue'))
         }
       },
 			{
