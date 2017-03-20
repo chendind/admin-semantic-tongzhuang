@@ -42,7 +42,15 @@
             </router-link>
           </td>
           <td>
-            <div class="ui right floated red button" @click="deleteGood($index)">删除</div>
+            <div class="ui button" @click="setRecommend($index)" :class="{'blue': !good.recommend}">
+              <template v-if="!good.recommend">
+                设置推荐
+              </template>
+              <template v-else>
+                取消推荐
+              </template>
+            </div>
+            <div class="ui red button" @click="deleteGood($index)">删除</div>
           </td>
         </tr>
       </tbody>
@@ -143,8 +151,17 @@ export default {
           })
         }
       })
-
-    }
+    },
+    setRecommend(index){
+      let id = this.goods[index].id
+      let recommend = this.goods[index].recommend
+      ajax.recommendProductOrNot(id).done((data) => {
+        if(data.state == 0){
+          this.goods[index].recommend = !recommend + 0;
+          xy.toast('操作成功')
+        }
+      })
+    },
   },
   beforeCreate(){
 

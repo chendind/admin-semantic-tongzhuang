@@ -158,6 +158,15 @@ export default {
       }
     })
   },
+  recommendProductOrNot(id){
+    return $.ajax({
+      url: baseurl+'/recommendProductOrNot',
+      type: 'post',
+      data: {
+        id
+      }
+    })
+  },
   upload(file,name,type = 1,img){
     var fd = new FormData();
     fd.append("file",file);
