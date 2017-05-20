@@ -250,6 +250,87 @@ export default {
       }
     })
   },
+  getProductInfo(id){
+    return $.ajax({
+      url: baseurl+'/goods/get',
+      type: 'post',
+      data: {
+        id
+      }
+    })
+  }, 
+  deleteProduct(id){
+    return $.ajax({
+      url: baseurl+'/goods/delete',
+      type: 'post',
+      data: {
+        id
+      }
+    })
+  },
+  getProducerInfo(){
+    return $.ajax({
+      url: baseurl+'/factory/my',
+      type: 'post',
+      data: {
+       
+      }
+    })
+  },
+  getProducerList() {
+     return $.ajax({
+      url: baseurl+'/factory/list',
+      type: 'post',
+      data: {
+       
+      }
+    })
+  },
+  buildProducer(id,name,address,principal,contact,detail,photo){
+    return $.ajax({
+      url: baseurl+'/factory/saveOrUpdate',
+      type: 'post',
+      data: {
+       id,name,address,principal,contact,detail,photo
+      }
+    })
+  },
+  deleteProducer(id) {
+     return $.ajax({
+      url: baseurl+'/factory/delete',
+      type: 'post',
+      data: {
+       id
+      }
+    })
+  },
+  buildProcuct(id,name,photo,material,detail){
+    return $.ajax({
+      url: baseurl+'/goods/saveOrUpdate',
+      type: 'post',
+      data: {
+        id,name,photo,material,detail
+      }
+    })
+  },
+  getEvaluation(evaluationModel_id,start,rows,orders){
+    return $.ajax({
+      url: baseurl+'/evaluation/get',
+      type: 'post',
+      data: {
+       evaluationModel_id,start,rows,orders
+      }
+    })
+  },
+  producerPsd(oPassword,nPassword){
+    return $.ajax({
+      url: baseurl+'/factory/changePassword',
+      type: 'post',
+      data: {
+        oPassword,nPassword
+      }
+    })
+  },
 }
 
 

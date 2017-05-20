@@ -46,7 +46,67 @@
         </tr>
       </tbody>
     </table>
-    <table class="ui single line table" v-if="usertype == 'merchant'">
+
+    <div class="rateCol" v-for="item in rates" v-if="usertype == 'merchant'">
+      <div class="ui grid">
+        <div class="two wide column">
+          2017年5月18日16:29:31
+        </div>
+        <div class="six wide column">
+          评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容
+        </div>
+        <div class="four wide column">
+          <div class="image" v-for="pic in item.showPic">
+              <div class="ui brePic"><img class="ui tiny image" :src="pic.url"></div>
+              <div class="ui flowing popup transition tiny">
+                <img class="ui large image" :src="pic.url">
+              </div>
+            </div>
+        </div>
+        <div class="four wide column">
+          <div class="ui items">
+            <div class="item">
+              <label>购物环境</label>
+              <div class="content">
+                <div class="ui form">
+                  <div class="field">
+                    <div class="ui star rating" :data-rating="item.demoRate" data-max-rating="5"></div>
+                    <span>3</span>
+                    <span>分</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <label>服务态度</label>
+              <div class="content">
+                <div class="ui form">
+                  <div class="field">
+                    <div class="ui star rating" :data-rating="item.demoRate" data-max-rating="5"></div>
+                    <span>3</span>
+                    <span>分</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <label>售后服务</label>
+              <div class="content">
+                <div class="ui form">
+                  <div class="field">
+                    <div class="ui star rating" :data-rating="item.demoRate" data-max-rating="5"></div>
+                    <span>3</span>
+                    <span>分</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+   <!--  <table class="ui single line table" v-if="usertype == 'merchant'">
       <thead>
         <tr>
           <th>留言</th>
@@ -60,7 +120,7 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
 
 </template>
 
@@ -86,21 +146,49 @@ export default {
       usertype: "",
       data:{
         id: "",
-        name:"西柚科技奶茶店",
+        name:"西柚科技Leo",
         img: require("assets/image.png"),
         focusList: [],
         order:"",
-        score:""
-      }
-
+        score:"",
+        demoDataPre: 3
+      },
+      rates: [{
+        demoRate: 3,
+        showPic: [{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        },{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        },{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        }]
+      },{
+        demoRate: 3,
+        showPic: [{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        },{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        },{
+          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
+        }]
+      }]
     }
   },
+  created() {
+
+  },
   mounted(){
-    this.usertype = window.localStorage.getItem('usertype')
-    console.log(this.usertype)
-    $.when(ajax.getUserById(this.$route.query.id,this.usertype)).done((data)=>{
-      this.data = data;
+    this.usertype = window.localStorage.getItem('usertype');
+    // $.when(ajax.getUserById(this.$route.query.id,this.usertype)).done((data)=>{
+    //   this.data = data;
+    // })
+    this.$nextTick(()=>{
+      $('.ui.rating').rating('disable');
+      $('.brePic').popup({
+        position   : 'top left'
+      });
     })
+    
   }
 }
 </script>
@@ -108,5 +196,16 @@ export default {
 <style scoped>
 td.lines{
   white-space: initial;
+}
+
+.rateCol {
+  margin: 0 20px 20px 0;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+}
+.brePic {
+  float: left;
+  margin: 10px 5px;
 }
 </style>

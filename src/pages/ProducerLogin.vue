@@ -5,7 +5,7 @@
         <h2 class="ui teal image header">
           <img src="~assets/logo.png" class="image">
           <div class="content">
-            商户登录
+            厂家登录
           </div>
         </h2>
         <div class="ui large form">
@@ -29,28 +29,28 @@
 
         </div>
 
-          <a href="#/producerLogin">厂家登录</a>
-
+          <a href="#/businessLogin">商户登录</a>
+         
       </div>
     </div>
   </div>
 
 </template>
 <script>
-import {login, getMerchant} from 'src/ajax/ajax_business.js'
+import {login} from 'src/ajax/ajax_producer.js'
 import router from 'src/router.js'
 export default {
   name: 'main',
   methods:{
     login(){
+      // debugger
       var self = this;
       login(this.name, this.password).then((res)=>{
+        console.log("test");
         window.localStorage.setItem('username',this.name);
-        window.localStorage.setItem('usertype','merchant');
-        getMerchant().then(res => {
-          window.localStorage.setItem('userid',res.id)
-          router.push({path: '/business/customer'})
-        })
+        window.localStorage.setItem('usertype','producer');
+        window.localStorage.setItem('userid',res.id);
+        router.push({path: '/producer/productManage'});
 
       })
       // .catch(e=>{
@@ -60,7 +60,7 @@ export default {
   },
   data () {
     return {
-      name: 'SJ00004',
+      name: 'CJ00001',
       nickname: '',
       password: '123456'
     }
@@ -80,5 +80,4 @@ export default {
   background-size: cover;
   background-position: center;
 }
-
 </style>

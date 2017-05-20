@@ -127,6 +127,7 @@ export default {
     },
     getGoods(start, length){
       ajax.getGoods(start, length).done((data)=>{
+        console.log(data);
         this.goods = data.list
         this.total = data.countAll
       })

@@ -4,12 +4,12 @@
       <div class="ui breadcrumb">
         <a class="section">后台</a>
         <i class="right angle icon divider"></i>
-        <div class="active section">商户管理</div>
+        <div class="active section">厂家管理</div>
       </div>
     </h1>
     <div class="ui category search after">
-        <router-link :to="{path:'/user/businessInfo'}" class="ui green right floated right labeled icon button">
-          新增商户
+        <router-link :to="{path:'/producer/producerDetail'}" class="ui green right floated right labeled icon button">
+          新增厂家
           <i class="plus icon"></i>
         </router-link>
     </div>
@@ -17,39 +17,32 @@
       <tbody>
         <tr v-for="(data,$index) in datas">
           <td>
-            <router-link class="ui items" :to="{path:'/user/businessInfo',query:{id:data.id}}">
+            <router-link class="ui items" :to="{path:'/producer/producerDetail',query:{id:data.id,index:$index}}">
               <div class="item">
                 <div class="ui image tiny">
-                  <img :src="data.headImg"/>
+                  <img :src="data.photo">
                 </div>
                 <div class="content" style="margin-top:5px">
                   <a class="header" style="vertical:middle;">{{data.name}}</a>
                   <div class="ui grid">
                     <div class="eight wide column">
                       <div class="meta">
-                        <p><b>店铺代码:&nbsp;</b>{{data.code}}</p>
-                        <p><b>地点:&nbsp;</b>{{data.location}}</p>
-                        <p><b>主营产品:&nbsp;</b>{{data.product}}</p>
+                        <p><b>厂家名称:&nbsp;</b>{{data.code}}</p>
+                        <p><b>厂家地址:&nbsp;</b>{{data.address}}</p>
 
                       </div>
                     </div>
                     <div class="eight wide column">
                       <div class="meta">
                         <p><b>负责人:&nbsp;</b>{{data.principal}}</p>
-                        <p><b>联系方式:&nbsp;</b>{{data.phone}}</p>
-                        <p><b>关注人数:&nbsp;</b>{{data.focus}}</p>
+                        <p><b>联系方式:&nbsp;</b>{{data.contact}}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </router-link>
-            <div class="ui right floated absolute vertical" style="right: 75px; width: 120px">
-              <router-link :to="{path:'/user/merchantRate',query:{id:data.id}}">
-                <div class="ui button">查看评价</div>
-              </router-link>
-            </div>
-            <div class="ui right floated red button absolute vertical" style="right: 15px;" @click="deleteBusiness($index)">删除</div>
+            <div class="ui right floated red button absolute vertical" style="right: 15px;" @click="deleteProducer($index)">删除</div>
           </td>
         </tr>
       </tbody>
@@ -74,28 +67,49 @@ export default {
   data(){
     return {
       datas: [],
+      databuf: [],
       current: 1,
-      length: 10,
+      length: 8,//每页显示条目,只需要修改此项即可
       total: 0
     }
   },
   methods: {
-    getData(start, length){
-      ajax.getBusiness(start,length,'back').done((data)=>{
-        this.datas = data.list
-        this.total = data.countAll
+    getData(){
+      ajax.getProducerList().done((data)=>{
+        this.databuf = data.data;
+        this.total = data.data.length;
+        this.fillData();
       })
     },
-    pageChange(index){
-      this.getData((index-1)*this.length, this.length)
-      this.current = index
+    fillData() {
+      let pageCount = parseInt(this.total/this.length) + 1; 
+      let startCol = (this.current - 1) * this.length;
+      var endCol = this.current * this.length;
+      this.datas = [];
+      if(this.current < pageCount) {
+        for (let i = startCol; i < endCol; i++) {
+          this.datas.push(this.databuf[i]);
+        }
+      }
+      else
+      {
+        for (let i = startCol; i < this.total; i++) {
+          this.datas.push(this.databuf[i]);
+        }
+      }
     },
-    deleteBusiness(index){
+    pageChange(index){
+      // this.getData((index-1)*this.length, this.length)
+      this.current = index;
+      this.fillData();
+    },
+    deleteProducer(index){
       xy.confirm('确定删除这个商家吗？',(button)=>{
         if(button == 1){
           xy.toast('删除中...')
           let id = this.datas[index].id
-          ajax.deleteBusiness(id).done((data)=>{
+          console.log(id);
+          ajax.deleteProducer(id).done((data)=>{
             if(data.state == 0){
               xy.toast('删除成功')
               this.datas.splice(index,1)
@@ -110,7 +124,8 @@ export default {
     Pagination
   },
   created(){
-    this.getData(0,this.length);
+    this.getData();
+
   }
 }
 

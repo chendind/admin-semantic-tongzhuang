@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Main from './pages/Main.vue'
 import Login from './pages/Login.vue'
 import BusinessLogin from './pages/BusinessLogin.vue'
+import ProducerLogin from './pages/ProducerLogin.vue'
 import Regist from './pages/Regist.vue'
 import Form from './pages/example/Form.vue'
 import Business from './pages/example/Business.vue'
@@ -91,17 +92,41 @@ const routes = [
 				}
 			},
       {
-        path: '/business/personCenter',
+        path: '/producer/productManage',
         component(r){
-          r(require('./pages/business/personCenter.vue'))
+          r(require('./pages/producer/productManage.vue'))
         }
       },
-			{
-				path: '/user/business',
-				component(r){
-					r(require('./pages/user/business.vue'))
-				}
-			},
+      	{
+			path: '/producer/productdetail',
+			component(r){
+				r(require('./pages/producer/productdetail.vue'))
+			}
+		},
+		{
+			path: '/producer/productRate',
+			component(r){
+				r(require('./pages/producer/productRate.vue'))
+			}
+		},
+		{
+			path: '/producer/producerInfo',
+			component(r){
+				r(require('./pages/producer/producerInfo.vue'))
+			}
+		},
+		{
+			path: '/producer/producerManage',
+			component(r){
+				r(require('./pages/producer/producerManage.vue'))
+			}
+		},
+		{
+			path: '/producer/producerDetail',
+			component(r){
+				r(require('./pages/producer/producerDetail.vue'))
+			}
+		},
       {
         path: '/user/businessInfo',
         component(r){
@@ -120,6 +145,12 @@ const routes = [
           r(require('./pages/user/customerInfo.vue'))
         }
       },
+	      {
+	        path: '/user/merchantRate',
+	        component(r){
+	          r(require('./pages/user/merchantRate.vue'))
+	        }
+	      },
 		  {
         path: '/business/customer',
         component(r){
@@ -127,9 +158,33 @@ const routes = [
         }
       },
       {
+        path: '/user/business',
+        component(r){
+          r(require('./pages/user/business.vue'))
+        }
+      },
+      {
         path: '/business/customerInfo',
         component(r){
           r(require('./pages/business/customerInfo.vue'))
+        }
+      },
+	      {
+	        path: '/business/personCenter',
+	        component(r){
+	          r(require('./pages/business/personCenter.vue'))
+	        }
+	      },
+		  {
+	        path: '/business/customerInfo',
+	        component(r){
+	          r(require('./pages/business/customerInfo.vue'))
+	        }
+	      }, 
+      {
+        path: '/business/merchantRate',
+        component(r){
+          r(require('./pages/business/merchantRate.vue'))
         }
       },
 	    {
@@ -152,6 +207,11 @@ const routes = [
       component: BusinessLogin,
       children: []
   },
+	{
+		path: '/producerLogin',
+		component: ProducerLogin,
+	  	children: []
+  	},
   {
       path: '/regist',
       component: Regist,

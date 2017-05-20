@@ -9,6 +9,8 @@
         <div class="active section">基本信息</div>
       </div>
     </h1>
+
+    <div class="ui button toolBar" @click="codeView()">二维码</div>
     <div class="my-page">
       <div class="my-card">
         <div class="ui card" v-if="data.headImg">
@@ -71,6 +73,11 @@
           </button>
         </div>
     </div>
+
+    <div class="codePic">
+      <div id="qrcode"></div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -91,6 +98,21 @@
       }
     },
     methods: {
+      codeView() {  
+        if(!$('#qrcode').html()){
+
+          $('#qrcode').html("<div style='margin-bottom:20px'>店铺二维码</div>");
+          $('#qrcode').qrcode("www.baidu.com");
+          $('#qrcode').css("padding","20px");
+          $('#qrcode').css("border","1px solid black");
+        }
+        else
+        {
+          $('#qrcode').empty();
+          $('#qrcode').css("padding","0px");
+          $('#qrcode').css("border","0px solid white");
+        }
+      },
       submit(){
         this.data.introduction = this.$refs.editor.getContent()
         editMerchant(this.data).then(()=>{
@@ -128,10 +150,16 @@
           $vm.$refs.editor.setContent($vm.data.introduction)
         })
       })
-    }
+    },
+    
   }
 </script>
 <style lang="less">
+  .toolBar {
+    float: right;
+    position: relative;
+    z-index: 2;
+  }
   .my-page {
     position: relative;
     padding-left: 300px;
@@ -146,4 +174,11 @@
       top: 0px;
     }
   }
+.codePic {
+  position: fixed;
+  z-index: 99;
+  top: 120px; 
+  left: 50%;
+  background-color: white;
+}
 </style>

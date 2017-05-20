@@ -58,26 +58,14 @@
         <div class="item" v-if="usertype == 'back'">
           <router-link to="/user/business" class="title"><b>商户管理</b></router-link>
         </div>
-        <div class="item" v-if="usertype == 'back'">
-          <router-link to="/producer/producerManage" class="title"><b>厂家管理</b></router-link>
-        </div>
-        <div class="item" v-if="(usertype == 'back') || (usertype === 'merchant')">
+        <div class="item">
           <router-link to="/message" class="title"><b>消息推送</b></router-link>
         </div>
         <div class="item" v-if="usertype == 'back'">
           <router-link to="/personCenter" class="title"><b>个人中心</b></router-link>
         </div>
         <div class="item" v-if="usertype == 'merchant'">
-          <router-link to="/business/merchantRate" class="title"><b>我的评价</b></router-link>
-        </div>
-        <div class="item" v-if="usertype == 'merchant'">
           <router-link to="/business/personCenter" class="title"><b>个人中心</b></router-link>
-        </div>
-        <div class="item" v-if="usertype == 'producer'">
-          <router-link to="/producer/productManage" class="title"><b>产品管理</b></router-link>
-        </div>
-        <div class="item" v-if="usertype == 'producer'">
-          <router-link to="/producer/producerInfo" class="title"><b>个人中心</b></router-link>
         </div>
         <!-- <div class="item">
             <a class="title"><i class="dropdown icon"></i> <b>例子</b></a>
@@ -177,14 +165,9 @@ export default {
               path: '/login'
             })
           }
-          else if(this.usertype === 'merchant'){
+          else{
             router.push({
               path: '/businessLogin'
-            })
-          }
-          else if(this.usertype === 'producer'){
-            router.push({
-              path: '/producerLogin'
             })
           }
         }

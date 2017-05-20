@@ -28,7 +28,7 @@
 		      <div class="ui error message"></div>
 
 		    </div>
-		    <a href="#/businessLogin">商户登录</a>
+
 		  </div>
 		</div>
 	</div>
@@ -47,7 +47,7 @@ export default {
           window.localStorage.setItem('username',this.name)
           window.localStorage.setItem('usertype','back')
           window.localStorage.setItem('userid',0)
-          router.push({path: '/'})
+          router.push({path: '/app/carousel'})
           // window.location.href = "/"
         }
       })
