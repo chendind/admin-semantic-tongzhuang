@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="ui items titleBox">
+    <div class="ui items dividing header">
       <div class="item">
         <span class="colTitle">评价</span>
       </div>
@@ -74,8 +74,8 @@
           <div class="ten wide column">
             <div class="image" v-for="pic in item.showPic">
               <div class="ui brePic"><img class="ui tiny image" :src="pic.url"></div>
-              <div class="ui flowing popup transition tiny">
-                <img class="ui image" :src="pic.url">
+              <div class="ui popup">
+                <img class="ui large image" :src="pic.url">
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default {
         text: "dfghjm,jhgfdfghjk",
         time: "2017-5-13 10:59:00",
         showPic:[{
-          url:"http://tongzhuang.moovi-tech.com/uploads/img/fa699ac4c4e0402a847ef478ec43e38c.jpg"
+          url:"http://tongzhuang.moovi-tech.com/uploads/img/c2f8519476dd4381ae411a1e0d208dc8.jpeg"
         },
         {
           url:"http://tongzhuang.moovi-tech.com/uploads/img/fa699ac4c4e0402a847ef478ec43e38c.jpg"
@@ -220,8 +220,10 @@ export default {
   mounted(){
     $('.ui.rating').rating('disable');
 
-    $('.brePic').popup({inline: true
-  });
+    $('.brePic').popup({
+      position: "right center",
+      lastResort: true
+    });
 
   }
 }
@@ -230,9 +232,6 @@ export default {
 <style scoped>
 .merchantRateBody {
   padding: 20px;
-}
-.titleBox {
-  line-height: 24px;
 }
 .rateCol {
   margin: 0 20px 20px 0;
@@ -262,7 +261,8 @@ export default {
   margin: 20px;
 }
 .brePic {
-  width: 80px;float: left;
+  float: left;
+  margin-right: 10px;
   margin-bottom: 10px;
 }
 </style>

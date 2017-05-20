@@ -90,7 +90,7 @@
           <div class="ten wide column">
             <div class="image" v-for="pic in item.showPic">
               <div class="ui brePic"><img class="ui tiny image" :src="pic.url"></div>
-              <div class="ui flowing popup transition tiny">
+              <div class="ui popup">
                 <img class="ui large image" :src="pic.url">
               </div>
             </div>
@@ -230,8 +230,9 @@ export default {
     $('.ui.rating').rating('disable');
 
     $('.brePic').popup({
-    position   : 'top right'
-  });
+      position: "right center",
+      lastResort: true
+    });
 
   }
 }
@@ -270,6 +271,8 @@ export default {
   margin: 20px;
 }
 .brePic {
+  float: left;
+  margin-right: 10px;
   margin-bottom: 10px;
 }
 </style>

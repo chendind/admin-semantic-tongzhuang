@@ -55,15 +55,13 @@
         <div class="six wide column">
           评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容
         </div>
-        <div class="four wide column">
+        <div class="eight wide column">
           <div class="image" v-for="pic in item.showPic">
               <div class="ui brePic"><img class="ui tiny image" :src="pic.url"></div>
-              <div class="ui flowing popup transition tiny">
-                <img class="ui large image" :src="pic.url">
+              <div class="ui popup">
+                <img class="ui image" :src="pic.url">
               </div>
             </div>
-        </div>
-        <div class="four wide column">
           <div class="ui items">
             <div class="item">
               <label>购物环境</label>
@@ -185,7 +183,8 @@ export default {
     this.$nextTick(()=>{
       $('.ui.rating').rating('disable');
       $('.brePic').popup({
-        position   : 'top left'
+        position: "right center",
+        lastResort: true
       });
     })
     
