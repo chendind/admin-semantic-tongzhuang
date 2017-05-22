@@ -53,13 +53,11 @@
       </tfoot>
     </table>
 
-    <div class="ui modal productCode" id="productCode">
-      <i class="remove link icon" @click="disableCode" id="closeIcon"></i>
-      <div class="image content">
-          <div id="qrcode"></div>
-        </div>
+    <div class="codePic">
+      <div id="qrcode"></div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -111,16 +109,20 @@ export default {
       });
     },
 
-    disableCode () {
-       $('.productCode').modal('hide');
-    },
-
     codeView(name,index) {  
-        $('.productCode').modal('show');
+      if(!$('#qrcode').html()){
 
-        $('#qrcode').empty();
         $('#qrcode').html("<div style='margin-bottom:20px'>产品:" + name +"的二维码</div>");
         $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index);
+        $('#qrcode').css("padding","20px");
+        $('#qrcode').css("border","1px solid black");
+      }
+      else
+      {
+        $('#qrcode').empty();
+        $('#qrcode').css("padding","0px");
+        $('#qrcode').css("border","0px solid white");
+      }
     }
   },
 
@@ -163,19 +165,7 @@ export default {
   mounted(){
     this.getProducts();
 
-      $('#qrcode').empty();
-    //just for an UI bug
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
-   //end here
-
-  },
-
-   beforeDestroy: function () {
-                $('#productCode').remove();
-            },
+  }
 }
 </script>
 
@@ -187,14 +177,11 @@ export default {
   height: 36px;
   margin-bottom: 20px;
 }
-#productCode {
-  width: 300px;
- left: 50%;
- margin-left: -150px;
-}
-#closeIcon {
-  position: absolute;
-  left: 275px;
-  top: 10px;
+.codePic {
+  position: fixed;
+  z-index: 99;
+  top: 120px; 
+  left: 50%;
+  background-color: white;
 }
 </style>

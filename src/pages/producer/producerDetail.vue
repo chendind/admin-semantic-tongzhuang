@@ -51,6 +51,7 @@
         </button>
       </div>
     </div>
+    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose" :target="target"></image-choose-modal>
 
     <div class="ui breadcrumb">
         <div class="active section">产品列表</div>
@@ -89,13 +90,10 @@
       </tbody>
     </table>
       
-   
-      <div class="ui modal producerCode" id="producerCode">
-        <i class="remove link icon" @click="disableCode" id="closeIcon"></i>
-        <div class="image content">
-            <div id="qrcode"></div>
-          </div>
+      <div class="codePic">
+        <div id="qrcode"></div>
       </div>
+   
 
     <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
   </div>
@@ -103,7 +101,6 @@
 </template>
 
 <script>
-
 import tinymce from 'components/tinymce/Tinymce.vue'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
@@ -130,9 +127,6 @@ export default {
           }
         });
     },
-    disableCode () {
-       $('.producerCode').modal('hide');
-    },
     pageChange(index){
       this.getGoods(this.length*(index-1), this.length)
       this.current = index
@@ -156,13 +150,18 @@ export default {
       });
     },
     codeView(name,index) {  
-
-      $('.producerCode').modal('show');
-
-        $('#qrcode').empty();
       if(!$('#qrcode').html()){
-        $('#qrcode').html("<div style='margin-bottom:20px'> " + name +"</div>");
+
+        $('#qrcode').html("<div style='margin-bottom:20px'>产品:" + name +"的二维码</div>");
         $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index);
+        $('#qrcode').css("padding","20px");
+        $('#qrcode').css("border","1px solid black");
+      }
+      else
+      {
+        $('#qrcode').empty();
+        $('#qrcode').css("padding","0px");
+        $('#qrcode').css("border","0px solid white");
       }
     }
   },
@@ -183,14 +182,7 @@ export default {
     
   },
   mounted(){
-    //just for an UI bug
-      $('#qrcode').empty();
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
-   //end here
-
+    
     if(this.$route.query.id){
       ajax.getProducerList().done((data)=>{
         this.products = data.data[this.$route.query.index].goods;
@@ -203,23 +195,21 @@ export default {
           this.$refs.tinymce.setContent(data.data[this.$route.query.index].detail);
       })
     }
-  },
-
-   beforeDestroy: function () {
-                $('#producerCode').remove();
-            },
+  }
 }
 </script>
 
 <style scoped>
-#producerCode {
-  width: 300px;
- left: 50%;
- margin-left: -150px;
+.editBox {
+  margin: 0 20px;
+  border-radius: 10px;
+  padding: 20px;
 }
-#closeIcon {
-  position: absolute;
-  left: 275px;
-  top: 10px;
+.codePic {
+  position: fixed;
+  z-index: 99;
+  top: 120px; 
+  left: 50%;
+  background-color: white;
 }
 </style>

@@ -74,11 +74,8 @@
         </div>
     </div>
 
-    <div class="ui modal personCode" id="personCode">
-      <i class="remove link icon" @click="disableCode" id="closeIcon"></i>
-      <div class="image content">
-          <div id="qrcode"></div>
-        </div>
+    <div class="codePic">
+      <div id="qrcode"></div>
     </div>
 
   </div>
@@ -101,18 +98,21 @@
       }
     },
     methods: {
-      disableCode () {
-         $('.personCode').modal('hide');
-      },
-
       codeView() {  
-        $('.personCode').modal('show');
+        if(!$('#qrcode').html()){
 
-        $('#qrcode').empty();
-        $('#qrcode').html("<div style='margin-bottom:20px'>店铺二维码</div>");
-        $('#qrcode').qrcode("www.baidu.com");
+          $('#qrcode').html("<div style='margin-bottom:20px'>店铺二维码</div>");
+          $('#qrcode').qrcode("www.baidu.com");
+          $('#qrcode').css("padding","20px");
+          $('#qrcode').css("border","1px solid black");
+        }
+        else
+        {
+          $('#qrcode').empty();
+          $('#qrcode').css("padding","0px");
+          $('#qrcode').css("border","0px solid white");
+        }
       },
-
       submit(){
         this.data.introduction = this.$refs.editor.getContent()
         editMerchant(this.data).then(()=>{
@@ -121,7 +121,6 @@
           xy.alert('修改失败' + (e.message ? ':' + e.message : ''))
         })
       },
-
       changePass(){
         if (this.oldpwd=='') {
           alert("请输入原密码")
@@ -144,14 +143,6 @@
         }
       }
     },
-    mounted () {
-    //just for an UI bug
-      $('#qrcode').empty();
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
-    },
     beforeRouteEnter(to, from, next){
       getMerchant().then(res => {
         next($vm => {
@@ -160,9 +151,6 @@
         })
       })
     },
-    beforeDestroy: function () {
-                $('#personCode').remove();
-            },
     
   }
 </script>
@@ -186,14 +174,11 @@
       top: 0px;
     }
   }
-#personCode {
-  width: 300px;
- left: 50%;
- margin-left: -150px;
-}
-#closeIcon {
-  position: absolute;
-  left: 275px;
-  top: 10px;
+.codePic {
+  position: fixed;
+  z-index: 99;
+  top: 120px; 
+  left: 50%;
+  background-color: white;
 }
 </style>
