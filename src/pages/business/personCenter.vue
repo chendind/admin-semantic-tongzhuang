@@ -110,7 +110,14 @@
 
         $('#qrcode').empty();
         $('#qrcode').html("<div style='margin-bottom:20px'>店铺二维码</div>");
-        $('#qrcode').qrcode("www.baidu.com");
+        let buf = {
+          code: null,
+          type: "business",
+          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=123"
+        };// JSON.parse();
+        buf.code = this.data.code;
+        buf = JSON.stringify(buf);
+        $('#qrcode').qrcode(buf);
       },
 
       submit(){

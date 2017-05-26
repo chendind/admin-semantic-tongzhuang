@@ -25,15 +25,14 @@
                 <div class="content" style="margin-top:5px">
                   <a class="header" style="vertical:middle;">{{data.name}}</a>
                   <div class="ui grid">
-                    <div class="eight wide column">
+                    <div class="six wide column">
                       <div class="meta">
                         <p><b>店铺代码:&nbsp;</b>{{data.code}}</p>
                         <p><b>地点:&nbsp;</b>{{data.location}}</p>
                         <p><b>主营产品:&nbsp;</b>{{data.product}}</p>
-
                       </div>
                     </div>
-                    <div class="eight wide column">
+                    <div class="ten wide column">
                       <div class="meta">
                         <p><b>负责人:&nbsp;</b>{{data.principal}}</p>
                         <p><b>联系方式:&nbsp;</b>{{data.phone}}</p>
@@ -44,7 +43,8 @@
                 </div>
               </div>
             </router-link>
-            <div class="ui right floated absolute vertical" style="right: 75px; width: 120px">
+            <div class="ui right floated absolute vertical" style="right: 75px; width: 220px">
+                <div class="ui button"  @click="codeView(data.name,data.id,data.code)">二维码</div>
               <router-link :to="{path:'/user/merchantRate',query:{id:data.id}}">
                 <div class="ui button">查看评价</div>
               </router-link>
@@ -61,6 +61,14 @@
         </tr>
       </tfoot>
     </table>
+
+    <div class="ui modal producerCode" id="producerCode">
+        <i class="remove link icon" @click="disableCode" id="closeIcon"></i>
+        <div class="image content">
+            <div id="qrcode"></div>
+          </div>
+      </div>
+
   </div>
 </template>
 <script>
@@ -104,18 +112,59 @@ export default {
           })
         }
       })
-    }
+    },
+    codeView(name,index,code) {  
+
+      $('.producerCode').modal('show');
+
+        $('#qrcode').empty();
+      if(!$('#qrcode').html()){
+        $('#qrcode').html("<div style='margin-bottom:20px'> " + name +"</div>");
+        let buf = {
+          code: code,
+          type: "business",
+          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index
+        };// JSON.parse();
+        buf = JSON.stringify(buf);
+        $('#qrcode').qrcode(buf);
+      }
+    },
+    disableCode () {
+       $('.producerCode').modal('hide');
+    },
   },
   components: {
     Pagination
   },
   created(){
     this.getData(0,this.length);
-  }
+  },
+   mounted(){
+    //just for an UI bug
+      $('#qrcode').empty();
+      if(!$('#qrcode').html()){
+        $('#qrcode').html("<div></div>");
+        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
+      }
+   //end here
+  },
+  beforeDestroy: function () {
+                $('#producerCode').remove();
+            },
 }
 
 </script>
 <style lang="less">
+#producerCode {
+  width: 300px;
+ left: 50%;
+ margin-left: -150px;
+}
+#closeIcon {
+  position: absolute;
+  left: 275px;
+  top: 10px;
+}
 table td{
   position: relative;
 }

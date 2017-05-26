@@ -32,7 +32,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="total" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="totalInt" data-max-rating="5" ></div>
               <span>{{ total }}</span>
               <span>分</span>
             </div>
@@ -44,7 +44,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="quality" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="qualityInt" data-max-rating="5"></div>
               <span>{{ quality }}</span>
               <span>分</span>
             </div>
@@ -56,7 +56,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="style" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="styleInt" data-max-rating="5"></div>
               <span>{{ style }}</span>
               <span>分</span>
             </div>
@@ -68,7 +68,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="price" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="priceInt" data-max-rating="5"></div>
               <span>{{ price }}</span>
               <span>分</span>
             </div>
@@ -178,57 +178,75 @@ export default {
     pageChange(index){
       this.getEvaluation(this.$route.query.id, this.length*(index-1), this.length, true)
     },
+
+
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
-        console.log(data);
+          if(data.data) {
+            for (let i = 0; i < data.data.length; i++) {
+              let buf = {
+                  username: null,
+                  avata: null,
+                  text: null,
+                  time: null,
+                   showPic:[
+                  //  {
+                  //   url: null
+                  //  }
+                   ],
+                  showQuality: null,
+                  showStyle: null,
+                  showPrice: null
+              };
+              buf.username = data.data[i].user.nickName;
+              buf.avata = data.data[i].user.img;
+              buf.text = data.data[i].text;
+              buf.time = data.data[i].in_time;
+              if (data.data.photo != []) {
+                for (let i = 0; i < data.data[i].photo.length; i++) {
+                  let picUrl = {
+                    url: null
+                  };
+                  picUrl.url = data.data[i].photo[i];
+                    buf.showPic.push(picUrl);
+                    debugger
+                  }
+                }
+                debugger
+              buf.showQuality = data.data[i].environment;
+              buf.showStyle = data.data[i].attitude;
+              buf.showPrice = data.data[i].after_sale;
+              this.rates.push(buf);
+            }
+              
+          }
+
       })
     }
   },
   data () {
     return {
-      name: '爱疯7 64G',
-      type: '零食',
-      detail: "",
-      img:  require("assets/image.png"),
-      material: "null",
-      rateNum: "123",
-      total: 2,
-      quality: 3,
-      style: 2,
-      price: 5,
-      rates: [
-        {
-        username: "br vnf j",
-        avata: require("assets/image.png"),
-        text: "dfghjm,jhgfdfghjk",
-        time: "2017-5-13 10:59:00",
-        showPic:[{
-          url:"http://tongzhuang.moovi-tech.com/uploads/img/fa699ac4c4e0402a847ef478ec43e38c.jpg"
-        },
-        {
-          url:"http://tongzhuang.moovi-tech.com/uploads/img/fa699ac4c4e0402a847ef478ec43e38c.jpg"
-        }],
-        showQuality: 5,
-        showStyle: 4,
-        showPrice: 4
-      },
-      {
-        username: "MJ",
-        avata: "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=948933877,1384040484&fm=58",
-        text: "You are running Vue in development mode.Make sure to turn on production mode when deploying for production.You are running Vue in development mode.Make sure to turn on production mode when deploying for production.",
-        time: "2017-5-13 10:59:00",
-        showPic:[{
-          url:"https://cn.vuejs.org/images/logo.png"
-        }],
-        showQuality: 3,
-        showStyle: 1,
-        showPrice: 1
-      }],
-      totalPage: 6,
-      length: 10
+      name: null,
+      type: null,
+      detail: null,
+      img: null,
+      material: null,
+      rateNum: null,
+      total: null,
+      quality: null,
+      style: null,
+      price: null,
+      totalInt: null,
+      qualityInt: null,
+      styleInt: null,
+      priceInt: null,
+      rates: [],
+      totalPage: null,
+      length: null,
+      afterReady: false
     }
   },
-  created: function(){
+  created() {
     if(this.$route.query.id){
       ajax.getProductInfo(this.$route.query.id).done((data)=>{
         if(data.state == 0){
@@ -236,19 +254,39 @@ export default {
           this.name = data.data.name
           this.material = data.data.material
           this.rateNum = data.data.evaluationModel.sum
+          this.quality = parseInt(data.data.evaluationModel.environment *10 / data.data.evaluationModel.sum ) /10;
+          this.style = parseInt(data.data.evaluationModel.attitude *10 / data.data.evaluationModel.sum) /10;
+          this.price = parseInt(data.data.evaluationModel.after_sale *10 / data.data.evaluationModel.sum) /10;
+          this.total = parseInt((data.data.evaluationModel.attitude + data.data.evaluationModel.after_sale + data.data.evaluationModel.environment) *10 / (data.data.evaluationModel.sum * 3)) /10;
+
+          this.qualityInt = parseInt(data.data.evaluationModel.environment / data.data.evaluationModel.sum);
+          this.styleInt = parseInt(data.data.evaluationModel.attitude / data.data.evaluationModel.sum);
+          this.priceInt = parseInt(data.data.evaluationModel.after_sale / data.data.evaluationModel.sum);
+          this.totalInt = parseInt((data.data.evaluationModel.attitude + data.data.evaluationModel.after_sale + data.data.evaluationModel.environment) / (data.data.evaluationModel.sum * 3));
+
+          this.getEvaluation(data.data.evaluationModel.id, 0, 10, true);
+
+
+          this.$nextTick(()=>{
+            $('.ui.rating').rating('disable');
+          })
+
         }
       });
-      this.getEvaluation(this.$route.query.id, 0, 10, true);
+
     }
+
+    
   },
+
   mounted(){
-    $('.ui.rating').rating('disable');
-
-    $('.brePic').popup({
-      position: "right center",
-      lastResort: true
-    });
-
+           
+     this.$nextTick(()=>{
+      $('.brePic').popup({
+        position: "right center",
+        lastResort: true
+      });
+    })
   }
 }
 </script>

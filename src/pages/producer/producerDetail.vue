@@ -162,7 +162,14 @@ export default {
         $('#qrcode').empty();
       if(!$('#qrcode').html()){
         $('#qrcode').html("<div style='margin-bottom:20px'> " + name +"</div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index);
+
+        let buf = {
+          type: "product",
+          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index
+        };// JSON.parse();
+        buf = JSON.stringify(buf);
+        $('#qrcode').qrcode(buf);
+
       }
     }
   },
