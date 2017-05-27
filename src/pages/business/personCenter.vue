@@ -113,7 +113,7 @@
         let buf = {
           code: null,
           type: "business",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=123"
+          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=123"
         };// JSON.parse();
         buf.code = this.data.code;
         buf = JSON.stringify(buf);

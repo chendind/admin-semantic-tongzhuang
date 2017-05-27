@@ -123,7 +123,7 @@ export default {
         let buf = {
           code: code,
           type: "business",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index
+          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + index
         };// JSON.parse();
         buf = JSON.stringify(buf);
         $('#qrcode').qrcode(buf);

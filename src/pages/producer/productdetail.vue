@@ -3,7 +3,8 @@
   <div>
     <h1 class="ui dividing header">
       <div class="ui breadcrumb">
-        <router-link to="/producer/productManage" class="section">产品管理</router-link>
+        <router-link to="/producer/productManage" class="section" v-if="usertype === 'producer'">产品管理</router-link>
+        <router-link to="/producer/producerManage" class="section" v-if="usertype === 'back'">厂家管理</router-link>
         <i class="right angle icon divider"></i>
         <div class="active section">{{$route.query.id?'产品详情':'新增产品'}}</div>
       </div>
@@ -42,7 +43,8 @@
             <i class="checkmark icon"></i>
             {{$route.query.id?'保存修改':'新增'}}
           </button>
-          <router-link to="/producer/productManage" class="ui right floated button">取消</router-link>
+          <router-link to="/producer/productManage" class="ui right floated button" v-if="usertype === 'producer'">取消</router-link>
+          <router-link to="/producer/producerManage" class="ui right floated button" v-if="usertype === 'back'">取消</router-link>
       </div>
     </div>
 
@@ -84,10 +86,12 @@ export default {
       name: null,
       material: null,
       detail: null,
-      img: null
+      img: null,
+      usertype: null,
     }
   },
   created: function(){
+    this.usertype = window.localStorage.getItem('usertype');
     if(this.$route.query.id){
       ajax.getProductInfo(this.$route.query.id).done((data)=>{
         if(data.state == 0){

@@ -8,7 +8,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="total" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="totalInt" data-max-rating="5"></div>
               <span>{{ total }}</span>
               <span>分</span>
             </div>
@@ -20,7 +20,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="quality" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="qualityInt" data-max-rating="5"></div>
               <span>{{ quality }}</span>
               <span>分</span>
             </div>
@@ -32,7 +32,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="style" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="styleInt" data-max-rating="5"></div>
               <span>{{ style }}</span>
               <span>分</span>
             </div>
@@ -44,7 +44,7 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-              <div class="ui star rating" :data-rating="price" data-max-rating="5"></div>
+              <div class="ui star rating" :data-rating="priceInt" data-max-rating="5"></div>
               <span>{{ price }}</span>
               <span>分</span>
             </div>
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import {getMerchant, editMerchant,merchantChangePassword} from 'src/ajax/ajax_business.js'
 import tinymce from 'components/tinymce/Tinymce.vue'
 import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
@@ -154,78 +155,133 @@ export default {
     pageChange(index){
       this.getEvaluation(this.$route.query.id, this.length*(index-1), this.length, true)
     },
+
+    //时间戳格式化
+    add0(m){return m<10?'0'+m:m },
+    getFormTime(shijianchuo)
+        {
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(shijianchuo);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+        },
+
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
-        console.log(data);
+          if(data.data) {
+              for (let i = 0; i < data.data.length; i++) {
+              let buf = {
+                  username: null,
+                  avata: null,
+                  text: null,
+                  time: null,
+                   showPic:[
+                  //  {
+                  //   url: null
+                  //  }
+                   ],
+                  showQuality: null,
+                  showStyle: null,
+                  showPrice: null
+              };
+              buf.username = data.data[i].user.nickName;
+              buf.avata = data.data[i].user.img;
+              buf.text = data.data[i].text;
+              buf.time = this.getFormTime(data.data[i].in_time);
+              if (data.data.photo != []) {
+                for (let j = 0; j < data.data[j].photo.length; j++) {
+                  let picUrl = {
+                    url: null
+                  };
+                  picUrl.url = data.data[i].photo[j];
+                    buf.showPic.push(picUrl);
+                  }
+                }
+              buf.showQuality = data.data[i].environment;
+              buf.showStyle = data.data[i].attitude;
+              buf.showPrice = data.data[i].after_sale;
+              this.rates.push(buf);
+            }
+              
+          }
+          this.$nextTick(()=>{
+            $('.ui.rating').rating('disable');
+            $('.brePic').popup({
+              position: "right center",
+              lastResort: true
+            });
+          })
       })
     }
   },
   data () {
     return {
-      name: '爱疯7 64G',
-      type: '零食',
-      detail: "",
-      img:  require("assets/image.png"),
-      material: "null",
-      rateNum: "123",
-      total: 2,
-      quality: 3,
-      style: 2,
-      price: 5,
+      rateNum: null,
+      total: null,
+      quality: null,
+      style: null,
+      price: null,
+      totalInt: null,
+      qualityInt: null,
+      styleInt: null,
+      priceInt: null,
       rates: [
-        {
-        username: "br vnf j",
-        avata: require("assets/image.png"),
-        text: "dfghjm,jhgfdfghjk",
-        time: "2017-5-13 10:59:00",
-        showPic:[{
-          url:"http://tongzhuang.moovi-tech.com/uploads/img/c2f8519476dd4381ae411a1e0d208dc8.jpeg"
-        },
-        {
-          url:"http://tongzhuang.moovi-tech.com/uploads/img/fa699ac4c4e0402a847ef478ec43e38c.jpg"
-        }],
-        showQuality: 5,
-        showStyle: 4,
-        showPrice: 4
-      },
-      {
-        username: "MJ",
-        avata: "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=948933877,1384040484&fm=58",
-        text: "You are running Vue in development mode.Make sure to turn on production mode when deploying for production.You are running Vue in development mode.Make sure to turn on production mode when deploying for production.",
-        time: "2017-5-13 10:59:00",
-        showPic:[{
-          url:"https://cn.vuejs.org/images/logo.png"
-        }],
-        showQuality: 3,
-        showStyle: 1,
-        showPrice: 1
-      }],
-      totalPage: 6,
+      //   {
+      //   username: null,
+      //   avata: null,
+      //   text: null,
+      //   time: null,
+      //   showPic:[],
+      //   showQuality: null,
+      //   showStyle: null,
+      //   showPrice: null
+      // }
+      ],
+      totalPage: null,
       length: 10
     }
   },
   created: function(){
-    if(this.$route.query.id){
-      ajax.getProductInfo(this.$route.query.id).done((data)=>{
-        if(data.state == 0){
-          this.img = data.data.photo
-          this.name = data.data.name
-          this.material = data.data.material
-          this.rateNum = data.data.evaluationModel.sum
-        }
-      });
-      this.getEvaluation(this.$route.query.id, 0, 10, true);
-    }
+
   },
   mounted(){
-    $('.ui.rating').rating('disable');
+    
+  },
 
-    $('.brePic').popup({
-      position: "right center",
-      lastResort: true
-    });
+  beforeRouteEnter(to, from, next){
+    getMerchant().then(res => {
+      next($vm => {
+        $vm.rateNum = res.evaluationModel.sum
+        if(res.evaluationModel.sum) {
+          $vm.quality = parseInt(res.evaluationModel.environment *10 / res.evaluationModel.sum ) /10;
+          $vm.style = parseInt(res.evaluationModel.attitude *10 / res.evaluationModel.sum) /10;
+          $vm.price = parseInt(res.evaluationModel.after_sale *10 / res.evaluationModel.sum) /10;
+          $vm.total = parseInt((res.evaluationModel.attitude + res.evaluationModel.after_sale + res.evaluationModel.environment) *10 / (res.evaluationModel.sum * 3)) /10;
 
-  }
+          $vm.qualityInt = parseInt(res.evaluationModel.environment / res.evaluationModel.sum);
+          $vm.styleInt = parseInt(res.evaluationModel.attitude / res.evaluationModel.sum);
+          $vm.priceInt = parseInt(res.evaluationModel.after_sale / res.evaluationModel.sum);
+          $vm.totalInt = parseInt((res.evaluationModel.attitude + res.evaluationModel.after_sale + res.evaluationModel.environment) / (res.evaluationModel.sum * 3));
+
+          $vm.getEvaluation(res.evaluationModel.id, 0, 10, true);
+
+        }
+        $vm.$nextTick(()=>{
+          $('.ui.rating').rating('disable');
+          $('.brePic').popup({
+            position: "right center",
+            lastResort: true
+          });
+        })
+
+      })
+    })
+  },
 }
 </script>
 

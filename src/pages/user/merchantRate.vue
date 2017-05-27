@@ -16,7 +16,7 @@
             <div class="content">
               <div class="ui form">
                 <div class="field">
-                  <div class="ui star rating" :data-rating="total" data-max-rating="5"></div>
+                  <div class="ui star rating" :data-rating="totalInt" data-max-rating="5"></div>
                   <span>{{ total }}</span>
                   <span>分</span>
                 </div>
@@ -28,7 +28,7 @@
             <div class="content">
               <div class="ui form">
                 <div class="field">
-                  <div class="ui star rating" :data-rating="environment" data-max-rating="5"></div>
+                  <div class="ui star rating" :data-rating="environmentInt" data-max-rating="5"></div>
                   <span>{{ environment }}</span>
                   <span>分</span>
                 </div>
@@ -40,7 +40,7 @@
             <div class="content">
               <div class="ui form">
                 <div class="field">
-                  <div class="ui star rating" :data-rating="attitude" data-max-rating="5"></div>
+                  <div class="ui star rating" :data-rating="attitudeInt" data-max-rating="5"></div>
                   <span>{{ attitude }}</span>
                   <span>分</span>
                 </div>
@@ -52,7 +52,7 @@
             <div class="content">
               <div class="ui form">
                 <div class="field">
-                  <div class="ui star rating" :data-rating="service" data-max-rating="5"></div>
+                  <div class="ui star rating" :data-rating="serviceInt" data-max-rating="5"></div>
                   <span>{{ service }}</span>
                   <span>分</span>
                 </div>
@@ -169,70 +169,122 @@ export default {
     pageChange(index){
       this.getEvaluation(this.$route.query.id, this.length*(index-1), this.length, true)
     },
+
+    //时间戳格式化
+    add0(m){return m<10?'0'+m:m },
+    getFormTime(shijianchuo)
+        {
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(shijianchuo);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+        },
+
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
-        console.log(data);
+          for (let i = 0; i < data.data.length; i++) {
+              let buf = {
+                  username: null,
+                  avata: null,
+                  text: null,
+                  time: null,
+                  showPic:[
+                  //  {
+                  //   url: null
+                  //  }
+                   ],
+                  showEnvironment: null,
+                  showAttitude: null,
+                  showService: null
+              };
+              buf.username = data.data[i].user.nickName;
+              buf.avata = data.data[i].user.img;
+              buf.text = data.data[i].text;
+              buf.time = this.getFormTime(data.data[i].in_time);
+              if (data.photo != []) {
+                for (let j = 0; j < data.data[j].photo.length; j++) {
+                  let picUrl = {
+                    url: null
+                  };
+                  picUrl.url = data.data[i].photo[j];
+                    buf.showPic.push(picUrl);
+                  }
+                }
+              buf.showEnvironment = data.data[i].environment;
+              buf.showAttitude = data.data[i].attitude;
+              buf.showService = data.data[i].after_sale;
+              this.rates.push(buf);
+            }
+          this.$nextTick(()=>{
+            $('.ui.rating').rating('disable');
+            $('.brePic').popup({
+              position: "right center",
+              lastResort: true
+            });
+          })
       })
     }
   },
   data () {
     return {
-      type: '零食',
-      detail: "",
-      rateNum: "123",
-      total: 2,
-      environment: 3,
-      attitude: 2,
-      service: 5,
-      rates: [
-        {
-        username: null,
-        avata: null,
-        text: null,
-        time: null,
-        showPic:[{
-          url: null,
-        },
-        {
-          url: null,
-        }],
-        showEnvironment: 5,
-        showAttitude: 4,
-        showService: 4
-      },
-      {
-        username: null,
-        avata: null,
-        text: null,
-        time: null,
-        showPic:[{
-          url: null,
-        }],
-        showEnvironment: 3,
-        showAttitude: 1,
-        showService: 1
-      }],
+      rateNum: null,
+      total: null,
+      environment: null,
+      attitude: null,
+      service: null,
+      totalInt: null,
+      environmentInt: null,
+      attitudeInt: null,
+      serviceInt: null,
+      rates: [],
       totalPage: 6,
       length: 10
     }
   },
   created: function(){
+
     if(this.$route.query.id){
+      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
+             this.rateNum = data.evaluationModel.sum
+             if(data.evaluationModel.sum) {
+                this.environment = parseInt(data.evaluationModel.environment *10 / data.evaluationModel.sum ) /10;
+                this.attitude = parseInt(data.evaluationModel.attitude *10 / data.evaluationModel.sum) /10;
+                this.service = parseInt(data.evaluationModel.after_sale *10 / data.evaluationModel.sum) /10;
+                this.total = parseInt((data.evaluationModel.attitude + data.evaluationModel.after_sale + data.evaluationModel.environment) *10 / (data.evaluationModel.sum * 3)) /10;
+      
+                this.environmentInt = parseInt(data.evaluationModel.environment / data.evaluationModel.sum);
+                this.attitudeInt = parseInt(data.evaluationModel.attitude / data.evaluationModel.sum);
+                this.serviceInt = parseInt(data.evaluationModel.after_sale / data.evaluationModel.sum);
+                this.totalInt = parseInt((data.evaluationModel.attitude + data.evaluationModel.after_sale + data.evaluationModel.environment) / (data.evaluationModel.sum * 3));
+      
+                this.getEvaluation(data.evaluationModel.id, 0, 10, true);
+              }
+
+          this.$nextTick(()=>{
+            $('.ui.rating').rating('disable');
+            $('.brePic').popup({
+              position: "right center",
+              lastResort: true
+            });
+          })
+      })
+    }
+
+    // if(this.$route.query.id){
       // ajax.getProductInfo(this.$route.query.id).done((data)=>{
       //   if(data.state == 0){
-      //     this.rateNum = data.data.evaluationModel.sum
+      //     this.rateNum = data.evaluationModel.sum
       //   }
       // });
       // this.getEvaluation(this.$route.query.id, 0, 10, true);
-    }
+    // }
   },
   mounted(){
-    $('.ui.rating').rating('disable');
-
-    $('.brePic').popup({
-      position: "right center",
-      lastResort: true
-    });
 
   }
 }

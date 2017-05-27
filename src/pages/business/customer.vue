@@ -2,16 +2,16 @@
   <div>
     <h1 class="ui dividing header">
       <div class="ui breadcrumb">
-        <a class="section">后台</a>
+        <a class="section">商家</a>
         <i class="right angle icon divider"></i>
         <div class="active section">客户管理</div>
       </div>
     </h1>
     <table class="ui celled table">
       <tbody>
-        <tr v-for="data in datas">
+        <tr v-for="(data,$index) in datas">
           <td>
-            <router-link class="ui items" :to="{path:'/user/customerInfo',query:{id:data.id}}">
+            <router-link class="ui items" :to="{path:'/business/customerInfo',query:{index:$index,page:current,lenth:length}}">
               <div class="item">
                 <div class="ui image tiny">
                   <img :src="data.img"/>
@@ -53,6 +53,7 @@ import Vue from 'vue'
 
 import ajax from 'src/ajax/ajax.js'
 import Pagination from 'src/components/Pagination.vue'
+import router from 'src/router.js'
 
 export default {
   name: 'business',
@@ -67,6 +68,7 @@ export default {
   },
   methods: {
     getData(start, length){
+      debugger
       ajax.getUser(start,length,'merchant',this.id).done((data)=>{
         this.datas = data.list
         this.total = data.countAll

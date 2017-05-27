@@ -286,6 +286,15 @@ export default {
       }
     })
   },
+  getProducerById(id) {
+  	return $.ajax({
+      url: baseurl+'/factory/get',
+      type: 'post',
+      data: {
+       id
+      }
+    })
+  },
   buildProducer(id,name,address,principal,contact,detail,photo){
     return $.ajax({
       url: baseurl+'/factory/saveOrUpdate',

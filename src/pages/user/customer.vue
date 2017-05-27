@@ -9,9 +9,9 @@
     </h1>
     <table class="ui celled table">
       <tbody>
-        <tr v-for="data in datas">
+        <tr v-for="(data,$index) in datas">
           <td>
-            <router-link class="ui items" :to="{path:'/user/customerInfo',query:{id:data.id}}">
+            <router-link class="ui items" :to="{path:'/user/customerInfo',query:{index:$index,page:current,lenth:length}}">
               <div class="item">
                 <div class="ui image tiny">
                   <img :src="data.img"/>

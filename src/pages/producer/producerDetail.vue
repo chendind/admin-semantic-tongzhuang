@@ -148,7 +148,7 @@ export default {
               this.products.splice(index,1)
               debugger
               ajax.getProducerList().done((data)=>{
-              this.products = data.data[this.$route.query.index].goods;
+              this.products = data.data.goods;
               })
             }
           })
@@ -199,15 +199,15 @@ export default {
    //end here
 
     if(this.$route.query.id){
-      ajax.getProducerList().done((data)=>{
-        this.products = data.data[this.$route.query.index].goods;
-        this.name = data.data[this.$route.query.index].name;
-        this.addr = data.data[this.$route.query.index].address;
-        this.principal = data.data[this.$route.query.index].principal;
-        this.contact = data.data[this.$route.query.index].contact;
-        this.img = data.data[this.$route.query.index].photo;
+      ajax.getProducerById(this.$route.query.id).done((data)=>{
+        this.products = data.data.goods;
+        this.name = data.data.name;
+        this.addr = data.data.address;
+        this.principal = data.data.principal;
+        this.contact = data.data.contact;
+        this.img = data.data.photo;
         
-          this.$refs.tinymce.setContent(data.data[this.$route.query.index].detail);
+          this.$refs.tinymce.setContent(data.data.detail);
       })
     }
   },

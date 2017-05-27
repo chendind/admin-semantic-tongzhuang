@@ -179,6 +179,20 @@ export default {
       this.getEvaluation(this.$route.query.id, this.length*(index-1), this.length, true)
     },
 
+    //时间戳格式化
+    add0(m){return m<10?'0'+m:m },
+    getFormTime(shijianchuo)
+        {
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(shijianchuo);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+        },
 
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
@@ -201,18 +215,16 @@ export default {
               buf.username = data.data[i].user.nickName;
               buf.avata = data.data[i].user.img;
               buf.text = data.data[i].text;
-              buf.time = data.data[i].in_time;
+              buf.time = this.getFormTime(data.data[i].in_time);
               if (data.data.photo != []) {
-                for (let i = 0; i < data.data[i].photo.length; i++) {
+                for (let j = 0; j < data.data[j].photo.length; j++) {
                   let picUrl = {
                     url: null
                   };
-                  picUrl.url = data.data[i].photo[i];
+                  picUrl.url = data.data[i].photo[j];
                     buf.showPic.push(picUrl);
-                    debugger
                   }
                 }
-                debugger
               buf.showQuality = data.data[i].environment;
               buf.showStyle = data.data[i].attitude;
               buf.showPrice = data.data[i].after_sale;
@@ -220,6 +232,13 @@ export default {
             }
               
           }
+          this.$nextTick(()=>{
+            $('.ui.rating').rating('disable');
+            $('.brePic').popup({
+              position: "right center",
+              lastResort: true
+            });
+          })
 
       })
     }
@@ -254,6 +273,7 @@ export default {
           this.name = data.data.name
           this.material = data.data.material
           this.rateNum = data.data.evaluationModel.sum
+          if(data.data.evaluationModel.sum) {
           this.quality = parseInt(data.data.evaluationModel.environment *10 / data.data.evaluationModel.sum ) /10;
           this.style = parseInt(data.data.evaluationModel.attitude *10 / data.data.evaluationModel.sum) /10;
           this.price = parseInt(data.data.evaluationModel.after_sale *10 / data.data.evaluationModel.sum) /10;
@@ -265,10 +285,14 @@ export default {
           this.totalInt = parseInt((data.data.evaluationModel.attitude + data.data.evaluationModel.after_sale + data.data.evaluationModel.environment) / (data.data.evaluationModel.sum * 3));
 
           this.getEvaluation(data.data.evaluationModel.id, 0, 10, true);
-
+        }
 
           this.$nextTick(()=>{
             $('.ui.rating').rating('disable');
+            $('.brePic').popup({
+              position: "right center",
+              lastResort: true
+            });
           })
 
         }
@@ -281,12 +305,6 @@ export default {
 
   mounted(){
            
-     this.$nextTick(()=>{
-      $('.brePic').popup({
-        position: "right center",
-        lastResort: true
-      });
-    })
   }
 }
 </script>

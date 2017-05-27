@@ -24,13 +24,13 @@
         </div>
       </div>
     </div>
-    <h1 class="ui dividing header">
+    <!-- <h1 class="ui dividing header">
     <div class="ui breadcrumb">
       <a class="section" v-if="usertype == 'back'">关注店铺</a>
       <a class="section" v-else>留言</a>
       </div>
-    </h1>
-    <table class="ui single line table" v-if="usertype == 'back'">
+    </h1> -->
+    <!-- <table class="ui single line table" v-if="usertype == 'back'">
       <thead>
         <tr>
           <th>店铺名</th>
@@ -45,8 +45,8 @@
           <td>{{formatDate(focus.time)}}</td>
         </tr>
       </tbody>
-    </table>
-
+    </table> -->
+<!-- 
     <div class="rateCol" v-for="item in rates" v-if="usertype == 'merchant'">
       <div class="ui grid">
         <div class="two wide column">
@@ -102,7 +102,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 </div>
    <!--  <table class="ui single line table" v-if="usertype == 'merchant'">
       <thead>
@@ -136,57 +136,58 @@ export default {
       var   month = "0" + (now.getMonth()+1);
       var   date = "0" +(now.getDate());
       return   year+"-"+month.substr(-2)+"-"+date.substr(-2)
-    }
+    },
+
+    getData(start, length){
+      ajax.getUser(start,length,'back',this.id).done((data)=>{
+        this.data = data.list[this.$route.query.index];
+        this.time = this.getFormTime(this.data.time);
+      })
+    },
   },
   data () {
     return {
-      target:"",
-      usertype: "",
+      target: null,
+      usertype: null,
       data:{
-        id: "",
-        name:"西柚科技Leo",
-        img: require("assets/image.png"),
+        id: null,
+        name: null,
+        img: null,
         focusList: [],
         order:"",
         score:"",
         demoDataPre: 3
       },
-      rates: [{
-        demoRate: 3,
-        showPic: [{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        },{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        },{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        }]
-      },{
-        demoRate: 3,
-        showPic: [{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        },{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        },{
-          url: "http://wx.qlogo.cn/mmopen/PXJrN9SScfBty9TBVpd1B5ZgSMgv1GhCMXMWoibD839p9S4iaqBlrbics3QSibdibM184YxwVZ6U4hELox7BibpETlrbOFYkQbOSlz/0"
-        }]
-      }]
+      // rates: [{
+      //   demoRate: 3,
+      //   showPic: [{
+      //     url: null
+      //   }]
+      // }]
     }
   },
   created() {
-
+    this.usertype = window.localStorage.getItem('usertype');
+     ajax.getBusinessById(null, null).done((data)=>{
+        this.id = data.id;
+        this.usertype = window.localStorage.getItem('usertype');
+        let start = (this.$route.query.page-1)*this.$route.query.lenth;
+        let len = this.$route.query.lenth
+        this.getData(start, len);
+      })
   },
   mounted(){
     this.usertype = window.localStorage.getItem('usertype');
     // $.when(ajax.getUserById(this.$route.query.id,this.usertype)).done((data)=>{
     //   this.data = data;
     // })
-    this.$nextTick(()=>{
-      $('.ui.rating').rating('disable');
-      $('.brePic').popup({
-        position: "right center",
-        lastResort: true
-      });
-    })
+    // this.$nextTick(()=>{
+    //   $('.ui.rating').rating('disable');
+    //   $('.brePic').popup({
+    //     position: "right center",
+    //     lastResort: true
+    //   });
+    // })
     
   }
 }
