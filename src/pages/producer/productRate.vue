@@ -196,7 +196,7 @@ export default {
 
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
-          if(data.data) {
+          if(data.data) {debugger
             for (let i = 0; i < data.data.length; i++) {
               let buf = {
                   username: null,
@@ -216,8 +216,8 @@ export default {
               buf.avata = data.data[i].user.img;
               buf.text = data.data[i].text;
               buf.time = this.getFormTime(data.data[i].in_time);
-              if (data.data.photo != []) {
-                for (let j = 0; j < data.data[j].photo.length; j++) {
+              if (data.data[i].photo[0]) {
+                for (let j = 0; j < data.data[i].photo.length; j++) {
                   let picUrl = {
                     url: null
                   };
