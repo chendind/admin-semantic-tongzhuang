@@ -220,13 +220,7 @@ export default {
               buf.showService = data.data[i].after_sale;
               this.rates.push(buf);
             }
-          this.$nextTick(()=>{
-            $('.ui.rating').rating('disable');
-            $('.brePic').popup({
-              position: "right center",
-              lastResort: true
-            });
-          })
+          
       })
     }
   },

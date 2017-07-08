@@ -122,7 +122,7 @@ export default {
   },
   mounted(){
     if(this.$route.query.id){
-      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
+      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{debugger
         this.data = data
         this.$refs.tinymce.setContent(this.data.introduction)
       })

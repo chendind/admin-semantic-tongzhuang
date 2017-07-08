@@ -80,6 +80,7 @@ module.exports = function makeWebpackConfig() {
       //     { from: './node_modules/tinymce/skins', to: './skins' },
       //     { from: './node_modules/tinymce/langs', to: './langs' }
       // ]),
+      // new webpack.optimize.CommonsChunkPlugin('common.js'),
       // new webpack.ProvidePlugin({
       //     $: "jquery",
       //     jQuery: "jquery",

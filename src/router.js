@@ -14,93 +14,111 @@ const routes = [
   		path: '/',
   		component: Main,
 		  children: [
-      {
-        path: '/',
-        component(r){
-          if(window.localStorage.getItem('usertype') == 'back'){
-            r(require('./pages/goods/goods.vue'))
-          }
-          else{
-            r(require('./pages/user/customer.vue'))
-          }
-        }
-      },
-      {
-        path: '/app/carousel',
-        component(r){
-          r(require('./pages/app/carousel.vue'))
-        }
-      },
-      {
-        path: '/app/carouselInfo',
-        component(r){
-          r(require('./pages/app/carouselInfo.vue'))
-        }
-      },
-			{
-				path: 'goods',
-				component(r){
-					r(require('./pages/goods/goods.vue'))
-				}
-			},
-			{
-				path: '/goods/goodsInfo',
-				component(r){
-					r(require('./pages/goods/goodsInfo.vue'))
-				}
-			},
-			{
-				path: '/message',
-				component(r){
-					r(require('./pages/message/messageHistory.vue'))
-				}
-			},
-			{
-				path: '/message/messageNew',
-				component(r){
-					r(require('./pages/message/messageNew.vue'))
-				}
-			},
-			{
-				path: '/message/messageDetail',
-				component(r){
-					r(require('./pages/message/messageDetail.vue'))
-				}
-			},
-			{
-				path: '/order',
-				component(r){
-					r(require('./pages/order/orderHistory.vue'))
-				}
-			},
-			{
-				path: '/order/orderWait',
-				component(r){
-					r(require('./pages/order/orderWait.vue'))
-				}
-			},
-      {
-        path: '/order/orderInfo',
-        component(r){
-          r(require('./pages/order/orderInfo.vue'))
-        }
-      },
-			{
-				path: '/personCenter',
-				component(r){
-					r(require('./pages/personCenter/personCenter.vue'))
-				}
-			},
-      {
-        path: '/producer/productManage',
-        component(r){
-          r(require('./pages/producer/productManage.vue'))
-        }
-      },
+		{
+			path: '/',
+			component(r){
+			  if(window.localStorage.getItem('usertype') == 'back'){
+			    r(require('./pages/goods/goods.vue'))
+			  }
+			  else{
+			    r(require('./pages/user/customer.vue'))
+			  }
+			}
+		},
+		{
+			path: '/app/carousel',
+			component(r){
+			  r(require('./pages/app/carousel.vue'))
+			}
+		},
+		{
+			path: '/app/carouselInfo',
+			component(r){
+			  r(require('./pages/app/carouselInfo.vue'))
+			}
+		},
+		{
+			path: 'goods',
+			component(r){
+				r(require('./pages/goods/goods.vue'))
+			}
+		},
+		{
+			path: '/goods/goodsInfo',
+			component(r){
+				r(require('./pages/goods/goodsInfo.vue'))
+			}
+		},
+		{
+			path: '/message',
+			component(r){
+				r(require('./pages/message/messageHistory.vue'))
+			}
+		},
+		{
+			path: '/message/messageNew',
+			component(r){
+				r(require('./pages/message/messageNew.vue'))
+			}
+		},
+		{
+			path: '/message/messageDetail',
+			component(r){
+				r(require('./pages/message/messageDetail.vue'))
+			}
+		},
+		{
+			path: '/order',
+			component(r){
+				r(require('./pages/order/orderHistory.vue'))
+			}
+		},
+		{
+			path: '/order/orderWait',
+			component(r){
+				r(require('./pages/order/orderWait.vue'))
+			}
+		},
+  	    {
+  	      path: '/order/orderInfo',
+  	      component(r){
+  	        r(require('./pages/order/orderInfo.vue'))
+  	      }
+  	    },
+		{
+			path: '/personCenter',
+			component(r){
+				r(require('./pages/personCenter/personCenter.vue'))
+			}
+		},
+  	    {
+  	      path: '/producer/productManage',
+  	      component(r){
+  	        r(require('./pages/producer/productManage.vue'))
+  	      }
+  	    },
+  	    {
+			path: '/producer/customer',
+			component(r){
+				r(require('./pages/producer/customer.vue'))
+			}
+		},
+		{
+			path: '/producer/customerDetail',
+			component(r){
+				r(require('./pages/producer/customerDetail.vue'))
+			}
+		},
       	{
 			path: '/producer/productdetail',
 			component(r){
 				r(require('./pages/producer/productdetail.vue'))
+			}
+		},
+		{
+			path: '/producer/map',
+			component(r){
+				r(require('./pages/producer/map.vue'))
 			}
 		},
 		{

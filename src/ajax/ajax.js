@@ -340,6 +340,42 @@ export default {
       }
     })
   },
+  producerFocusUser(){
+    return $.ajax({
+      url: baseurl+'/factory/focusUser',
+      type: 'post',
+      data: {
+      
+      }
+    })
+  },
+  producerChangeDetail(detail,code){
+    return $.ajax({
+      url: baseurl+'/factory/detail',
+      type: 'post',
+      data: {
+        detail,code
+      }
+    })
+  },
+  producerCount(factory_id){
+    return $.ajax({
+      url: baseurl+'/factory/stat',
+      type: 'post',
+      data: {
+        factory_id
+      }
+    })
+  },
+  userEvaluationByFactory(factory_id,user_id){
+    return $.ajax({
+      url: baseurl+'/factory/userEvaluationByFactory',
+      type: 'post',
+      data: {
+        factory_id,user_id
+      }
+    })
+  },
 }
 
 

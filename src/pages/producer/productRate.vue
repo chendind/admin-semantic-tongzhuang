@@ -1,178 +1,138 @@
 <template>
 
   <div>
+    <div class="tagBox">
+      <div class="circle"></div>
+      <span>{{$route.query.id?'编辑产品':'新增产品'}}</span>
+    </div>
 
-    <div class="ui items titleBox">
-      <div class="item">
-        <div class="image">
-            <img :src="img">
+    <div class="productBox">
+      <img :src="img">
+      <div class="productInfo">
+        <div class="productInfoCol">
+          <label>产品名称：</label>
+          <span>{{ name }}</span>
         </div>
-        <div class="content">
-          <div class="ui form">
-            <div class="field">
-              <label>产品名称</label>
-              <span>{{ name }}</span>
+        <div class="productInfoCol">
+          <label>产品材料：</label>
+          <span>{{ material }}</span>
+        </div>
+        <div class="productInfoCol">
+          <label>评价次数：</label>
+          <span>{{ rateNum }}</span>
+        </div>
+      </div>
+      
+      <div class="productRate">
+          <div class="productRateCol">
+            <label>产品总评</label>
+            <div class="starBox">
+              <i class="iconfont icon-wujiaoxing3" v-for="i in totalInt"></i>
+              <i class="iconfont icon-wujiaoxing2" v-if="total - totalInt >= 0.5"></i>
             </div>
-            <div class="field">
-              <label>产品材料</label>
-              <span>{{ material }}</span>
-            </div>
-            <div class="field">
-              <label>评价次数</label>
-              <span>{{ rateNum }}</span>
-            </div>
+            <span>{{ total }}</span>
+            <span>分</span>          
           </div>
-        </div>
+          <div class="productRateCol">
+            <label>产品质量</label>
+            <div class="starBox">
+              <i class="iconfont icon-wujiaoxing3" v-for="i in qualityInt"></i>
+              <i class="iconfont icon-wujiaoxing2" v-if="quality - qualityInt >= 0.5"></i>
+            </div>
+            <span>{{ quality }}</span>
+            <span>分</span>          
+          </div>
+          <div class="productRateCol">
+            <label>产品款式</label>
+            <div class="starBox">
+              <i class="iconfont icon-wujiaoxing3" v-for="i in styleInt"></i>
+              <i class="iconfont icon-wujiaoxing2" v-if="style - styleInt >= 0.5" style="margin-left:6px"></i>    
+            </div>
+            <span>{{ style }}</span>
+            <span>分</span>      
+          </div>
+          <div class="productRateCol">
+            <label>产品价位</label>
+            <div class="starBox">
+              <i class="iconfont icon-wujiaoxing3" v-for="i in priceInt"></i>
+            <i class="iconfont icon-wujiaoxing2" v-if="price - priceInt >= 0.5"></i>       
+            </div>
+            <span>{{ price }}</span>
+            <span>分</span>         
+            <!-- <i class="iconfont" v-for="i in 5" :class="{'icon-wujiaoxing3': i<=priceInt, 'icon-wujiaoxing2': i>priceInt}"></i> -->
+          </div>
       </div>
     </div>
 
-    <div class="ui items">
-      <div class="item">
-        <label>产品总评</label>
-        <div class="content">
-          <div class="ui form">
-            <div class="field">
-              <div class="ui star rating" :data-rating="totalInt" data-max-rating="5" ></div>
-              <span>{{ total }}</span>
-              <span>分</span>
-            </div>
+    <div class="rateBox">
+      <div class="rateTitle">
+        <span>全部评价</span>
+      </div>
+      <div v-for="item in rates" class="rateCol">
+        <div class="rateAvarta">
+          <div class="avartaPic">
+            <img class="ui rounded top aligned image" :src="item.avata">
+          </div>
+          <div class="avartaName">
+            <span>{{item.username}}</span>
           </div>
         </div>
-      </div>
-      <div class="item">
-        <label>产品质量</label>
-        <div class="content">
-          <div class="ui form">
-            <div class="field">
-              <div class="ui star rating" :data-rating="qualityInt" data-max-rating="5"></div>
-              <span>{{ quality }}</span>
+        <div class="rateContent">
+          <div class="rateText">
+            <span>{{item.text}}</span>
+          </div>
+          <div class="rateRating">
+            <div class="rateRatingCol" style="margin-bottom:14px;">
+              <label>产品质量</label>
+              <div class="starBox">
+                <i class="iconfont icon-wujiaoxing3" v-for="i in item.showQuality"></i>
+              </div>
+              <span>{{ item.showQuality }}</span>
               <span>分</span>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <label>产品款式</label>
-        <div class="content">
-          <div class="ui form">
-            <div class="field">
-              <div class="ui star rating" :data-rating="styleInt" data-max-rating="5"></div>
-              <span>{{ style }}</span>
+            <div class="rateRatingCol" style="margin-bottom:14px;">
+              <label>产品款式</label>
+              <div class="starBox">
+                <i class="iconfont icon-wujiaoxing3" v-for="i in item.showStyle"></i>
+              </div>
+              <span>{{ item.showStyle }}</span>
               <span>分</span>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="item">
+            <div class="rateRatingCol">
               <label>产品价位</label>
-        <div class="content">
-          <div class="ui form">
-            <div class="field">
-              <div class="ui star rating" :data-rating="priceInt" data-max-rating="5"></div>
-              <span>{{ price }}</span>
+              <div class="starBox">
+                <i class="iconfont icon-wujiaoxing3" v-for="i in item.showPrice"></i>
+              </div>
+              <span>{{ item.showPrice }}</span>
               <span>分</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ui items titleBox">
-      <div class="item">
-        <span class="colTitle">评价</span>
-      </div>
-    </div>
-
-    <div class="rateCol" v-for="item in rates">
-      <div class="ui grid">
-        <div class="two wide column">
-          <div>  
-           <span>{{item.username}}</span>
-          </div>
-          <img class="ui rounded top aligned tiny image" :src="item.avata">
-        </div>
-        <div class="fourteen wide column">
-          <div class="textBox">
-            {{item.text}}
-          </div>
-          <div class="ten wide column">
-            <div class="image" v-for="pic in item.showPic">
-              <div class="ui brePic"><img class="ui tiny image" :src="pic.url"></div>
+          <div class="ratePic">
+            <div class="image ratePic_col" v-for="pic in item.showPic">
+              <div class="ui brePic">
+                <img class="ui image" :src="pic.url">
+              </div>
               <div class="ui popup">
                 <img class="ui large image" :src="pic.url">
               </div>
             </div>
           </div>
-          <div class="ui items">
-            <div class="item">
-              <label>产品质量</label>
-              <div class="content">
-                <div class="ui form">
-                  <div class="field">
-                    <div class="ui star rating" :data-rating="item.showQuality" data-max-rating="5"></div>
-                    <span>{{ item.showQuality }}</span>
-                    <span>分</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <label>产品款式</label>
-              <div class="content">
-                <div class="ui form">
-                  <div class="field">
-                    <div class="ui star rating" :data-rating="item.showStyle" data-max-rating="5"></div>
-                    <span>{{ item.showStyle }}</span>
-                    <span>分</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <label>产品价位</label>
-              <div class="content">
-                <div class="ui form">
-                  <div class="field">
-                    <div class="ui star rating" :data-rating="item.showPrice" data-max-rating="5"></div>
-                    <span>{{ item.showPrice }}</span>
-                    <span>分</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content timeCol">
-        <div class="ui form">
-          <div class="field">
+          <div class="rateTime">
             <span>{{ item.time }}</span>
-          </div>
+          </div>    
         </div>
       </div>
     </div>
-      
-    <div class="ui grid footBox">
-      <div class="right floated column">
-        <pagination v-if="totalPage" id="pagination" current="1" :total="totalPage" :show="length" v-on:pageChange="pageChange"></pagination>
-      </div>
-    </div>
-     
+
   </div>
 
 </template>
 
 <script>
-import tinymce from 'components/tinymce/Tinymce.vue'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
-import Pagination from 'src/components/Pagination.vue'
 export default {
   name: 'evaluation',
-   components: {
-    Pagination: Pagination
-  },
 
   methods:{
     pageChange(index){
@@ -191,23 +151,19 @@ export default {
         var h = time.getHours();
         var mm = time.getMinutes();
         var s = time.getSeconds();
-        return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);
+        return y+'年'+this.add0(m)+'月'+this.add0(d)+'日';
         },
 
     getEvaluation(evaluationModel_id,start,rows,orders) {
       ajax.getEvaluation(evaluationModel_id,start,rows,orders).done((data)=>{
-          if(data.data) {debugger
+          if(data.data) {
             for (let i = 0; i < data.data.length; i++) {
               let buf = {
                   username: null,
                   avata: null,
                   text: null,
                   time: null,
-                   showPic:[
-                  //  {
-                  //   url: null
-                  //  }
-                   ],
+                   showPic:[],
                   showQuality: null,
                   showStyle: null,
                   showPrice: null
@@ -232,14 +188,14 @@ export default {
             }
               
           }
-          this.$nextTick(()=>{
+          
+          this.$nextTick(()=>{debugger
             $('.ui.rating').rating('disable');
             $('.brePic').popup({
               position: "right center",
               lastResort: true
             });
           })
-
       })
     }
   },
@@ -287,13 +243,6 @@ export default {
           this.getEvaluation(data.data.evaluationModel.id, 0, 10, true);
         }
 
-          this.$nextTick(()=>{
-            $('.ui.rating').rating('disable');
-            $('.brePic').popup({
-              position: "right center",
-              lastResort: true
-            });
-          })
 
         }
       });
@@ -310,40 +259,196 @@ export default {
 </script>
 
 <style scoped>
-.titleBox {
-  line-height: 24px;
+
+.tagBox {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 }
-.rateCol {
-  margin: 0 20px 20px 0;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #f0f0f0;
+
+.circle {
+  background: #ffffff;
+  border: 1px solid #44bfff;
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  position: absolute;
 }
-.rateCol span{
-  margin-left: 20px;
-  line-height: 20px;
+
+.tagBox span{
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  line-height: 22px;
+  color: #44bfff;
+  margin-left: 16px;
 }
-.item label {
-  margin-right: 20px;
-}
-.item span {
-  margin-left: 20px;
-}
-.textBox {
-  padding: 20px;
-}
-.colTitle {
-  font-size: 20px;
-}
-.timeCol {
-  float: right;
-}
-.footBox {
-  margin: 20px;
-}
+
 .brePic {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
+}
+
+.productBox {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.productBox img {
+  width: 101px;
+  height: 101px;
+  float: left;
+}
+
+.productRateCol .icon-wujiaoxing3,.productRateCol .icon-wujiaoxing2 {
+  color: red;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.productInfo {
+  float: left;
+  margin-left: 20px;
+  padding-top: 7px;
+}
+
+.productInfoCol {
+  margin-bottom: 10px;
+}
+
+.productInfoCol label{
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  line-height: 22px;
+  color: #777777;
+}
+
+.productInfoCol span{
+  font-family:PingFangSC-Regular;
+  font-size:16px;
+  line-height: 22px;
+  color:#333333;
+}
+
+.productRate {
+  float: left;
+  margin-left: 138px;
+}
+
+.productRateCol {
+  margin-bottom: 12px;
+}
+
+.productRateCol .starBox{
+  display: inline-block;
+  width: 170px;
+}
+
+/*评价列表*/
+.rateBox {
+  background: #fdfdff;
+  border: 1px solid #f3f3f3;
+  margin: 9px 0 22px;
+  padding: 10px 20px;
+}
+
+.rateTitle {
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #333333;
+  padding-bottom: 11px;
+}
+
+.rateCol {
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.rateAvarta {
+  width: 72px;
+  position: absolute;
+}
+
+.avartaPic {
+  margin-left: 6px;
+}
+
+.avartaPic img {
+  width: 60px;
+  height: 60px;
+}
+
+.avartaName {
+  margin-top: 5px;
+  text-align: center;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #333333;
+  line-height: 17px;
+}
+
+.rateContent {
+  width: 100%;
+  margin-left: 112px;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.rateRatingCol .icon-wujiaoxing3,.rateRatingCol .icon-wujiaoxing2{
+  color: red;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+}
+
+.ratePic {
+  margin: 17px 0 14px;
+  overflow: hidden;
+}
+
+.ratePic_col{
+  float: left;
+}
+
+.brePic img{
+  width: 61px;
+  height: 61px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.rateText {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  line-height: 20px;
+  color:  #333333;
+  margin-bottom: 10px;
+}
+
+.rateRatingCol label{
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  line-height: 17px;
+  color: #777777;
+}
+
+.rateRatingCol span {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+}
+
+.rateRatingCol .starBox {
+  width: 140px;
+  display: inline-block;
+}
+
+.rateTime {
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  margin-bottom: 10px;
+  line-height: 17px;
+  color: #777777;
 }
 </style>
