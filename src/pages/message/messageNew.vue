@@ -28,7 +28,6 @@
 			    <div class="ui button" @click="show('#imageChooseModal')" style="margin-top: 10px;">
 			      选择一张图片
 			    </div>
-			    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
 		  	</div>
   		</div>
 		<div class="field mt10" style="width: 375px">
@@ -71,7 +70,6 @@
 <script>
 import tinymce from 'components/tinymce/Tinymce.vue'
 import ajax2 from 'src/ajax/ajax2.js'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import Pagination from 'components/Pagination'
 
 function   formatDate(time)   {
@@ -86,7 +84,6 @@ export default {
 	name: 'message-new',
 	components: {
 	    tinymce,
-	    'image-choose-modal': imageChooseModal,
 	    Pagination
 	},
 	data () {
@@ -153,13 +150,17 @@ export default {
         		}
 		  })
 		},
-		show(selector){
-      $(selector).modal('show')
-    },
-    finishChoose(src){
-      console.log(src)
-      $('#expImage').attr('src', src)
-      this.src = src
+		show(){
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        $('#expImage').attr('src', src)
+        this.src = src
+      })
     },
 		chooseAll: function () {
 			var self = this;

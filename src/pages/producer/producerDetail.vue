@@ -88,8 +88,8 @@
         </tr>
       </tbody>
     </table>
-      
-   
+
+
       <div class="ui modal producerCode" id="producerCode">
         <i class="remove link icon" @click="disableCode" id="closeIcon"></i>
         <div class="image content">
@@ -97,7 +97,6 @@
           </div>
       </div>
 
-    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
   </div>
 
 </template>
@@ -105,25 +104,28 @@
 <script>
 
 import tinymce from 'components/tinymce/Tinymce.vue'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
 export default {
   name: 'bussiness',
   components: {
     tinymce,
-    'image-choose-modal': imageChooseModal
   },
   methods:{
     show(selector){
-      $(selector).modal('show')
-    },
-    finishChoose(src){
-      this.img = src
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        this.img = src
+      })
     },
     editProducer(){
       // id,name,material,detail,img
-      
+
         $.when(ajax.buildProducer(this.$route.query.id,this.name,this.addr,this.principal,this.contact,this.$refs.tinymce.getContent(),this.img)).done((data)=>{
           if(data.state == 0){
               router.push('/producer/producerManage');
@@ -146,7 +148,6 @@ export default {
             if(data.state == 0){
               xy.toast('删除成功')
               this.products.splice(index,1)
-              debugger
               ajax.getProducerList().done((data)=>{
               this.products = data.data.goods;
               })
@@ -155,7 +156,7 @@ export default {
         }
       });
     },
-    codeView(name,index) {  
+    codeView(name,index) {
 
       $('.producerCode').modal('show');
 
@@ -187,7 +188,7 @@ export default {
     }
   },
   created (){
-    
+
   },
   mounted(){
     //just for an UI bug
@@ -206,7 +207,7 @@ export default {
         this.principal = data.data.principal;
         this.contact = data.data.contact;
         this.img = data.data.photo;
-        
+
           this.$refs.tinymce.setContent(data.data.detail);
       })
     }

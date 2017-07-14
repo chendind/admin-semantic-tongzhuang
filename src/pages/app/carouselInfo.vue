@@ -39,24 +39,26 @@
         </div>
       </div>
     </div>
-    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
   </div>
 </template>
 
 <script>
 import ajax from 'src/ajax/ajax.js'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 export default {
   name: 'carouselInfo',
   components: {
-    'image-choose-modal': imageChooseModal
   },
   methods:{
     show(selector){
-      $(selector).modal('show')
-    },
-    finishChoose(src){
-      this.img = src
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        this.img = src
+      })
     },
     editCarousel(){
       if(this.img.indexOf('data:image')===0){

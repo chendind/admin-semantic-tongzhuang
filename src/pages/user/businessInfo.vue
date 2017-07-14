@@ -20,7 +20,7 @@
           <label>头像</label>
           <div class="ui action input">
             <input type="text" placeholder="请输入图片url" v-model="data.headImg">
-            <button class="ui button" @click="show('#imageChooseModal','data.headImg')">选择图片</button>
+            <button class="ui button" @click="show()">选择图片</button>
           </div>
           <img :src="data.headImg" v-show="data.headImg" class="ui image small mv10">
         </div>
@@ -30,7 +30,7 @@
           <label>背景图片</label>
           <div class="ui action input">
             <input type="text" placeholder="请输入图片url" v-model="data.backImg">
-            <button class="ui button" @click="show('#imageChooseModal','data.backImg')">选择图片</button>
+            <button class="ui button" @click="show2()">选择图片</button>
           </div>
           <img :src="data.backImg" v-show="data.backImg" class="ui image small mv10">
         </div>
@@ -65,30 +65,47 @@
         <button class="ui right floated button">取消</button>
       </div>
     </div>
-    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose" :target="target"></image-choose-modal>
   </div>
 
 </template>
 
 <script>
 import tinymce from 'components/tinymce/Tinymce.vue'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
 export default {
   name: 'businessInfo',
   components: {
     tinymce,
-    imageChooseModal
   },
   methods:{
-    show(selector, target){
-      $(selector).modal('show')
-      this.target = target
+    show(){
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        this.data = {
+          ...this.data,
+          headImg: src,
+        }
+      })
     },
-    finishChoose(src,target){
-      console.log('this.'+target+"='"+src+"'")
-      eval('this.'+target+"='"+src+"'")
+    show2(){
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        this.data = {
+          ...this.data,
+          backImg: src,
+        }
+      })
     },
     editBusiness(){
       console.log(this.$refs.tinymce.getContent())
@@ -122,7 +139,7 @@ export default {
   },
   mounted(){
     if(this.$route.query.id){
-      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{debugger
+      $.when(ajax.getBusinessById(this.$route.query.id,'back')).done((data)=>{
         this.data = data
         this.$refs.tinymce.setContent(this.data.introduction)
       })

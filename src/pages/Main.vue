@@ -109,7 +109,7 @@
       <div class="ui fluid floated" style="margin-left: 280px;" v-if="!(usertype == 'producer')">
         <router-view></router-view>
       </div>
-      
+
     </div>
 
     <div>
@@ -132,74 +132,12 @@
           <div class="iconBlueBox"></div>
         </div> -->
       </div>
-      
+
       <div style="margin-left: 200px; padding-left: 30px; padding-right: 30px;" v-if="usertype == 'producer'">
         <router-view></router-view>
       </div>
 
     </div>
-    <!-- <div class="ui small modal" id="modal-editUnit">
-      <div class="header">新增轮播图</div>
-      <div class="content">
-        <div class="item">
-          <div class="image">
-              <img src="~src/assets/default.png" alt="">
-              <div class="ui container center aligned">
-                <div class="ui center aligned blue button mv10" @click="show('#imageChooseModal')">
-                  选择一张图片
-                </div>
-              </div>
-          </div>
-          <div class="content">
-            <div class="ui form">
-              <div class="field">
-                <label>对应商品id</label>
-                <input type="text" placeholder="请输入商品名称" v-model="addCarousel.goodId">
-              </div>
-              <div class="field">
-                <label>播放顺序</label>
-                <input type="text" placeholder="请输入商品描述" v-model="addCarousel.order">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="actions">
-        <div class="ui button" @click="modal_hide('#modal-editUnit')">取消</div>
-        <div class="ui green button" @click="editUnit_save()">保存</div>
-      </div>
-    </div>
-    <div class="ui small modal" id="modal-editCarousel">
-      <div class="header">编辑轮播图</div>
-      <div class="content">
-        <div class="item">
-          <div class="image">
-              <img :src="editCarousel.img" alt="">
-              <div class="ui container center aligned">
-                <div class="ui center aligned blue button mv10" @click="show('#imageChooseModal')">
-                  选择一张图片
-                </div>
-              </div>
-          </div>
-          <div class="content">
-            <div class="ui form">
-              <div class="field">
-                <label>对应商品id</label>
-                <input type="text" placeholder="请输入商品名称" v-model="editCarousel.goodId">
-              </div>
-              <div class="field">
-                <label>播放顺序</label>
-                <input type="text" placeholder="请输入商品描述" v-model="editCarousel.order">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="actions">
-        <div class="ui button" @click="modal_hide('#modal-editUnit')">取消</div>
-        <div class="ui green button" @click="editUnit_save()">保存</div>
-      </div>
-    </div> -->
   </div>
 </template>
 

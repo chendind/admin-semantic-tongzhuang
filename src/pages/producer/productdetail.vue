@@ -62,32 +62,34 @@
        <!--  <router-link to="/producer/productManage" v-if="usertype === 'producer'">取消</router-link>
         <router-link to="/producer/producerManage" v-if="usertype === 'back'">取消</router-link> -->
 
-    <image-choose-modal id="imageChooseModal" v-on:finishChoose="finishChoose"></image-choose-modal>
   </div>
 
 </template>
 
 <script>
 // import tinymce from 'components/tinymce/Tinymce.vue'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
 export default {
   name: 'bussiness',
   components: {
     // tinymce,
-    'image-choose-modal': imageChooseModal
   },
   methods:{
     show(selector){
-      $(selector).modal('show')
-    },
-    finishChoose(src){
-      this.img = src
+      window.BusVue.$emit('show:image-choose-modal')
+      let promise = new Promise((resolve, reject) => {
+        window.BusVue.$once('finishChoose:image-choose-modal', (src) => {
+          resolve(src)
+        })
+      })
+      promise.then((src) => {
+        this.img = src
+      })
     },
     editProduct(){
       // id,name,material,detail,img
-      
+
         $.when(ajax.buildProcuct(this.$route.query.id,this.name,this.img,this.material,this.text)).done((data)=>{
           if(data.state == 0){
             router.push({path:"/producer/productManage"});
@@ -228,7 +230,7 @@ export default {
   float: left;
 }
 
-.imgArea1 { 
+.imgArea1 {
   float: left;
 }
 

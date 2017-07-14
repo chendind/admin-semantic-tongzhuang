@@ -62,7 +62,7 @@
     <div class="rateCol" v-for="item in rates">
       <div class="ui grid">
         <div class="two wide column">
-          <div>  
+          <div>
            <span>{{item.username}}</span>
           </div>
           <img class="ui rounded top aligned tiny image" :src="item.avata">
@@ -127,13 +127,13 @@
         </div>
       </div>
     </div>
-      
+
     <div class="ui grid footBox">
       <div class="right floated column">
         <pagination v-if="totalPage" id="pagination" current="1" :total="totalPage" :show="length" v-on:pageChange="pageChange"></pagination>
       </div>
     </div>
-     
+
   </div>
 
 </template>
@@ -141,13 +141,12 @@
 <script>
 import {getMerchant, editMerchant,merchantChangePassword} from 'src/ajax/ajax_business.js'
 import tinymce from 'components/tinymce/Tinymce.vue'
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
 import Pagination from 'src/components/Pagination.vue'
 export default {
   name: 'evaluation',
-   components: {
+  components: {
     Pagination: Pagination
   },
 
@@ -207,7 +206,7 @@ export default {
               buf.showPrice = data.data[i].after_sale;
               this.rates.push(buf);
             }
-              
+
           }
           this.$nextTick(()=>{
             $('.ui.rating').rating('disable');
@@ -250,7 +249,7 @@ export default {
 
   },
   mounted(){
-    
+
   },
 
   beforeRouteEnter(to, from, next){

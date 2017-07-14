@@ -67,7 +67,7 @@
       </div>
     </div>
 
-        
+
 
     <div class="ui items titleBox">
       <div class="item">
@@ -78,7 +78,7 @@
     <div class="rateCol" v-for="item in rates">
       <div class="ui grid">
         <div class="two wide column">
-          <div>  
+          <div>
            <span>{{item.username}}</span>
           </div>
           <img class="ui rounded top aligned tiny image" :src="item.avata">
@@ -143,19 +143,18 @@
         </div>
       </div>
     </div>
-      
+
     <div class="ui grid footBox">
       <div class="right floated column">
         <pagination v-if="totalPage" id="pagination" current="1" :total="totalPage" :show="length" v-on:pageChange="pageChange"></pagination>
       </div>
     </div>
-     
+
   </div>
 
 </template>
 
 <script>
-import imageChooseModal from 'components/ImageChooseModal.vue'
 import ajax from 'src/ajax/ajax.js'
 import router from 'src/router.js'
 import Pagination from 'src/components/Pagination.vue'
@@ -220,7 +219,7 @@ export default {
               buf.showService = data.data[i].after_sale;
               this.rates.push(buf);
             }
-          
+
       })
     }
   },
@@ -250,12 +249,12 @@ export default {
                 this.attitude = parseInt(data.evaluationModel.attitude *10 / data.evaluationModel.sum) /10;
                 this.service = parseInt(data.evaluationModel.after_sale *10 / data.evaluationModel.sum) /10;
                 this.total = parseInt((data.evaluationModel.attitude + data.evaluationModel.after_sale + data.evaluationModel.environment) *10 / (data.evaluationModel.sum * 3)) /10;
-      
+
                 this.environmentInt = parseInt(data.evaluationModel.environment / data.evaluationModel.sum);
                 this.attitudeInt = parseInt(data.evaluationModel.attitude / data.evaluationModel.sum);
                 this.serviceInt = parseInt(data.evaluationModel.after_sale / data.evaluationModel.sum);
                 this.totalInt = parseInt((data.evaluationModel.attitude + data.evaluationModel.after_sale + data.evaluationModel.environment) / (data.evaluationModel.sum * 3));
-      
+
                 this.getEvaluation(data.evaluationModel.id, 0, 10, true);
               }
 

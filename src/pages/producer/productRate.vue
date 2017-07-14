@@ -22,7 +22,7 @@
           <span>{{ rateNum }}</span>
         </div>
       </div>
-      
+
       <div class="productRate">
           <div class="productRateCol">
             <label>产品总评</label>
@@ -31,7 +31,7 @@
               <i class="iconfont icon-wujiaoxing2" v-if="total - totalInt >= 0.5"></i>
             </div>
             <span>{{ total }}</span>
-            <span>分</span>          
+            <span>分</span>
           </div>
           <div class="productRateCol">
             <label>产品质量</label>
@@ -40,25 +40,25 @@
               <i class="iconfont icon-wujiaoxing2" v-if="quality - qualityInt >= 0.5"></i>
             </div>
             <span>{{ quality }}</span>
-            <span>分</span>          
+            <span>分</span>
           </div>
           <div class="productRateCol">
             <label>产品款式</label>
             <div class="starBox">
               <i class="iconfont icon-wujiaoxing3" v-for="i in styleInt"></i>
-              <i class="iconfont icon-wujiaoxing2" v-if="style - styleInt >= 0.5" style="margin-left:6px"></i>    
+              <i class="iconfont icon-wujiaoxing2" v-if="style - styleInt >= 0.5" style="margin-left:6px"></i>
             </div>
             <span>{{ style }}</span>
-            <span>分</span>      
+            <span>分</span>
           </div>
           <div class="productRateCol">
             <label>产品价位</label>
             <div class="starBox">
               <i class="iconfont icon-wujiaoxing3" v-for="i in priceInt"></i>
-            <i class="iconfont icon-wujiaoxing2" v-if="price - priceInt >= 0.5"></i>       
+            <i class="iconfont icon-wujiaoxing2" v-if="price - priceInt >= 0.5"></i>
             </div>
             <span>{{ price }}</span>
-            <span>分</span>         
+            <span>分</span>
             <!-- <i class="iconfont" v-for="i in 5" :class="{'icon-wujiaoxing3': i<=priceInt, 'icon-wujiaoxing2': i>priceInt}"></i> -->
           </div>
       </div>
@@ -119,7 +119,7 @@
           </div>
           <div class="rateTime">
             <span>{{ item.time }}</span>
-          </div>    
+          </div>
         </div>
       </div>
     </div>
@@ -186,10 +186,10 @@ export default {
               buf.showPrice = data.data[i].after_sale;
               this.rates.push(buf);
             }
-              
+
           }
-          
-          this.$nextTick(()=>{debugger
+
+          this.$nextTick(()=>{
             $('.ui.rating').rating('disable');
             $('.brePic').popup({
               position: "right center",
@@ -249,11 +249,11 @@ export default {
 
     }
 
-    
+
   },
 
   mounted(){
-           
+
   }
 }
 </script>

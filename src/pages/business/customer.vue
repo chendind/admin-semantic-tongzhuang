@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     getData(start, length){
-      debugger
       ajax.getUser(start,length,'merchant',this.id).done((data)=>{
         this.datas = data.list
         this.total = data.countAll
