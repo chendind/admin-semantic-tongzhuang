@@ -3,10 +3,7 @@
         <textarea :id="id">
             <slot></slot>
         </textarea>
-        <div id="icm">
-          <image-choose-modal :id="imageChooseModalId" v-on:finishChoose="finishChoose"></image-choose-modal>
-          <!-- <pagination id="ppppp" css="ui floated pagination menu" :current="1" :total="10" :show="true"></pagination> -->
-        </div>
+        <image-choose-modal :id="imageChooseModalId" v-on:finishChoose="finishChoose"></image-choose-modal>
 
     </div>
 
@@ -16,7 +13,6 @@ var id = 0
 var imageChooseModalIndex = 0
 
 import imageChooseModal from 'components/image-choose-modal/ImageChooseModal.vue'
-console.log(imageChooseModal)
 import ajax from 'src/ajax/ajax.js'
 export default {
     name: 'tinymce',

@@ -1,238 +1,323 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Main from './pages/Main.vue'
-import Login from './pages/Login.vue'
-import BusinessLogin from './pages/BusinessLogin.vue'
-import ProducerLogin from './pages/ProducerLogin.vue'
-import Regist from './pages/Regist.vue'
-import Form from './pages/example/Form.vue'
-import Business from './pages/example/Business.vue'
-import FormImageUpload from './pages/example/FormImageUpload.vue'
+
 Vue.use(VueRouter);
 const routes = [
-  	{
-  		path: '/',
-  		component: Main,
-		  children: [
-		{
-			path: '/',
-			component(r){
-			  if(window.localStorage.getItem('usertype') == 'back'){
-			    r(require('./pages/goods/goods.vue'))
-			  }
-			  else{
-			    r(require('./pages/user/customer.vue'))
-			  }
-			}
-		},
-		{
-			path: '/app/carousel',
-			component(r){
-			  r(require('./pages/app/carousel.vue'))
-			}
-		},
-		{
-			path: '/app/carouselInfo',
-			component(r){
-			  r(require('./pages/app/carouselInfo.vue'))
-			}
-		},
-		{
-			path: 'goods',
-			component(r){
-				r(require('./pages/goods/goods.vue'))
-			}
-		},
-		{
-			path: '/goods/goodsInfo',
-			component(r){
-				r(require('./pages/goods/goodsInfo.vue'))
-			}
-		},
-		{
-			path: '/message',
-			component(r){
-				r(require('./pages/message/messageHistory.vue'))
-			}
-		},
-		{
-			path: '/message/messageNew',
-			component(r){
-				r(require('./pages/message/messageNew.vue'))
-			}
-		},
-		{
-			path: '/message/messageDetail',
-			component(r){
-				r(require('./pages/message/messageDetail.vue'))
-			}
-		},
-		{
-			path: '/order',
-			component(r){
-				r(require('./pages/order/orderHistory.vue'))
-			}
-		},
-		{
-			path: '/order/orderWait',
-			component(r){
-				r(require('./pages/order/orderWait.vue'))
-			}
-		},
-  	    {
-  	      path: '/order/orderInfo',
-  	      component(r){
-  	        r(require('./pages/order/orderInfo.vue'))
-  	      }
-  	    },
-		{
-			path: '/personCenter',
-			component(r){
-				r(require('./pages/personCenter/personCenter.vue'))
-			}
-		},
-  	    {
-  	      path: '/producer/productManage',
-  	      component(r){
-  	        r(require('./pages/producer/productManage.vue'))
-  	      }
-  	    },
-  	    {
-			path: '/producer/customer',
-			component(r){
-				r(require('./pages/producer/customer.vue'))
-			}
-		},
-		{
-			path: '/producer/customerDetail',
-			component(r){
-				r(require('./pages/producer/customerDetail.vue'))
-			}
-		},
-      	{
-			path: '/producer/productdetail',
-			component(r){
-				r(require('./pages/producer/productdetail.vue'))
-			}
-		},
-		{
-			path: '/producer/map',
-			component(r){
-				r(require('./pages/producer/map.vue'))
-			}
-		},
-		{
-			path: '/producer/productRate',
-			component(r){
-				r(require('./pages/producer/productRate.vue'))
-			}
-		},
-		{
-			path: '/producer/producerInfo',
-			component(r){
-				r(require('./pages/producer/producerInfo.vue'))
-			}
-		},
-		{
-			path: '/producer/producerManage',
-			component(r){
-				r(require('./pages/producer/producerManage.vue'))
-			}
-		},
-		{
-			path: '/producer/producerDetail',
-			component(r){
-				r(require('./pages/producer/producerDetail.vue'))
-			}
-		},
+    {
+      path: '/',
+      component(r) {
+        require.ensure([], (require) => {
+          r(require('./pages/Main.vue'))
+        }, 'main')
+      },
+      children: [
+    {
+      path: '/',
+      component(r){
+        if(window.localStorage.getItem('usertype') == 'back'){
+          require.ensure([], (require) => {
+            r(require('./pages/goods/goods.vue'))
+          }, 'main')
+        }
+        else{
+          require.ensure([], (require) => {
+            r(require('./pages/user/customer.vue'))
+          }, 'main')
+        }
+      }
+    },
+    {
+      path: '/app/carousel',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/app/carousel.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/app/carouselInfo',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/app/carouselInfo.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: 'goods',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/goods/goods.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/goods/goodsInfo',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/goods/goodsInfo.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/message',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/message/messageHistory.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/message/messageNew',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/message/messageNew.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/message/messageDetail',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/message/messageDetail.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/order',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/order/orderHistory.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/order/orderWait',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/order/orderWait.vue'))
+        }, 'main')
+      }
+    },
+        {
+          path: '/order/orderInfo',
+          component(r){
+            require.ensure([], (require) => {
+              r(require('./pages/order/orderInfo.vue'))
+            }, 'main')
+          }
+        },
+    {
+      path: '/personCenter',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/personCenter/personCenter.vue'))
+        }, 'main')
+      }
+    },
+        {
+          path: '/producer/productManage',
+          component(r){
+            require.ensure([], (require) => {
+              r(require('./pages/producer/productManage.vue'))
+            }, 'main')
+          }
+        },
+        {
+      path: '/producer/customer',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/customer.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/customerDetail',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/customerDetail.vue'))
+        }, 'main')
+      }
+    },
+        {
+      path: '/producer/productdetail',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/productdetail.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/map',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/map.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/productRate',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/productRate.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/producerInfo',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/producerInfo.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/producerManage',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/producerManage.vue'))
+        }, 'main')
+      }
+    },
+    {
+      path: '/producer/producerDetail',
+      component(r){
+        require.ensure([], (require) => {
+          r(require('./pages/producer/producerDetail.vue'))
+        }, 'main')
+      }
+    },
       {
         path: '/user/businessInfo',
         component(r){
-          r(require('./pages/user/businessInfo.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/user/businessInfo.vue'))
+          }, 'main')
         }
       },
-			{
-				path: '/user/customer',
-				component(r){
-					r(require('./pages/user/customer.vue'))
-				}
-			},
+      {
+        path: '/user/customer',
+        component(r){
+          require.ensure([], (require) => {
+            r(require('./pages/user/customer.vue'))
+          }, 'main')
+        }
+      },
       {
         path: '/user/customerInfo',
         component(r){
-          r(require('./pages/user/customerInfo.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/user/customerInfo.vue'))
+          }, 'main')
         }
       },
-	      {
-	        path: '/user/merchantRate',
-	        component(r){
-	          r(require('./pages/user/merchantRate.vue'))
-	        }
-	      },
-		  {
+        {
+          path: '/user/merchantRate',
+          component(r){
+            require.ensure([], (require) => {
+              r(require('./pages/user/merchantRate.vue'))
+            }, 'main')
+          }
+        },
+      {
         path: '/business/customer',
         component(r){
-          r(require('./pages/business/customer.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/business/customer.vue'))
+          }, 'main')
         }
       },
       {
         path: '/user/business',
         component(r){
-          r(require('./pages/user/business.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/user/business.vue'))
+          }, 'main')
         }
       },
       {
         path: '/business/customerInfo',
         component(r){
-          r(require('./pages/business/customerInfo.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/business/customerInfo.vue'))
+          }, 'main')
         }
       },
-	      {
-	        path: '/business/personCenter',
-	        component(r){
-	          r(require('./pages/business/personCenter.vue'))
-	        }
-	      },
-		  {
-	        path: '/business/customerInfo',
-	        component(r){
-	          r(require('./pages/business/customerInfo.vue'))
-	        }
-	      }, 
+        {
+          path: '/business/personCenter',
+          component(r){
+            require.ensure([], (require) => {
+              r(require('./pages/business/personCenter.vue'))
+            }, 'main')
+          }
+        },
+      {
+          path: '/business/customerInfo',
+          component(r){
+            require.ensure([], (require) => {
+              r(require('./pages/business/customerInfo.vue'))
+            }, 'main')
+          }
+        },
       {
         path: '/business/merchantRate',
         component(r){
-          r(require('./pages/business/merchantRate.vue'))
+          require.ensure([], (require) => {
+            r(require('./pages/business/merchantRate.vue'))
+          }, 'main')
         }
       },
-	    {
-	    	path: 'form',
-	    	component: Form
-	    },
-	    {
-	    	path: 'formImageUpload',
-	    	component: FormImageUpload
-	    }
-		]
-	},
-	{
-  		path: '/login',
-  		component: Login,
-		  children: []
-	},
+      {
+        path: 'form',
+        component(r) {
+          require.ensure([], (require) => {
+            r(require('./pages/example/Form.vue'))
+          }, 'main')
+        }
+      },
+      {
+        path: 'formImageUpload',
+        component(r) {
+          require.ensure([], (require) => {
+            r(require('./pages/example/FormImageUpload.vue'))
+          }, 'main')
+        }
+      }
+    ]
+  },
   {
-      path: '/businessLogin',
-      component: BusinessLogin,
+      path: '/login',
+      component(r) {
+        require.ensure([], (require) => {
+          r(require('./pages/Login.vue'))
+        }, 'main')
+      },
       children: []
   },
-	{
-		path: '/producerLogin',
-		component: ProducerLogin,
-	  	children: []
-  	},
+  {
+      path: '/businessLogin',
+      component(r) {
+        require.ensure([], (require) => {
+          r(require('./pages/BusinessLogin.vue'))
+        }, 'main')
+      },
+      children: []
+  },
+  {
+    path: '/producerLogin',
+    component(r) {
+      require.ensure([], (require) => {
+        r(require('./pages/ProducerLogin.vue'))
+      }, 'main')
+    },
+    children: []
+  },
   {
       path: '/regist',
-      component: Regist,
+      component(r) {
+        require.ensure([], (require) => {
+          r(require('./pages/Regist.vue'))
+        }, 'main')
+      },
       children: []
   }
 ]

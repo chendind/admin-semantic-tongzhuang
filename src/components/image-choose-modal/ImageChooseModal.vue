@@ -93,12 +93,10 @@ export default {
           this.images.map((value,index,array)=>{
             array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
           })
-          console.log(this.images)
         })
     }
   },
   mounted(){
-    console.log('icm, mounted')
     ajax.getImgForPage(0, 20).done((data)=>{
       this.images = data.list
       this.total = data.countAll
