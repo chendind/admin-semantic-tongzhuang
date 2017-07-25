@@ -112,8 +112,9 @@ export default {
           ajax.deleteProducer(id).done((data)=>{
             if(data.state == 0){
               xy.toast('删除成功')
-              this.datas.splice(index,1)
-              this.pageChange(this.current)
+              this.getData();
+              // this.datas.splice(index,1)
+              // this.pageChange(this.current)
             }
           })
         }

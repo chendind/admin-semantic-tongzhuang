@@ -173,8 +173,9 @@ export default {
           ajax.deleteProduct(id).done((data)=>{
             if(data.state == 0){
               xy.toast('删除成功')
-              this.products.splice(index,1)
-              this.pageChange(this.page)
+              this.getProducts();
+              // this.products.splice(index,1)
+              // this.pageChange(this.page)
             }
           })
         }
