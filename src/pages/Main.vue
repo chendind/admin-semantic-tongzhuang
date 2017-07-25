@@ -38,7 +38,7 @@
       </div>
       <div class="welComeTag">
         <span class="nameTag">{{username}}</span>
-        <span class="msgTag">欢迎来到童装平台！</span>
+        <span class="msgTag">欢迎来到行微平台！</span>
       </div>
       <div class="logoutBox">
         <a @click="logout()">
