@@ -6,6 +6,7 @@ import App from './App'
 import router from './router'
 import './resource'
 import 'assets/less/index.less'
+import 'assets/js/alert.js'
 new Vue({
   el: '#app',
   template: '<App/>',

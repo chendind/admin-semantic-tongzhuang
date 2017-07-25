@@ -75,20 +75,20 @@ export default {
   methods:{
     statement(state){
       $.when(ajax2.editOrderState(this.$route.query.id,state)).done((data)=>{
-        alert(data.detail)
+        xy.alert(data.detail)
         this.getOrder()
       })
     },
-    getLocalTime(nS) {     
+    getLocalTime(nS) {
        return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
     },
     getOrder(start, length,type){
-      $.when(ajax2.getOrder(this.$route.query.id)).done((data)=>{
+      ajax2.getOrder(this.$route.query.id).done((data)=>{
         this.info = data
       })
     }
   },
-  mounted:function(){
+  mounted(){
     this.getOrder()
   }
 }

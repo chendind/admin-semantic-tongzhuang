@@ -105,7 +105,7 @@
          $('.personCode').modal('hide');
       },
 
-      codeView() {  
+      codeView() {
         $('.personCode').modal('show');
 
         $('#qrcode').empty();
@@ -123,41 +123,36 @@
       submit(){
         this.data.introduction = this.$refs.editor.getContent()
         editMerchant(this.data).then(()=>{
-          xy.alert('修改成功')
+          xy.toast('修改成功')
         }).catch(e=>{
-          xy.alert('修改失败' + (e.message ? ':' + e.message : ''))
+          xy.toast('修改失败' + (e.message ? ':' + e.message : ''))
         })
       },
 
       changePass(){
         if (this.oldpwd=='') {
-          alert("请输入原密码")
+          xy.toast("请输入原密码")
         }
         else if(this.newpwd==''){
-          alert("请输入新密码")
+          xy.toast("请输入新密码")
         }
         else if(this.repwd==''){
-          alert("请确认密码")
+          xy.toast("请确认密码")
         }
         else if(this.newpwd != this.repwd){
-          alert("确认密码有误")
+          xy.toast("确认密码有误")
         }
         else{
           merchantChangePassword(this.oldpwd, this.newpwd).then((data)=>{
             xy.toast('修改成功')
           }).catch(e=>{
-            xy.alert('修改失败' + (e.message ? ':' + e.message : ''))
+            xy.toast('修改失败' + (e.message ? ':' + e.message : ''))
           })
         }
       }
     },
     mounted () {
-    //just for an UI bug
-      $('#qrcode').empty();
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
+
     },
     beforeRouteEnter(to, from, next){
       getMerchant().then(res => {
@@ -167,10 +162,10 @@
         })
       })
     },
-    beforeDestroy: function () {
-                $('#personCode').remove();
-            },
-    
+    beforeDestroy() {
+      $('#personCode').remove();
+    },
+
   }
 </script>
 <style lang="less">

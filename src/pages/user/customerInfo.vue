@@ -46,7 +46,7 @@
         </tr>
       </tbody>
     </table> -->
-<!-- 
+<!--
     <div class="rateCol" v-for="item in rates" v-if="usertype == 'merchant'">
       <div class="ui grid">
         <div class="two wide column">
@@ -141,7 +141,7 @@ export default {
     getData(start, length){
       ajax.getUser(start,length,'back',this.id).done((data)=>{
         this.data = data.list[this.$route.query.index];
-        this.time = this.getFormTime(this.data.time);
+        // this.time = this.formatDate(this.data.time);
       })
     },
   },
@@ -167,14 +167,15 @@ export default {
     }
   },
   created() {
-    this.usertype = window.localStorage.getItem('usertype');
-     ajax.getBusinessById(null, null).done((data)=>{
-        this.id = data.id;
-        this.usertype = window.localStorage.getItem('usertype');
-        let start = (this.$route.query.page-1)*this.$route.query.lenth;
-        let len = this.$route.query.lenth
-        this.getData(start, len);
-      })
+    // this.usertype = window.localStorage.getItem('usertype');
+    //  ajax.getBusinessById(null, null).done((data)=>{
+    //     this.id = data.id;
+    //     this.usertype = window.localStorage.getItem('usertype');
+
+    //   })
+    let start = (this.$route.query.page-1)*this.$route.query.lenth;
+    let len = this.$route.query.lenth
+    this.getData(start, len);
   },
   mounted(){
     this.usertype = window.localStorage.getItem('usertype');
@@ -188,7 +189,7 @@ export default {
     //     lastResort: true
     //   });
     // })
-    
+
   }
 }
 </script>

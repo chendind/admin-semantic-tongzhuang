@@ -48,8 +48,14 @@ $.ajaxSetup({
         if(window.localStorage.getItem('usertype') == 'back'){
           router.push({path: '/login'})
         }
-        else{
+        else if(window.localStorage.getItem('usertype') == 'merchant'){
           router.push({path: '/businessLogin'})
+        }
+        else if(window.localStorage.getItem('usertype') == 'producer'){
+          router.push({path: '/producerLogin'})
+        }
+        else{
+          router.push({path: '/producerLogin'})
         }
         break;
       case 10012:
@@ -258,7 +264,7 @@ export default {
         id
       }
     })
-  }, 
+  },
   deleteProduct(id){
     return $.ajax({
       url: baseurl+'/goods/delete',
@@ -273,7 +279,7 @@ export default {
       url: baseurl+'/factory/my',
       type: 'post',
       data: {
-       
+
       }
     })
   },
@@ -282,7 +288,7 @@ export default {
       url: baseurl+'/factory/list',
       type: 'post',
       data: {
-       
+
       }
     })
   },
@@ -345,7 +351,7 @@ export default {
       url: baseurl+'/factory/focusUser',
       type: 'post',
       data: {
-      
+
       }
     })
   },

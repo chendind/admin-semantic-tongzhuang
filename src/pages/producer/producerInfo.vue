@@ -3,7 +3,7 @@
     <div class="tagBox">
       <div class="circle"></div>
       <span>厂家资料</span>
-    </div>  
+    </div>
 
     <div class="infoBox">
         <img :src="img" alt="">
@@ -22,7 +22,7 @@
     <div class="editBox">
       <div class="editBox_Col">
         <div class="editBox_L">
-          <span>基本信息</span> 
+          <span>基本信息</span>
           <div class="loginName">
             <label>登录用户名</label>
             <input type="text" v-model="userCode">
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -82,7 +82,6 @@ export default {
   methods:{
     getInfo() {
        ajax.getProducerInfo().done((data)=>{
-        console.log(data);
         this.img = data.data.photo;
         this.name = data.data.name;
         this.userCode = data.data.code;
@@ -94,43 +93,43 @@ export default {
 
     confirmChangePsd(){
       if (this.oldpwd=='') {
-        alert("请输入原密码")
+        xy.toast("请输入原密码")
       }
       else if(this.newpwd==''){
-        alert("请输入新密码")
+        xy.toast("请输入新密码")
       }
       else if(this.repwd==''){
-        alert("请确认密码")
+        xy.toast("请确认密码")
       }
       else if(this.newpwd != this.repwd){
-        alert("确认密码有误")
+        xy.toast("确认密码有误")
       }
       else{
-        $.when(ajax.producerPsd(this.oldpwd, this.repwd).done(function(data){
+        ajax.producerPsd(this.oldpwd, this.repwd).done((data) => {
              if(data.state == 0) {
-               alert("密码修改完成");
+               xy.toast("密码修改完成");
                this.newpwd = null;
                this.repwd = null;
              }
-             else {
-               alert("密码修改失败,可能原密码有误")
-             }
-          }))
+             // else {
+             //   xy.toast("密码修改失败,可能原密码有误")
+             // }
+          })
       }
     },
 
     confirmChangeInfo() {
       if(this.$parent.username === this.userCode) {
-        $.when(ajax.producerChangeDetail(this.userInfo, ).done(function(data){
-               alert("厂家详情已修改完成");
-                this.getInfo(); 
-            }))
+        ajax.producerChangeDetail(this.userInfo).done((data) => {
+          xy.toast("厂家详情已修改完成");
+          this.getInfo();
+        })
       }
       else
       {
-         $.when(ajax.producerChangeDetail(this.userInfo,this.userCode).done(function(data){
-               alert("厂家登录名与详情已修改完成");
-            }))
+        ajax.producerChangeDetail(this.userInfo,this.userCode).done((data) => {
+          xy.toast("厂家登录名与详情已修改完成");
+        })
       }
 
     }
@@ -149,7 +148,7 @@ export default {
   .field{
     clear: none !important;
   }
-  
+
 .tagBox {
   display: flex;
   align-items: center;

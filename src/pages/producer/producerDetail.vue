@@ -166,7 +166,7 @@ export default {
 
         let buf = {
           type: "product",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index
+          url: "http://xingweiapp.com/app/index.html#/product_info?id=" + index
         };// JSON.parse();
         buf = JSON.stringify(buf);
         $('#qrcode').qrcode(buf);
@@ -191,14 +191,6 @@ export default {
 
   },
   mounted(){
-    //just for an UI bug
-      $('#qrcode').empty();
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
-   //end here
-
     if(this.$route.query.id){
       ajax.getProducerById(this.$route.query.id).done((data)=>{
         this.products = data.data.goods;

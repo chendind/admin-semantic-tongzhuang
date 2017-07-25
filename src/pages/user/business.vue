@@ -113,7 +113,7 @@ export default {
         }
       })
     },
-    codeView(name,index,code) {  
+    codeView(name,index,code) {
 
       $('.producerCode').modal('show');
 
@@ -123,7 +123,7 @@ export default {
         let buf = {
           code: code,
           type: "business",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + index
+          url: "http://xingweiapp.com/app/index.html#/market_info?id=" + index
         };// JSON.parse();
         buf = JSON.stringify(buf);
         $('#qrcode').qrcode(buf);
@@ -139,18 +139,12 @@ export default {
   created(){
     this.getData(0,this.length);
   },
-   mounted(){
-    //just for an UI bug
-      $('#qrcode').empty();
-      if(!$('#qrcode').html()){
-        $('#qrcode').html("<div></div>");
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
-      }
-   //end here
+  mounted(){
+
   },
   beforeDestroy: function () {
-                $('#producerCode').remove();
-            },
+    $('#producerCode').remove();
+  },
 }
 
 </script>

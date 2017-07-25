@@ -51,22 +51,24 @@ export default {
 	methods:{
 		changePass(){
 			if (this.oldpwd=='') {
-				alert("请输入原密码")
+				xy.toast("请输入原密码")
 			}
 			else if(this.newpwd==''){
-				alert("请输入新密码")
+				xy.toast("请输入新密码")
 			}
 			else if(this.repwd==''){
-				alert("请确认密码")
+				xy.toast("请确认密码")
 			}
 			else if(this.newpwd != this.repwd){
-				alert("确认密码有误")
+				xy.toast("确认密码有误")
 			}
 			else{
-				$.when(ajax2.adminChangePassword(this.oldpwd, this.repwd).done(function(data){
-			        alert(data.detail)
-			    }))
-			}	
+				ajax2.adminChangePassword(this.oldpwd, this.repwd).done((data) => {
+			    if (data.state == 0) {
+            xy.toast('修改成功')
+          }
+			  })
+			}
 		}
 	}
 }
