@@ -1,4 +1,4 @@
-const baseurl = "http://tongzhuang.moovi-tech.com"
+const baseurl = window.baseUrl || "http://tongzhuang.moovi-tech.com"
 $.ajaxSetup({
   cache: false,
   traditional: true,
