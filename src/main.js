@@ -13,7 +13,12 @@ new Vue({
   components: { App },
   router,
   mounted: function(){
-    window.baseUrl = 'http://tongzhuang.moovi-tech.com'
+    const origin = window.location.origin
+    window.baseUrl = ''
+    if(origin.indexOf('localhost')>-1 || origin.indexOf('127.0.0.1')>-1){
+      window.baseUrl = 'http://tongzhuang.moovi-tech.com'
+    }
+
     // $.fn.modal.settings.silent = true
     // $.fn.modal.settings.debug = true
   }

@@ -1,5 +1,5 @@
 import router from 'src/router.js'
-
+const baseurl = window.baseUrl || ''
 const factory = (ajax_) => (url) => {
   var ajax
   if (ajax_ == 'get')
@@ -7,7 +7,7 @@ const factory = (ajax_) => (url) => {
   else
     ajax = $.post
 
-  return Promise.resolve(ajax('http://tongzhuang.moovi-tech.com' + url)).then((res)=>{
+  return Promise.resolve(ajax(baseurl + url)).then((res)=>{
     if (res.state == 0 || res.state === undefined) {
       return Promise.resolve(res)
     }
