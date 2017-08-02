@@ -101,12 +101,14 @@ export default {
   },
   mounted(){
     ajax.getImgForPage(0, 20).done((data)=>{
-      this.images = data.list || []
-      this.total = data.countAll
-      if (this.images)
-      this.images.map((value,index,array)=>{
-        array[index] = (window.baseUrl) + value
-      })
+      if(data.state == 0) {
+        this.images = data.list || []
+        this.total = data.countAll
+        this.images.map((value,index,array)=>{
+          array[index] = (window.baseUrl) + value
+        })
+      }
+
     })
   }
 }

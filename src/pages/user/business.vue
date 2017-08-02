@@ -126,6 +126,7 @@ export default {
           url: "http://xingweiapp.com/app/index.html#/market_info?id=" + index
         };// JSON.parse();
         buf = JSON.stringify(buf);
+        buf = "http://xingweiapp.com/app/index.html#/market_info?id=" + index;
         $('#qrcode').qrcode(buf);
       }
     },
