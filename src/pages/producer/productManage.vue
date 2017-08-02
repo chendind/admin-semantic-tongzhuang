@@ -196,6 +196,7 @@ export default {
         };// JSON.parse();
         buf = JSON.stringify(buf);
         // $('#qrcode').qrcode(buf);
+        buf = "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index; 
         $("#qrcode").qrcode({ 
             render: "canvas", //canvas方式 另有table方式 
             width: 300, //宽度 

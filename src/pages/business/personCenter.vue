@@ -113,10 +113,11 @@
         let buf = {
           code: null,
           type: "business",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=123"
+          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + this.data.id
         };// JSON.parse();
         buf.code = this.data.code;
         buf = JSON.stringify(buf);
+        buf = "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + this.data.id;
         $('#qrcode').qrcode(buf);
       },
 
