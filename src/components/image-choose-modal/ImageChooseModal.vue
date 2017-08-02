@@ -9,7 +9,7 @@
     </div>
     <div class="content">
       <div class="ui tiny images">
-        <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+image+')'}" @click="toggle(index)">
+        <div v-for="(image, index) in images" class="ui small image" :class="{'disabled': index != checkedIndex}" :style="{backgroundImage: 'url('+encodeURI(image)+')'}" @click="toggle(index)">
         </div>
       </div>
     </div>
@@ -52,6 +52,9 @@ export default {
     }
   },
   methods: {
+    encodeURI(url){
+      return encodeURI(url)
+    },
     toggle(index){
       this.checkedIndex = index;
     },
@@ -79,7 +82,7 @@ export default {
         this.uploaded = false
         ajax.upload(file).done((data)=>{
           if(data.state == 0){
-            this.images.unshift((window.baseUrl||'http://tongzhuang.moovi-tech.com')+data.detail)
+            this.images.unshift((window.baseUrl)+data.detail)
           }
         }).always(()=>{
           this.uploaded = true;
@@ -91,17 +94,18 @@ export default {
         ajax.getImgForPage(number, this.show).done((data)=>{
           this.images = data.list
           this.images.map((value,index,array)=>{
-            array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
+            array[index] = (window.baseUrl) + value
           })
         })
     }
   },
   mounted(){
     ajax.getImgForPage(0, 20).done((data)=>{
-      this.images = data.list
+      this.images = data.list || []
       this.total = data.countAll
+      if (this.images)
       this.images.map((value,index,array)=>{
-        array[index] = (window.baseUrl||'http://tongzhuang.moovi-tech.com') + value
+        array[index] = (window.baseUrl) + value
       })
     })
   }
