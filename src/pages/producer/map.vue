@@ -220,7 +220,9 @@ export default {
                 provinceBuf[pAndcs[0]] = cityBuf;
                 for (let province in this.formData) {
                   if(provinceBuf[province]){
-                    this.formData[province] = provinceBuf[province];
+                     for (let city in provinceBuf[province]) {
+                      this.formData[province][city] = provinceBuf[province][city];
+                    }
                   }
                 }
               };
