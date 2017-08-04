@@ -46,7 +46,7 @@ export default {
     regist(){
       var self = this;
       $.ajax({
-        url: 'http://tongzhuang.moovi-tech.com/register',
+        url: 'http://xingweiapp.com/app/register',
         type: 'post',
         data: {
           name: self.name,

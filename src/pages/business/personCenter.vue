@@ -113,11 +113,11 @@
         let buf = {
           code: null,
           type: "business",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + this.data.id
+          url: "http://xingweiapp.com/app/index.html#/market_info?id=" + this.data.id
         };// JSON.parse();
         buf.code = this.data.code;
         buf = JSON.stringify(buf);
-        buf = "http://tongzhuang.moovi-tech.com/index.html#/market_info?id=" + this.data.id;
+        buf = "http://xingweiapp.com/app/index.html#/market_info?id=" + this.data.id;
         $('#qrcode').qrcode(buf);
       },
 

@@ -138,16 +138,27 @@
       </div>
 
     </div>
+    <image-choose-modal id="image-choose-modal" v-on:finishChoose="imageChooseModal_finishChoose"></image-choose-modal>
   </div>
 </template>
 
 <script>
 import router from 'src/router.js'
 import ajax from 'src/ajax/ajax.js'
-
+import Vue from 'Vue'
+import imageChooseModal from 'components/image-choose-modal/ImageChooseModal.vue'
 export default {
   name: 'main',
+  components: {
+    imageChooseModal
+  },
   methods:{
+    callback(js){
+      js && (new Function(js)).call(this)
+    },
+    imageChooseModal_finishChoose(src){
+      BusVue.$emit('finishChoose:image-choose-modal', src)
+    },
     logout(){
       ajax.logout().done((data)=>{
         if(data.state == 0){
@@ -191,6 +202,11 @@ export default {
   mounted(){
     $('.accordion').accordion()
     $('#userDrapdown').dropdown()
+    // 消息派发中心
+    window.BusVue = new Vue();
+    BusVue.$on('show:image-choose-modal', () => {
+      $("#image-choose-modal").modal('show')
+    })
   }
 }
 </script>

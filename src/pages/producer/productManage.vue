@@ -4,7 +4,7 @@
     <div class="tagBox">
       <div class="circle"></div>
       <span>产品列表</span>
-    </div>  
+    </div>
     <router-link :to="{path:'/producer/productdetail'}">
       <div id="addBtn">
         <i class="iconfont icon-tianjia"></i>
@@ -111,7 +111,7 @@ export default {
     }
   },
   watch: {
-   
+
   },
   methods:{
     pageChange(index){
@@ -123,7 +123,7 @@ export default {
     adjustPages() {
       if (this.total <= 3) {
         for (var i = 0; i < this.total; i++) {
-          this.pages[i] = i + 1; 
+          this.pages[i] = i + 1;
         }
       }
       else
@@ -186,23 +186,23 @@ export default {
        $('.productCode').modal('hide');
     },
 
-    codeView(name,index) {  
+    codeView(name,index) {
         $('.productCode').modal('show');
         this.qrcodeName = name;
         $('#qrcode').empty();
         let buf = {
           type: "product",
-          url: "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index
+          url: "http://xingweiapp.com/app/index.html#/product_info?id=" + index
         };// JSON.parse();
         buf = JSON.stringify(buf);
         // $('#qrcode').qrcode(buf);
-        buf = "http://tongzhuang.moovi-tech.com/index.html#/product_info?id=" + index; 
-        $("#qrcode").qrcode({ 
-            render: "canvas", //canvas方式 另有table方式 
-            width: 300, //宽度 
-            height: 300, //高度 
-            text: buf //任意内容 
-        }); 
+        buf = "http://xingweiapp.com/app/index.html#/product_info?id=" + index;
+        $("#qrcode").qrcode({
+            render: "canvas", //canvas方式 另有table方式
+            width: 300, //宽度
+            height: 300, //高度
+            text: buf //任意内容
+        });
     },
 
     changeIntoPic() {
@@ -238,7 +238,7 @@ export default {
       $('#qrcode').empty();
     //just for an UI bug
       if(!$('#qrcode').html()){
-        $('#qrcode').qrcode("http://tongzhuang.moovi-tech.com/index.html#/product_info?id=");
+        $('#qrcode').qrcode("http://xingweiapp.com/app/index.html#/product_info?id=");
       }
    //end here
 
