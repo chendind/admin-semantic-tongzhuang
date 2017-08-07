@@ -127,7 +127,25 @@ export default {
         };// JSON.parse();
         buf = JSON.stringify(buf);
         buf = "http://xingweiapp.com/app/index.html#/market_info?id=" + index;
-        $('#qrcode').qrcode(buf);
+
+        $.ajax({
+            async : true,
+            url : "http://suo.im/api.php",
+            type : "GET",
+            dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+            jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+            jsonpCallback: 'handleResponse', //设置回调函数名
+            data : {
+                format : "jsonp", 
+                url : buf
+            }, 
+            success: function(response, status, xhr){
+                buf = response.url;
+
+                $('#qrcode').qrcode(buf);
+            }
+        });
+        
       }
     },
     disableCode () {
